@@ -64,8 +64,9 @@ body {
     color: gold;
 }
 
-.link li a:link {
+.link ul li a:link {
     color: gold;
+    text-decoration: none;
 }
 
 .center {
