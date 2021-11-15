@@ -1,0 +1,6 @@
+
+vscode:
+  extensions:
+    - ritwickdey.liveserver
+    - eamodio.gitlens
+    - github.vscode-pull-request-github
