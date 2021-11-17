@@ -55,7 +55,9 @@ body {
     border-radius: 20px;
 
 }
-
+.link li a{
+    text-decoration: none;
+}
 .link li a:visited {
     color: gold;
 }
@@ -66,7 +68,6 @@ body {
 
 .link ul li a:link {
     color: gold;
-    text-decoration: none;
 }
 
 .center {
