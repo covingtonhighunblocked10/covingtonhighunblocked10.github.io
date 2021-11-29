@@ -1,30 +1,32 @@
 const fs = require("fs")
+const { setTimeout } = require("timers/promises")
 
-var text = ""
-var preserveText = ""
-var preserveBool = true
-var path = "test69.js"
-
+var text, preserveText = "hello"
+var defaultValue = "PLACEHOLDER"
+var preserveBool
+var path = "writeTest.txt"
+var finalTimeout = 1000
 function writeFile(path, value) {
-    fs.writeFile(path, value, (err) => {
-        // In case of a error throw err.
-        if (err) throw err;
+    fs.writeFileSync(path, value, function (err) {
+        if (err) {
+            return console.log(err)
+        }
     })
 }
 
 function readFile(path) {
-    fs.readFile(path, {
-            encoding: 'utf8',
-            flag: 'r'
-        },
-        function (err, data) {
-            if (err) {
-                console.log(err);
-            } else {
-                //console.log(data);
-                return (data)
-            }
-        });
+    var x = fs.readFileSync(path, {
+        encoding: 'utf8',
+        flag: 'r'
+    }, function (err, data) {
+        if (err) {
+            return err;
+        } else {
+            return data
+        }
+    })
+    console.log("'" + path + "' contents: " + x)
+    return x;
 }
 
 function newObject(key, value) {
@@ -38,126 +40,60 @@ function newText(value) {
 }
 
 function finalWrite(path, value) {
+    var x;
+    console.log("Timeout Complete, Results Printing");
     if (preserveBool) {
-        newLine()
-        text += preserveText
-        writeFile(path, value)
+        text += newText(preserveText);
+        console.log(text);
+        writeFile(path, value);
     } else {
         writeFile(path, value)
     }
-    console.log("write complete")
+    console.log('Final Write Complete')
+    x = readFile(path);
+    console.log('Final Contents: ' + x)
 }
 
 function wipeText(path) {
     //writeFile(path, "")
     text = ""
     finalWrite(path, text)
+    console.log("wipe complete")
+    console.log(readFile(path))
 }
 
-function preserveOld(tf) {
-    if (tf === true) {
-        preserveBool = true
-        preserveText = readFile(path)
-        console.log(preserveText)
-        return preserveText;
-    } else {
-        preserveBool = false
-        console.log("do not preserve")
+function preserveOld(path) {
+    //log state of preserveBool
+    console.log("Preserve?: " + preserveBool)
+    //define temp var
+    var x;
+    if (preserveBool) {
+        //if the previous text should be saved
+        //x is the temporary variable the document should be saved to
+        x = readFile(path)
+        //? console.log("File Contents: " + x)
+        if (x) {
+            console.log("Preserve complete")
+        } else if (!x) {
+            console.log("Issue occurred while preserving data, defaulting value to " + defaultValue)
+            x = defaultValue
+            console.log(x)
+        };
+        //return value of x
+        return (x)
+    } else if (!preserveBool) {
+        //if the previous text should not be saved, wipe the file
+        //?wipeText(path);
     };
-    if (preserveText !== "") {
-        console.log("preserve complete")
-    } else {
-        console.log("issue occurred while preserving data")
-    }
+
 }
 
 function newLine() {
     text += "\r"
 }
-//shazam("fuck?", "me")
-/*addText("Brain?", "obliterated")
-newLine()
-addText("Brain?", "obliterated")
-newLine()
-shazam(text);
-readFile("test.txt")*/
-{
-    var leaderboard = {
-        tetris: {
-            top: [1, 2, 3, 4],
-            scores: [5, 6, 7, 8],
-            names: [9, 10, 11, 12],
-        },
-        dino: {
-            top: [],
-            scores: [],
-            names: [],
-        },
-
-        sort: function (array) {
-            [array].sort(function (a, b) {
-                if (a > b) return 1;
-                if (a < b) return -1;
-                return 0;
-            })
-        },
-
-        textChange: function (id, text) {
-            $(id).text(text)
-        },
-    }
-    class player {
-        //class for any player
-        constructor(name, score) {
-            this.name = name;
-            this.score = score;
-        }
-        /*  
-            Outline for storage
-            [{
-            name: {
-                score: x
-            }
-        }]*/
-    }
-
-
-    function existingPlayer(name, score, game) {
-        leaderboard[game].scores[name].score = score
-    }
-
-    function addScore(name, score, game) {
-        if (leaderboard[game].names.includes(name)) {
-            //if existing player
-            existingPlayer(name, score, game)
-        } else if (!leaderboard[game].names.includes(name)) {
-            //if new player
-            newPlayer(name, score, game);
-        }
-    }
-
-    function newPlayer(name, score, game) {
-        //carpet function for new players
-        var x = new player(name, score)
-        console.log(x)
-        leaderboard[game].names.push(name)
-        //leaderboard[game].scores.push(new player(name, score))
-
-    }
-
-    function sortScores(array) {
-        var arrayNames = []
-        for (var i in array) {
-            arrayNames.push(array[i])
-        }
-        alert(arrayNames);
-    }
-}
-/*newPlayer("jace", 37451, "tetris")
-console.log(leaderboard)
-*/
-preserveOld(true)
-newText("hello world");
-newLine();
-finalWrite(path, text);
-readFile(path);
+preserveBool = true;
+preserveText = preserveOld(path);
+newText("newLine1");
+newText("newLine2")
+console.log("Start Timeout For " + finalTimeout/1000 + " Seconds")
+setTimeout(finalTimeout, finalWrite(path, text))
