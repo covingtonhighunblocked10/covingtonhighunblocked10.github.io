@@ -1,22 +1,17 @@
-$(document).ready(runJs);
-
-function runJs() {
-    var player = {
-        score: 0,
-        name: 0,
-    };
+$(document).ready(runProgram)
+function runProgram() {
     var leaderboard = {
         tetris: {
             top: [],
-            scores: [{
-                name: "x",
-                score: 17
-            }],
+            scores: [],
+            names: [],
         },
         dino: {
             top: [],
             scores: [],
+            names: [],
         },
+
         sort: function (array) {
             [array].sort(function (a, b) {
                 if (a > b) return 1;
@@ -31,31 +26,35 @@ function runJs() {
 
     }
 
-    function newScore(name, score, game) {
-        if (leaderboard[game].scores.includes(name)) {
+    class player {
+        //class for any player
+        constructor(name, score) {
+            this.name = name;
+            this.name.score = score;
+        }
+        /*  [{
+            name: {
+                score: x
+            }
+        }]*/
+    }
+    function existingPlayer (name, score, game) {
+        leaderboard[game].scores[name].score = score
+    }
+    function addScore(name, score, game) {
+        if (leaderboard[game].names.includes(name)) {
             //if existing player
             existingPlayer(name, score, game)
-        } else if (!leaderboard[game].scores.includes(name)) {
+        } else if (!leaderboard[game].names.includes(name)) {
             //if new player
             newPlayer(name, score, game);
         }
     }
 
-    function existingPlayer(name, score, game) {
-        leaderboard[game].scores[name] = score
-    }
-
     function newPlayer(name, score, game) {
         //carpet function for new players
-        var nm = name;
-        var sc = score
-
-        function create(nm, sc) {
-            //constructor for new player
-            this.info.name = nm;
-            this.info.score = sc;
-        };
-        leaderboard[game].scores.push(new create(name, score))
+        leaderboard[game].names.push(name)
+        leaderboard[game].scores.push(new player(name, score))
     }
 
     function sortScores(array) {
@@ -65,5 +64,4 @@ function runJs() {
         }
         alert(arrayNames);
     }
-    sortScores([736, 183, 1351, 93, 1, 735, 9917, 0]);
 }
