@@ -39,7 +39,7 @@ var printActive = false
 /////////////////////////////////////////
 //Haha Hehe Funny Functions Go BRRRRRRR//
 /////////////////////////////////////////
-function getRandomLines(digits, lines, delay) {
+/*function getRandomLines(digits, lines, delay) {
     var temp = ""
     var line = ""
     for (var x = 0; x < lines; x++) {
@@ -56,9 +56,9 @@ function getRandomLines(digits, lines, delay) {
                 temp = characters[getRandom(characters.length - 1)]
             }
             //stdout.write(temp);
-            $("#matrix").text(line)
-            line += temp
-            temp = ""
+            $(id).html(line);
+            line += temp;
+            temp = "";
             wait(delay);
         }
         line = temp
@@ -66,12 +66,14 @@ function getRandomLines(digits, lines, delay) {
         console.log(".")
     }
     console.log("finished");
-}
+}*/
 
-function printMatrix(length, minDelay, randomDelay) {
+function printMatrix(length, minDelay, randomDelay, searchText) {
     var temp = ""
     var line = ""
-    for (var i = 0; i < length; i++) {
+    var probability
+    //probability = chance(searchText)
+    for (var i = 0; i === length; i++) {
         if (printActive) {
             arr = Math.round(Math.random() * 3)
             if (arr === 1) {
@@ -83,12 +85,22 @@ function printMatrix(length, minDelay, randomDelay) {
             if (arr === 3) {
                 temp = characters[getRandom(characters.length - 1)]
             }
-            //stdout.write(temp);
-            $("#matrix").text(line);
+            stdout.write(temp);
             line += temp
             temp = ""
             wait(minDelay - getRandom(randomDelay));
+            //!$(id).text($(id).text() + temp);
+            /*if (line.includes(searchText)) {
+                console.log("found")
+                printActive = false
+                //return;
+            }*/
         }
+        //console.log()
+        console.log("............")
+        console.log(searchText + " Found!")
+        console.log(line.length + (" Digits Printed Total"))
+        console.log("This text had a " + (probability * 100) + "% chance of appearing every")
     }
 }
 
@@ -104,26 +116,38 @@ function wait(milliseconds) {
     } while (currentDate - date < milliseconds);
 }
 
-/*function foreverLoop() {
-    for (var i = 2; i < 1; i++) {
-        getRandomLines(50000, 1, 1000 / (200 + getRandom(150)))
-        console.log("done")
+function toggle(variable) {
+    variable = variable ? false : true;
+    console.log(variable);
+    alert(variable)
+}
+
+function startPrint(digits, minDelay, randomDelay, textFind) {
+    printActive = true;
+    printMatrix(digits, minDelay, randomDelay, textFind);
+}
+
+function clearText(id) {
+    //!$(id).text("")
+}
+
+function chance(x) {
+    var temp
+    var chance = 1 / (letters.length + characters.length + numbers.length)
+    for (var i = 1; i < x.length - 1; i++) {
+        chance *= chance
     }
+    temp = chance
+    temp = temp.toString()
+    chance = chance.toFixed(temp.length)
+    console.log(chance)
+    return (chance)
+}
+/*function runProgram() {
+    $("#start").on("click", startPrint(99999999999, 0, 99, "#terminal"));
+    $("#toggle").on("click", alert("hello"));
+    $("#clear").on("click", clearText("#terminal"));
 }*/
 
-function toggle(variable) {
-    if (variable) {
-        variable = false;
-    } else if (!variable) {
-        variable = true
-    }
-    console.log(variable);
-}
-function startPrint () {
-    printActive = true;
-    printMatrix(99999999999, 0, 99);
-}
-//?foreverLoop()
-//!getRandomLines(50000, 1, 1000 / (200 + getRandom(150)))
-$("#start").on("click", startPrint())
-$("#toggle").on("click", toggle(printActive))
+printActive = true;
+printMatrix(999, 100, 1, "a")

@@ -1,10 +1,15 @@
-$(document).ready(runProgram)
-function runProgram() {
+//!$(document).ready(runProgram)
+//!function runProgram() {
     var leaderboard = {
         tetris: {
-            top: [],
-            scores: [],
-            names: [],
+            top: [0, 0, 0, 0, 0 ],
+            scores: [{
+                "Jonathan": {
+                    name: "Jonathan",
+                    score: 4527,
+                }
+            }],
+            names: ["Jonathan", ]
         },
         dino: {
             top: [],
@@ -64,4 +69,5 @@ function runProgram() {
         }
         alert(arrayNames);
     }
-}
+    console.log(leaderboard.tetris.scores[0])
+//!}

@@ -4,9 +4,22 @@
     <title>Clown Central</title>
     <style>
         @import "/index.css";
+
+        #matrix {
+            background-color: black;
+            height: 475px;
+            width: 100%;
+            align-self: center;
+            color: green;
+        }
+
+        #terminal {
+            color: green;
+        }
     </style>
     <script src="clown.js"></script>
-    <script src="jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    
 </head>
 
 <body>
@@ -20,13 +33,17 @@
                 <li><a href="/projects.html"><strong>Sites Hosted</strong></a></li>
             </ul>
         </nav>
-    <div id="matrix" class = "bodyCW">
-        hello
+    </center>
+    <div id="matrix" class="bodyCW">
+        <p id="terminal">
+            hello
+        </p>
     </div>
-    <button id="start">Start Matrix</button>
-    <button id="toggle">Start/Stop</button>
-</center>
-
+    <center>
+        <button id="start" onclick='printMatrix(9, 100, 200, "#terminal")'>Start Matrix</button>
+        <button id="toggle" onclick="toggle(printActive)">Start/Stop</button>
+        <button id="clear" onclick="clearText('#terminal')">Clear Text</button>
+    </center>
 </body>
 <!--keep the body tags dipshit-->
 
