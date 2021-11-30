@@ -1,21 +1,27 @@
 const fs = require("fs")
-const { setTimeout } = require("timers/promises")
+const {
+    setTimeout
+} = require("timers/promises")
 
 var text, preserveText = "hello"
 var defaultValue = "PLACEHOLDER"
 var preserveBool
 var path = "writeTest.txt"
 var finalTimeout = 1000
+
 function writeFile(path, value) {
     fs.writeFileSync(path, value, function (err) {
         if (err) {
             return console.log(err)
+        } else {
+            return (data)
         }
     })
 }
 
 function readFile(path) {
-    var x = fs.readFileSync(path, {
+    var x;
+    x = fs.readFileSync(path, {
         encoding: 'utf8',
         flag: 'r'
     }, function (err, data) {
@@ -35,30 +41,33 @@ function newObject(key, value) {
 }
 
 function newText(value) {
-    var data = value;
-    text += data;
+    if (value !== "undefined" || value !== undefined) {
+        text += value;
+    } else {
+        console.log("'undefined' found")
+    }
 }
 
 function finalWrite(path, value) {
-    var x;
+    var x = readFile(path);
     console.log("Timeout Complete, Results Printing");
     if (preserveBool) {
-        text += newText(preserveText);
+        newText(preserveText);
         console.log(text);
         writeFile(path, value);
     } else {
         writeFile(path, value)
     }
     console.log('Final Write Complete')
-    x = readFile(path);
     console.log('Final Contents: ' + x)
+    preserveText, text = ""
 }
 
 function wipeText(path) {
     //writeFile(path, "")
     text = ""
     finalWrite(path, text)
-    console.log("wipe complete")
+    console.log("Wipe completed")
     console.log(readFile(path))
 }
 
@@ -80,10 +89,10 @@ function preserveOld(path) {
             console.log(x)
         };
         //return value of x
-        return (x)
+        newText(x);
     } else if (!preserveBool) {
         //if the previous text should not be saved, wipe the file
-        //?wipeText(path);
+        wipeText(path);
     };
 
 }
@@ -91,9 +100,12 @@ function preserveOld(path) {
 function newLine() {
     text += "\r"
 }
+newLine()
 preserveBool = true;
-preserveText = preserveOld(path);
+preserveOld(path);
+newLine();
 newText("newLine1");
-newText("newLine2")
-console.log("Start Timeout For " + finalTimeout/1000 + " Seconds")
+newLine();
+newText("newLine2");
+console.log("Start Timeout For " + finalTimeout / 1000 + " Seconds")
 setTimeout(finalTimeout, finalWrite(path, text))
