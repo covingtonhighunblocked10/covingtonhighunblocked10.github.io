@@ -14,13 +14,13 @@ const {
 var letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 var numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 var characters = [".", ",", "/", "<", ">", "?", "'", '"', ":", ";", "[", "]", "{", "}", "|", "=", "+", "-", "_", ")", "(", "*", "&", "^", "%", "$", "#", "@", "!", "~", "`"]
-var printActive = false
+var printActive
 
 ////////////////////////////////////
 //Timing and Screen Update Speeds//
 ///////////////////////////////////
 
-{ //clear previous interval
+/*{ //clear previous interval
     clearInterval(interval);
     //rate of updates
     var updateRate = 1;
@@ -35,10 +35,11 @@ var printActive = false
     function updateScreen() {
         getRandomLines(9999, 9999, 100)
     }
-}
+}*/
 /////////////////////////////////////////
 //Haha Hehe Funny Functions Go BRRRRRRR//
 /////////////////////////////////////////
+
 /*function getRandomLines(digits, lines, delay) {
     var temp = ""
     var line = ""
@@ -69,13 +70,13 @@ var printActive = false
 }*/
 
 function printMatrix(length, minDelay, randomDelay, searchText) {
-    var temp = ""
-    var line = ""
-    var probability
-    //probability = chance(searchText)
-    for (var i = 0; i === length; i++) {
+    var temp = "";
+    var line = "";
+    var arr, probability;
+    probability = chance(searchText.length)
+    for (var i = 0; i < length; i++) {
         if (printActive) {
-            arr = Math.round(Math.random() * 3)
+            var arr = Math.round(Math.random() * 3)
             if (arr === 1) {
                 temp = letters[getRandom(letters.length - 1)]
             }
@@ -90,17 +91,19 @@ function printMatrix(length, minDelay, randomDelay, searchText) {
             temp = ""
             wait(minDelay - getRandom(randomDelay));
             //!$(id).text($(id).text() + temp);
-            /*if (line.includes(searchText)) {
-                console.log("found")
+            if (line.includes(searchText)) {
                 printActive = false
-                //return;
-            }*/
+            }
         }
-        //console.log()
-        console.log("............")
-        console.log(searchText + " Found!")
-        console.log(line.length + (" Digits Printed Total"))
-        console.log("This text had a " + (probability * 100) + "% chance of appearing every")
+        if (!printActive) {
+            //once found
+            console.log()
+            console.log("----------------------------------")
+            console.log(searchText + " Found!")
+            console.log(line.length + (" Digits Printed Total"))
+            console.log("This text had a " + (probability) + "% chance of appearing, on average, every " + (chance((minDelay.toString().length)) * 1000) + " milliseconds")
+            return;
+        }
     }
 }
 
@@ -132,22 +135,21 @@ function clearText(id) {
 }
 
 function chance(x) {
+    var chance
+    var probability
+    probability = (1 / (letters.length + characters.length + numbers.length))
+    console.log(probability)
+    chance = probability ^ x
+    chance *= 100
     var temp
-    var chance = 1 / (letters.length + characters.length + numbers.length)
-    for (var i = 1; i < x.length - 1; i++) {
-        chance *= chance
-    }
+    /*!!for (var i = 0; i < x - 1; i++) {
+        chance *= probability
+    }*/
     temp = chance
     temp = temp.toString()
-    chance = chance.toFixed(temp.length)
-    console.log(chance)
+    chance = chance.toFixed(temp.length - 1)
+    chance *= probability
+    //wait(1000);
     return (chance)
 }
-/*function runProgram() {
-    $("#start").on("click", startPrint(99999999999, 0, 99, "#terminal"));
-    $("#toggle").on("click", alert("hello"));
-    $("#clear").on("click", clearText("#terminal"));
-}*/
-
-printActive = true;
-printMatrix(999, 100, 1, "a")
+startPrint(999999, 1, 0, "?")
