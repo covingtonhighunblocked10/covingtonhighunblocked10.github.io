@@ -135,7 +135,7 @@ function printMatrix(length, minDelay, randomDelay, searchText) {
             console.log("----------------------------------")
             console.log(searchText + " Found!")
             console.log(line.length + (" Digits Printed Total"))
-            //console.log("This text had a " + (probability) + "% chance of appearing, and took " + Clock.totalSeconds + " seconds to print")
+            console.log("This text had a " + (probability) + "% chance of appearing every " + (minDelay * searchText.length) + " millisecondseconds")
             return;
         }
     }
@@ -174,7 +174,7 @@ function chance(x) {
     probability = (1 / (letters.length + characters.length + numbers.length))
     //console.log(probability)
     chance = probability ^ x
-    chance *= 100
+    //chance *= 100
 
     var temp
     /*!!for (var i = 0; i < x - 1; i++) {
@@ -195,7 +195,7 @@ function chance(x) {
 //^^(positive values will speed up the digits a random amount, up to 1000 max still)
 //last value is text to search for, and will stop the function when it is found
 
-startPrint(9999999, 0, 25, "cunt")
+startPrint(9999999, 1, 1, "ab")
 
 
 
