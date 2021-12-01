@@ -68,6 +68,40 @@ var printActive
     }
     console.log("finished");
 }*/
+var Clock = {
+    totalSeconds: 0,
+    start: function () {
+        if (!this.interval) {
+            var self = this;
+
+            function pad(val) {
+                return val > 9 ? val : "0" + val;
+            }
+            this.interval = setInterval(function () {
+                self.totalSeconds += 1;
+            }, 1000);
+        }
+    },
+
+    reset: function () {
+        Clock.totalSeconds = null;
+        clearInterval(this.interval);
+        delete this.interval;
+    },
+    pause: function () {
+        clearInterval(this.interval);
+        delete this.interval;
+    },
+
+    resume: function () {
+        this.start();
+    },
+
+    restart: function () {
+        this.reset();
+        Clock.start();
+    }
+};
 
 function printMatrix(length, minDelay, randomDelay, searchText) {
     var temp = "";
@@ -101,7 +135,7 @@ function printMatrix(length, minDelay, randomDelay, searchText) {
             console.log("----------------------------------")
             console.log(searchText + " Found!")
             console.log(line.length + (" Digits Printed Total"))
-            console.log("This text had a " + (probability) + "% chance of appearing, on average, every " + (chance((minDelay.toString().length)) * 1000) + " milliseconds")
+            //console.log("This text had a " + (probability) + "% chance of appearing, and took " + Clock.totalSeconds + " seconds to print")
             return;
         }
     }
@@ -138,18 +172,33 @@ function chance(x) {
     var chance
     var probability
     probability = (1 / (letters.length + characters.length + numbers.length))
-    console.log(probability)
+    //console.log(probability)
     chance = probability ^ x
     chance *= 100
+
     var temp
     /*!!for (var i = 0; i < x - 1; i++) {
         chance *= probability
     }*/
     temp = chance
     temp = temp.toString()
-    chance = chance.toFixed(temp.length - 1)
-    chance *= probability
+    chance = chance.toFixed(temp.length)
     //wait(1000);
+    console.log(chance)
     return (chance)
 }
-startPrint(999999, 1, 0, "?")
+
+
+//first value is the number of digits to print at max
+//second value is the base digits to print per minute(1000 max, no min value: to go as fast as possible set this to 0)
+//third value is the max random range, this just makes it look cooler to me(value will slow down the process to a random amount if value is negative)
+//^^(positive values will speed up the digits a random amount, up to 1000 max still)
+//last value is text to search for, and will stop the function when it is found
+
+startPrint(9999999, 0, 25, "cunt")
+
+
+
+
+
+//Velkhana
