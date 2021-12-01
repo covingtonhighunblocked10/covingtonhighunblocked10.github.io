@@ -1,5 +1,3 @@
-//!$(document).ready(runProgram)
-//!!function runProgram() {
 var leaderboard = {
     tetris: {
         top: [],
@@ -11,17 +9,14 @@ var leaderboard = {
         scores: {},
         names: [],
     },
-
-    textChange: function (ID, TEXT) {
-        $(ID).text(TEXT)
-    },
-
 }
 
-function newPlayer(name, score, game) {
-    //carpet function for new players//
+function textChange(id, text) {
+    $(id).text(text)
+};
 
-    //add object to leaderboard
+function newPlayer(name, score, game) {
+    //add object to leaderboard game
     leaderboard[game].scores[name] = {
         name: name,
         score: score,
@@ -66,10 +61,10 @@ function objsToArray(game) {
     var newArr = []
     var names = leaderboard[game].names
     var length = names.length
-    console.log(names)
+    //console.log(names)
     for (var i = 0; i < length; i++) {
         var entry = leaderboard[game].names[i]
-        console.log(entry)
+        //console.log(entry)
         newArr.push(leaderboard[game].scores[entry])
     }
     return (newArr);
@@ -77,82 +72,110 @@ function objsToArray(game) {
 
 function topFive(arr) {
     var array = arr.splice(0, 5)
-    console.log(array)
+    //console.log(array)
     return (array)
 }
 
-//TETRIS SCORES
-function leadTetris() {
-    function addTetris() {
-        newPlayer("Rowan", 209983, 'tetris')
-        newPlayer("Remy", 128942, 'tetris')
-        newPlayer("Jace", 90931, 'tetris')
-        newPlayer("Benji", 41207, 'tetris')
-        newPlayer("Jonah", 30672, 'tetris')
-        newPlayer("Jayvyn", 10820, 'tetris')
-    };
-    addTetris();
-}
-
-//TREX GAME SCORES
-function leadDino() {
-    function addDino() {
-        newPlayer("Jonathan", 4527, 'dino')
-        newPlayer("Jayden", 4122, 'dino')
-        newPlayer("Benji", 3289, 'dino')
-        newPlayer("Jayvyn", 2460, 'dino')
-        newPlayer("Remy", 2148, 'dino')
-        newPlayer("Caleb", 1674, 'dino')
-    };
-    addDino();
-}
-
-function playerStat(game, player, prop) {
+//USE TO RETRIEVE STATS
+function playerStat(g, pr, pl) {
+    //g is game, pl is player, pr is property to return
+    var game = g;
+    var player = pl ? pl : "All";
+    var prop = pr ? pr : "none"
     if (prop === "Score") {
         return leaderboard[game].scores[player].score;
-    }
-    else if (prop === "Player Name") {
+    } else if (prop === "All_Scores") {
+        return leaderboard[game].scores
+    } else if (prop === "Player_Name") {
         return leaderboard[game].scores[player].name
-    }
-    else if (prop === "All Name") {
+    } else if (prop === "All_Names") {
         return leaderboard[game].names
-    }
-    else if (prop === "Top") {
+    } else if (prop === "Top") {
         return leaderboard[game].top
-    }
-    else {
-        return("No property inserted")
+    } else if (prop === "none") {
+        return ("No property inserted")
     }
 }
 
-function retrieveStats(game, player, prop) {
+function retrieveStats(game, prop, player) {
     var stats = playerStat(game, player, prop)
     console.log("Stats for " + player)
     console.log(stats)
 }
 
-function setLeaderboard(game) {
+function sortLeaderboard(game) {
     function sortScores(game) {
-        var tempArray = []
-        console.log("Sorting scores for " + game)
-        console.log("Unsorted Array: ")
-        console.log()
-        tempArray = objsToArray(game)
-        return (selectionSort(tempArray, game))
+        var tempArray = objsToArray(game)
+        //console.log("Sorting scores for " + game)
+        //console.log("Unsorted Array: ")
+        //console.log(tempArray)
+        tempArray = selectionSort(tempArray, 'score')
+        return (tempArray)
     }
-    sortScores(game)
+    var newArr = sortScores(game)
+    newArr = topFive(newArr)
+    //console.log(newArr)
+    return (newArr)
 }
 
-leadTetris()
-leadDino()
-console.log(getStat('tetris', "Rowan"))
-console.log(objsToArray('tetris'))
-var tetrisTemp = objsToArray('tetris')
-selectionSort(tetrisTemp, "score")
-console.log("sorted array: ")
-console.log(tetrisTemp)
-leaderboard.tetris.top = tetrisTemp
+//append highScores
+function setLeaderboard(game) {
+    var newId = game
+    var score, name, newText
+    var temp = sortLeaderboard(game);
+    console.log(temp)
+    leaderboard[game].scores = temp
+    var arr = leaderboard[game].scores
+    var places = ["First", "Second", "Third", "Fourth", "Fifth"]
+    for (var i = 0; i < 5; i++) {
+        newId = "#" + newId + (i + 1)
+        console.log(newId)
+        name = arr[i].name
+        score = arr[i].score
+        newText = places[i] + ": " + leaderboard[game].scores[i].score + " (" + leaderboard[game].scores[i].name + ")"
+        $(newId).text(newText)
+        console.log(newText)
+        //reset newId
+        newId = game
+    }
+}
+//setLeaderboard('tetris', )
+//TETRIS SCORES
+function leadTetris() {
+    function addTetris() {
+        //add players here
+        newPlayer("Jayvyn", 10820, 'tetris')
+        newPlayer("Jace", 90931, 'tetris')
+        newPlayer("Benji", 41207, 'tetris')
+        newPlayer("Rowan", 248205, 'tetris')
+        newPlayer("Jonah", 71337, 'tetris')
+        newPlayer("Remy", 264488, 'tetris')  
+    };
+    addTetris();
+    setLeaderboard('tetris')
+}
 
+//TREX GAME SCORES
+function leadDino() {
+    function addDino() {
+        //here too
+        newPlayer("Benji", 3289, 'dino')
+        newPlayer("Caleb", 1674, 'dino')
+        newPlayer("Jayden", 4122, 'dino')
+        newPlayer("Jonathan", 4527, 'dino')
+        newPlayer("Jayvyn", 2460, 'dino')
+        newPlayer("Remy", 2148, 'dino')
+    };
+    addDino();
+    setLeaderboard('dino')
+}
 
+//Node.js test code here \/ \/ \/ \/ \/
 
-//!}
+//retrieveStats('tetris', "All_Scores", "All_Scores")
+//sortLeaderboard('tetris')
+//retrieveStats('tetris', "All_Scores", "All_Scores")
+
+//Finished December 1st 2021, 5:16PM
+
+//Velkhana

@@ -1,4 +1,5 @@
 $(document).ready(sortAll)
 function sortAll() {
-    alet
+    leadTetris()
+    leadDino()
 }
