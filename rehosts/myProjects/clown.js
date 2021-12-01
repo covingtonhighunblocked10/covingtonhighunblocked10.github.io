@@ -16,92 +16,9 @@ var numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 var characters = [".", ",", "/", "<", ">", "?", "'", '"', ":", ";", "[", "]", "{", "}", "|", "=", "+", "-", "_", ")", "(", "*", "&", "^", "%", "$", "#", "@", "!", "~", "`"]
 var printActive
 
-////////////////////////////////////
-//Timing and Screen Update Speeds//
-///////////////////////////////////
-
-/*{ //clear previous interval
-    clearInterval(interval);
-    //rate of updates
-    var updateRate = 1;
-    //updates per second
-    var UPS = 1000 / updateRate;
-    //loop to update
-    var interval = setInterval(updateScreen, 1000);
-
-    ////////////////////
-    //Game Update Loop//
-    ////////////////////
-    function updateScreen() {
-        getRandomLines(9999, 9999, 100)
-    }
-}*/
 /////////////////////////////////////////
 //Haha Hehe Funny Functions Go BRRRRRRR//
 /////////////////////////////////////////
-
-/*function getRandomLines(digits, lines, delay) {
-    var temp = ""
-    var line = ""
-    for (var x = 0; x < lines; x++) {
-        for (var i = 0; i < digits; i++) {
-            if (printActive)
-                arr = Math.round(Math.random() * 3)
-            if (arr === 1) {
-                temp = letters[getRandom(letters.length - 1)]
-            }
-            if (arr === 2) {
-                temp = numbers[getRandom(numbers.length - 1)]
-            }
-            if (arr === 3) {
-                temp = characters[getRandom(characters.length - 1)]
-            }
-            //stdout.write(temp);
-            $(id).html(line);
-            line += temp;
-            temp = "";
-            wait(delay);
-        }
-        line = temp
-        temp = ""
-        console.log(".")
-    }
-    console.log("finished");
-}*/
-var Clock = {
-    totalSeconds: 0,
-    start: function () {
-        if (!this.interval) {
-            var self = this;
-
-            function pad(val) {
-                return val > 9 ? val : "0" + val;
-            }
-            this.interval = setInterval(function () {
-                self.totalSeconds += 1;
-            }, 1000);
-        }
-    },
-
-    reset: function () {
-        Clock.totalSeconds = null;
-        clearInterval(this.interval);
-        delete this.interval;
-    },
-    pause: function () {
-        clearInterval(this.interval);
-        delete this.interval;
-    },
-
-    resume: function () {
-        this.start();
-    },
-
-    restart: function () {
-        this.reset();
-        Clock.start();
-    }
-};
 
 function printMatrix(length, minDelay, randomDelay, searchText) {
     var temp = "";
@@ -195,7 +112,7 @@ function chance(x) {
 //^^(positive values will speed up the digits a random amount, up to 1000 max still)
 //last value is text to search for, and will stop the function when it is found
 
-startPrint(9999999, 1, 1, "ab")
+startPrint(9999999, 0, 0, "g0T")
 
 
 
