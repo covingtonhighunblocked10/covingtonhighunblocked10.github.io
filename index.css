@@ -1,5 +1,6 @@
 body {
     background-color: goldenrod;
+    user-select: none;
 }
 
 .text {
@@ -26,7 +27,7 @@ body {
 
 /*Nav*/
 #topbar {
-    height: 50px;
+    height: 60px;
     margin-top: 0px;
     padding-top: 0px;
     display: inline-block;
@@ -51,7 +52,7 @@ body {
 }
 
 #topbar ul li a:hover {
-    padding: 5px;
+    padding: 2px;
     background-color: blue;
     transition: .1s;
     border-radius: 20px;

@@ -17,11 +17,13 @@ var leaderboard = {
     },
 
 }
+
 function newPlayer(name, score, game) {
     //carpet function for new players//
 
     //add object to leaderboard
     leaderboard[game].scores[name] = {
+        name: name,
         score: score,
     }
     //add name to array
@@ -66,7 +68,9 @@ function objsToArray(game) {
     var length = names.length
     console.log(names)
     for (var i = 0; i < length; i++) {
-        newArr.push(leaderboard[game].scores[names[i]])
+        var entry = leaderboard[game].names[i]
+        console.log(entry)
+        newArr.push(leaderboard[game].scores[entry])
     }
     return (newArr);
 }
@@ -102,13 +106,52 @@ function leadDino() {
     };
     addDino();
 }
+
+function playerStat(game, player, prop) {
+    if (prop === "Score") {
+        return leaderboard[game].scores[player].score;
+    }
+    else if (prop === "Player Name") {
+        return leaderboard[game].scores[player].name
+    }
+    else if (prop === "All Name") {
+        return leaderboard[game].names
+    }
+    else if (prop === "Top") {
+        return leaderboard[game].top
+    }
+    else {
+        return("No property inserted")
+    }
+}
+
+function retrieveStats(game, player, prop) {
+    var stats = playerStat(game, player, prop)
+    console.log("Stats for " + player)
+    console.log(stats)
+}
+
+function setLeaderboard(game) {
+    function sortScores(game) {
+        var tempArray = []
+        console.log("Sorting scores for " + game)
+        console.log("Unsorted Array: ")
+        console.log()
+        tempArray = objsToArray(game)
+        return (selectionSort(tempArray, game))
+    }
+    sortScores(game)
+}
+
 leadTetris()
 leadDino()
-var x = objsToArray('tetris')
-console.log(x)
-selectionSort(x, "score")
-console.log(x)
-
+console.log(getStat('tetris', "Rowan"))
+console.log(objsToArray('tetris'))
+var tetrisTemp = objsToArray('tetris')
+selectionSort(tetrisTemp, "score")
+console.log("sorted array: ")
+console.log(tetrisTemp)
+leaderboard.tetris.top = tetrisTemp
 
 
 
