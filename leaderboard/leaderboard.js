@@ -1,14 +1,4 @@
 var leaderboard = {
-    tetris: {
-        top: [],
-        scores: {},
-        names: []
-    },
-    dino: {
-        top: [],
-        scores: {},
-        names: [],
-    },
 }
 
 function textChange(id, text) {
@@ -121,7 +111,7 @@ function sortLeaderboard(game) {
 //append highScores
 function setLeaderboard(game) {
     var newId = game
-    var score, name, newText
+    var newText
     var temp = sortLeaderboard(game);
     console.log(temp)
     leaderboard[game].scores = temp
@@ -130,13 +120,18 @@ function setLeaderboard(game) {
     for (var i = 0; i < 5; i++) {
         newId = "#" + newId + (i + 1)
         console.log(newId)
-        name = arr[i].name
-        score = arr[i].score
         newText = places[i] + ": " + leaderboard[game].scores[i].score + " (" + leaderboard[game].scores[i].name + ")"
-        $(newId).text(newText)
+        //!$(newId).text(newText)
         console.log(newText)
         //reset newId
         newId = game
+    }
+}
+function newGame (title) {
+    leaderboard[title] =  {
+        top: [],
+        scores: {},
+        names: [],
     }
 }
 //setLeaderboard('tetris', )
@@ -151,6 +146,7 @@ function leadTetris() {
         newPlayer("Jonah", 71337, 'tetris')
         newPlayer("Remy", 264488, 'tetris')  
     };
+    newGame ('tetris')
     addTetris();
     setLeaderboard('tetris')
 }
@@ -166,16 +162,18 @@ function leadDino() {
         newPlayer("Jayvyn", 2460, 'dino')
         newPlayer("Remy", 2148, 'dino')
     };
+    newGame('dino')
     addDino();
     setLeaderboard('dino')
 }
 
 //Node.js test code here \/ \/ \/ \/ \/
-
-//retrieveStats('tetris', "All_Scores", "All_Scores")
-//sortLeaderboard('tetris')
-//retrieveStats('tetris', "All_Scores", "All_Scores")
-
+/*
+leadDino()
+leadTetris()
+retrieveStats('tetris', "All_Scores", "All_Scores")
+retrieveStats('dino', "All_Scores", "All_Scores")
+*/
 //Finished December 1st 2021, 5:16PM
 
 //Velkhana
