@@ -151,6 +151,7 @@ function leadTetris() {
         newPlayer("Jonah", 71337, 'tetris')
         newPlayer("Remy", 264488, 'tetris') 
 NewPlayer("Silas", 199722, 'tetris') 
+NewPlayer("Gabriel", 150781, 'tetris')
     };
     addTetris();
     setLeaderboard('tetris')
