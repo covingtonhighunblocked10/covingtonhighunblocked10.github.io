@@ -11,6 +11,8 @@ const {
 /////////////////////////
 //Variable Declarations//
 /////////////////////////
+
+//uses all letters, numbers, and special characters available to me
 var letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 var numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 var characters = [".", ",", "/", "<", ">", "?", "'", '"', ":", ";", "[", "]", "{", "}", "|", "=", "+", "-", "_", ")", "(", "*", "&", "^", "%", "$", "#", "@", "!", "~", "`"]
@@ -20,10 +22,11 @@ var printActive
 //Haha Hehe Funny Functions Go BRRRRRRR//
 /////////////////////////////////////////
 
-function printMatrix(length, minDelay, randomDelay, searchText, id) {
+function print(length, minDelay, randomDelay, searchText, id) {
     var temp = "";
     var line = "";
-    var arr, probability;
+    var arr;
+    var probability;
     probability = chance(searchText.length)
     for (var i = 0; i < length; i++) {
         if (printActive) {
@@ -39,7 +42,7 @@ function printMatrix(length, minDelay, randomDelay, searchText, id) {
             }
             stdout.write(temp);
             line += temp;
-            $(id).text(line);
+            //$(id).text(line);
             temp = "";
             wait(minDelay - getRandom(randomDelay));
             if (line.includes(searchText)) {
@@ -52,7 +55,7 @@ function printMatrix(length, minDelay, randomDelay, searchText, id) {
             console.log("----------------------------------")
             console.log(searchText + " Found!")
             console.log(line.length + (" Digits Printed Total"))
-            console.log("This text had a " + (probability) + "% chance of appearing every " + (minDelay * searchText.length) + " millisecondseconds")
+            //console.log("This text had a " + (probability) + "% chance of appearing every " + (minDelay * searchText.length) + " millisecondseconds")
             return;
         }
     }
@@ -80,11 +83,11 @@ function setFind () {
     
 }
 
-function startPrint(digits, minDelay, randomDelay, textFind, id) {
-    var textFind = $("#textFind").text()
-    alert(textFind)
+function monkeyStart(digits, minDelay, randomDelay, textFind, id) {
+    //var textFind = $("#textFind").text()
+    //alert(textFind)
     printActive = true;
-    printMatrix(digits, minDelay, randomDelay, textFind, id);
+    print(digits, minDelay, randomDelay, textFind, id);
 }
 
 function clearText(id) {
@@ -118,7 +121,7 @@ function chance(x) {
 //^^(negative values will speed up the digits a random amount, up to 1000 max still)
 //last value is text to search for, and will stop the function when it is found
 
-
+monkeyStart(9999999, 20, 100, "3j(syss")
 
 
 

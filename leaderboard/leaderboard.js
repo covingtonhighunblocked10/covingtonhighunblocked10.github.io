@@ -162,6 +162,7 @@ function leadDino() {
         newPlayer("Jonathan", 4527, 'dino')
         newPlayer("Jayvyn", 2460, 'dino')
         newPlayer("Remy", 2148, 'dino')
+        newPlayer("Seth D.", 2430, 'dino')
     };
     newGame('dino')
     addDino();
