@@ -145,8 +145,8 @@ function leadTetris() {
         newPlayer("Rowan", 248205, 'tetris')
         newPlayer("Jonah", 71337, 'tetris')
         newPlayer("Remy", 264488, 'tetris') 
-newPlayer("Silas", 199722, 'tetris') 
-newPlayer("Gabriel", 150781, 'tetris')
+        newPlayer("Silas", 199722, 'tetris') 
+        newPlayer("Gabriel", 150781, 'tetris')
     };
     newGame ('tetris')
     addTetris();

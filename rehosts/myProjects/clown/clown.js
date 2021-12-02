@@ -20,7 +20,7 @@ var printActive
 //Haha Hehe Funny Functions Go BRRRRRRR//
 /////////////////////////////////////////
 
-function printMatrix(length, minDelay, randomDelay, searchText) {
+function printMatrix(length, minDelay, randomDelay, searchText, id) {
     var temp = "";
     var line = "";
     var arr, probability;
@@ -38,10 +38,11 @@ function printMatrix(length, minDelay, randomDelay, searchText) {
                 temp = characters[getRandom(characters.length - 1)]
             }
             stdout.write(temp);
-            line += temp
-            temp = ""
+            line += temp;
+            temp = "";
+            $(id).text(line);
             wait(minDelay - getRandom(randomDelay));
-            //!$(id).text($(id).text() + temp);
+            
             if (line.includes(searchText)) {
                 printActive = false
             }
@@ -76,13 +77,13 @@ function toggle(variable) {
     alert(variable)
 }
 
-function startPrint(digits, minDelay, randomDelay, textFind) {
+function startPrint(digits, minDelay, randomDelay, textFind, id) {
     printActive = true;
-    printMatrix(digits, minDelay, randomDelay, textFind);
+    printMatrix(digits, minDelay, randomDelay, textFind, id);
 }
 
 function clearText(id) {
-    //!$(id).text("")
+    $(id).text("")
 }
 
 function chance(x) {
@@ -107,12 +108,10 @@ function chance(x) {
 
 
 //first value is the number of digits to print at max
-//second value is the base digits to print per minute(1000 max, no min value: to go as fast as possible set this to 0)
-//third value is the max random range, this just makes it look cooler to me(value will slow down the process to a random amount if value is negative)
-//^^(positive values will speed up the digits a random amount, up to 1000 max still)
+//second value is the base digits to print per minute(1000 max per second, no min per second: to go as fast as possible set this to 0)
+//third value is the max random range, this just makes it look cooler to me(positive value will slow down the process to a random amount)
+//^^(negative values will speed up the digits a random amount, up to 1000 max still)
 //last value is text to search for, and will stop the function when it is found
-
-startPrint(9999999, 0, 0, "g0T")
 
 
 
