@@ -150,8 +150,8 @@ function leadTetris() {
         newPlayer("Rowan", 248205, 'tetris')
         newPlayer("Jonah", 71337, 'tetris')
         newPlayer("Remy", 264488, 'tetris') 
-NewPlayer("Silas", 199722, 'tetris') 
-NewPlayer("Gabriel", 150781, 'tetris')
+newPlayer("Silas", 199722, 'tetris') 
+newPlayer("Gabriel", 150781, 'tetris')
     };
     addTetris();
     setLeaderboard('tetris')
