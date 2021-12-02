@@ -39,10 +39,9 @@ function printMatrix(length, minDelay, randomDelay, searchText, id) {
             }
             stdout.write(temp);
             line += temp;
-            temp = "";
             $(id).text(line);
+            temp = "";
             wait(minDelay - getRandom(randomDelay));
-            
             if (line.includes(searchText)) {
                 printActive = false
             }
@@ -77,7 +76,13 @@ function toggle(variable) {
     alert(variable)
 }
 
+function setFind () {
+    
+}
+
 function startPrint(digits, minDelay, randomDelay, textFind, id) {
+    var textFind = $("#textFind").text()
+    alert(textFind)
     printActive = true;
     printMatrix(digits, minDelay, randomDelay, textFind, id);
 }

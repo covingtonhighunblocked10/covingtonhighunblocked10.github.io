@@ -12,16 +12,18 @@
             align-self: center;
             color: green;
             overflow-wrap: break-word;
+            font-size: 20px;
         }
 
         #terminal {
             color: green;
             overflow-wrap: break-word;
+            font-size: 20px;
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <script src="clown.js"></script>
     <script src="onLoad.js"></script>
+    <script src="clown.js"></script>
 </head>
 
 <body>
@@ -46,7 +48,7 @@
         <button id="stop">Stop</button>
         <button id="clear">Clear Text</button>
         <br>
-        <input name="textFind" type="none" value="Default Text">
+        <input id="textFind" type="none" value="Default Text" submit="setText">
     </center>
 </body>
 <!--keep the body tags dipshit-->

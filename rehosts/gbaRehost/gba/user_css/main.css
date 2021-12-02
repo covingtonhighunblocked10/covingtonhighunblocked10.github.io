@@ -1,10 +1,12 @@
-html, body {
+html,
+body {
     padding: 0;
     margin: 0;
     width: 100%;
     height: 100%;
     cursor: none;
 }
+
 canvas {
     position: absolute;
     top: 0;
@@ -12,6 +14,7 @@ canvas {
     width: 100%;
     height: 100%;
 }
+
 span {
     color: red;
     bottom: 0px;
@@ -23,5 +26,5 @@ span {
     text-align: right;
     vertical-align: bottom;
     font-family: monospace;
-    display:none;
+    display: none;
 }

@@ -115,13 +115,12 @@ function setLeaderboard(game) {
     var temp = sortLeaderboard(game);
     console.log(temp)
     leaderboard[game].scores = temp
-    var arr = leaderboard[game].scores
     var places = ["First", "Second", "Third", "Fourth", "Fifth"]
     for (var i = 0; i < 5; i++) {
         newId = "#" + newId + (i + 1)
         console.log(newId)
         newText = places[i] + ": " + leaderboard[game].scores[i].score + " (" + leaderboard[game].scores[i].name + ")"
-        //!$(newId).text(newText)
+        $(newId).text(newText)
         console.log(newText)
         //reset newId
         newId = game
