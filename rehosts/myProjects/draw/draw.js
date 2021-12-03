@@ -2,61 +2,86 @@ var mouse = {
     x: 0,
     y: 0,
     held: false,
-    track: "window",
+    track: "",
     previous: {
-        x: "",
-        y: "",
+        x: 0,
+        y: 0,
     }
 }
-var c = document.getElementById("#canvas")
+var drawActive = false
+var c = document.getElementById("canvas")
 var ctx = c.getContext("2d");
 
-function handleMouseMove(event) {
+async function handleMouseMove(event) {
     //find mouse position
 
     //save previous mouse position
-
+    mouse.previous.x = mouse.x;
+    mouse.previous.y = mouse.y;
     if (mouse.track === "canvas") {
         //if inside canvas bounding box
-        mouse.previous.x = mouse.x
-        mouse.previous.y = mouse.y
-        mouse.x = event.pageX - $("#canvas").offset().left;
-        mouse.y = event.pageY - $("#canvas").offset().top;
+        if (mouse.previous.x !== mouse.x || mouse.previous.y !== mouse.y) {
+            mouse.previous.x = mouse.x;
+            mouse.previous.y = mouse.y;
+        }
+        mouse.x = event.clientX - $("#canvas").offset().left;
+        mouse.y = event.clientY - $("#canvas").offset().top;
+
     } else if (mouse.track === "window") {
         //if inside window, not canvas
-        mouse.previous.x = mouse.x
-        mouse.previous.y = mouse.y
+        if (mouse.previous.x !== mouse.x || mouse.previous.y !== mouse.y) {
+            mouse.previous.x = mouse.x
+            mouse.previous.y = mouse.y
+        }
         mouse.x = event.clientX;
         mouse.y = event.clientY;
-    }
-    else {
+
+    } else {
         mouse.track = "window"
     }
-    if (mouse.held || !mouse.held) {
-        ctx.moveTo(mouse.previous.x, mouse.previous.y);
-        ctx.lineTo(mouse.x, mouse.y);
-        ctx.stroke();
+
+    $("#mouseX").text("Current X: " + mouse.x)
+    $("#mouseY").text("Current Y: " + mouse.y)
+    $("#previousX").text("Previous X: " + mouse.previous.x)
+    $("#previousY").text("Previous Y: " + mouse.previous.y)
+    $("#mouseTrack").text("Element Mouse is Relative to: " + mouse.track)
+}
+async function startDraw(type) {
+    drawActive = true
+    //alert(drawActive);
+    if (mouse.track === "canvas") {
+        while (mouse.held || drawActive) {
+            if (type === "line") {
+                ctx.moveTo(mouse.previous.x, mouse.previous.y);
+                ctx.lineTo(mouse.x, mouse.y);
+                ctx.stroke()
+            }
+        }
+        drawActive = toggle(drawActive)
     }
-    $("#mouseX").text(mouse.x)
-    $("#mouseY").text(mouse.y)
-    $("#mouseTrack").text(mouse.track)
+
 }
 
-function handleMouseDown() {
+async function handleMouseDown() {
     mouse.held = toggle(mouse.held)
+    if (!drawActive) {
+        startDraw("line")
+    }
+    $("#drawActive").text("Draw Active: " + drawActive);
     $("#mouseHeld").text("Mouse Held: " + mouse.held);
 };
 
-function handleMouseUp() {
+async function handleMouseUp() {
     mouse.held = toggle(mouse.held)
+    $("#drawActive").text("Draw Active: " + drawActive);
     $("#mouseHeld").text("Mouse Held: " + mouse.held);
 };
 
-function mouseEnter() {
+async function mouseEnter() {
     mouse.track = "canvas"
 }
 
-function mouseLeave() {
+async function mouseLeave() {
     mouse.track = "window"
 }
 

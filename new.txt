@@ -1,72 +1,81 @@
-} {
-    var leaderboard = {
-        tetris: {
-            top: [1, 2, 3, 4],
-            scores: [5, 6, 7, 8],
-            names: [9, 10, 11, 12],
-        },
-        dino: {
-            top: [],
-            scores: [],
-            names: [],
-        },
-
-        sort: function (array) {
-            [array].sort(function (a, b) {
-                if (a > b) return 1;
-                if (a < b) return -1;
-                return 0;
-            })
-        },
-
-        textChange: function (id, text) {
-            $(id).text(text)
-        },
+var mouse = {
+    x: 0,
+    y: 0,
+    held: false,
+    track: "",
+    previous: {
+        x: 0,
+        y: 0,
     }
-    class player {
-        //class for any player
-        constructor(name, score) {
-            this.name = name;
-            this.score = score;
+}
+var drawActive = false
+var c = document.getElementById("canvas")
+var ctx = c.getContext("2d");
+
+async function handleMouseMove(event) {
+    //find mouse position
+
+    //save previous mouse position
+    if (mouse.previous.x !== mouse.x && mouse.previous.y !== mouse.y) {
+        mouse.previous.x = mouse.x
+        mouse.previous.y = mouse.y
+    }
+    if (mouse.track === "canvas") {
+        //if inside canvas bounding box
+        mouse.x = event.pageX - $("#canvas").offset().left;
+        mouse.y = event.pageY + $("#canvas").offset().top;
+        if (mouse.held) {
+            drawActive = true;
+        } else {
+            drawActive = false;
         }
-        /*  
-            Outline for storage
-            [{
-            name: {
-                score: x
+    } else if (mouse.track === "window") {
+        //if inside window, not canvas
+        mouse.x = event.clientX;
+        mouse.y = event.clientY;
+    } else {
+        mouse.track = "window"
+    }
+    $("#mouseX").text(mouse.x)
+    $("#mouseY").text(mouse.y)
+    $("#mouseTrack").text(mouse.track)
+}
+async function startDraw(type) {
+    if (mouse.track === "canvas") {
+        while (mouse.held && drawActive) {
+            drawActive = true
+            if (type === "line") {
+                ctx.moveTo(mouse.previous.x, mouse.previous.y);
+                ctx.lineTo(mouse.x, mouse.y);
             }
-        }]*/
-    }
-
-
-    function existingPlayer(name, score, game) {
-        leaderboard[game].scores[name].score = score
-    }
-
-    function addScore(name, score, game) {
-        if (leaderboard[game].names.includes(name)) {
-            //if existing player
-            existingPlayer(name, score, game)
-        } else if (!leaderboard[game].names.includes(name)) {
-            //if new player
-            newPlayer(name, score, game);
         }
+        ctx.stroke()
+        drawActive = false
     }
+}
 
-    function newPlayer(name, score, game) {
-        //carpet function for new players
-        var x = new player(name, score)
-        console.log(x)
-        leaderboard[game].names.push(name)
-        //leaderboard[game].scores.push(new player(name, score))
-
+async function handleMouseDown() {
+    mouse.held = toggle(mouse.held)
+    if (!drawActive) {
+        startDraw("line")
     }
+    $("#mouseHeld").text("Mouse Held: " + mouse.held);
+};
 
-    function sortScores(array) {
-        var arrayNames = []
-        for (var i in array) {
-            arrayNames.push(array[i])
-        }
-        alert(arrayNames);
-    }
+async function handleMouseUp() {
+    mouse.held = toggle(mouse.held)
+    drawActive = false
+    $("#mouseHeld").text("Mouse Held: " + mouse.held);
+};
+
+async function mouseEnter() {
+    mouse.track = "canvas"
+}
+
+async function mouseLeave() {
+    mouse.track = "window"
+}
+
+function toggle(variable) {
+    return (variable ? false : true)
 }
