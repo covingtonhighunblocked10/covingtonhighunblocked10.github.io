@@ -16,6 +16,8 @@
  *
  */
 var games = {
+    "dukenukem": "Duke Nukem",
+    "doom":"DOOM",
     "pokemonglaze":"Pokemon Glazed",
     "pokemonlightplat":"Pokemon Light Platinum",
     "pokemondarkviolet":"Pokemon Dark Violet",

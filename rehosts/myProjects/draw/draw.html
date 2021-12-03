@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Draw</title>
+    <style>
+        @import "/index.css";
+
+        #canvas {
+            height: 300px;
+            width: 300px;
+            background-color: white;
+            outline: 3px, solid, black;
+            position: relative;
+        }
+    </style>
+    <script src="jquery-3.6.0.min.js"></script>
+    <script src="draw.js"></script>
+    <script src="onLoad.js"></script>
+</head>
+
+<body>
+    <center>
+        <h1 id='mainTitle' class="glow text">Draw</h1>
+        <nav id="topbar" class="">
+            <ul id="navAnchors" class="text bodyCW">
+                <li><a href="/contact.html"><strong>Contact</strong></a></li>
+                <li><a href="/leaderboard/leaderboard.html"><strong>Leaderboard</strong></a></li>
+                <li><a href="/home.html"><strong>Home</strong></a></li>
+                <li><a href="/projects.html"><strong>Games</strong></a></li>
+                <li><a href="/about.html"><strong>About</strong></a></li>
+            </ul>
+        </nav>
+        <div>
+            <canvas id="canvas"></canvas>
+            <p id="mouseHeld">Not Held</p>
+            <p id="mouseX">0</p>
+            <p id="mouseY">0</p>
+            <p id="mouseTrack">window</p>
+        </div>
+    </center>
+    <!-- end www.htmlcommentbox.com -->
+</body>
+<!--keep the body tags dipshit-->
+
+</html>

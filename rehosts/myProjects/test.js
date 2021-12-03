@@ -3,7 +3,8 @@ const {
     setTimeout
 } = require("timers/promises")
 
-var text, preserveText = "hello"
+var text = ""
+var preserveText = ""
 var defaultValue = "PLACEHOLDER"
 var preserveBool
 var path = "writeTest.txt"
@@ -35,15 +36,17 @@ function readFile(path) {
     return x;
 }
 
+//just a template for objects in the future
 function newObject(key, value) {
     var data = '"' + key + '": "' + value + '", ';
     text += data;
 }
 
+
 function newText(value) {
-    if (value !== "undefined" || value !== undefined) {
+    if (value !== "undefined" && value !== undefined) {
         text += value;
-    } else {
+    } else if (value === "undefined" || value === undefined){
         console.log("'undefined' found")
     }
 }
@@ -80,7 +83,6 @@ function preserveOld(path) {
         //if the previous text should be saved
         //x is the temporary variable the document should be saved to
         x = readFile(path)
-        //? console.log("File Contents: " + x)
         if (x) {
             console.log("Preserve complete")
         } else if (!x) {
@@ -96,16 +98,19 @@ function preserveOld(path) {
     };
 
 }
-
+//yep, lemme run it a few times to show you
 function newLine() {
     text += "\r"
 }
-newLine()
+
 preserveBool = true;
 preserveOld(path);
 newLine();
-newText("newLine1");
+newText("new1");
 newLine();
-newText("newLine2");
-console.log("Start Timeout For " + finalTimeout / 1000 + " Seconds")
-setTimeout(finalTimeout, finalWrite(path, text))
+newText("new2");
+finalWrite(path, text)
+//to be less close to function names
+//just removing extra wait
+//console.log("Start Timeout For " + finalTimeout / 1000 + " Seconds")
+//setTimeout(finalTimeout, finalWrite(path, text))

@@ -138,6 +138,10 @@ function newGame (title) {
 function leadTetris() {
     function addTetris() {
         //add players here
+
+        //people have to send me the scores right now, since id have to go into the games code
+        //theyre open source but writing to files isnt something im good with yet, still trying to find better ways
+        //ive tried fs on node.js but the formatting and inserting scores without messing with files is tricky for me
         newPlayer("Jayvyn", 10820, 'tetris')
         newPlayer("Jace", 90931, 'tetris')
         newPlayer("Benji", 41207, 'tetris')
@@ -156,11 +160,12 @@ function leadTetris() {
 function leadDino() {
     function addDino() {
         //here too
+
         newPlayer("Benji", 3289, 'dino')
-        newPlayer("Caleb", 1674, 'dino')
-        newPlayer("Jayden", 4122, 'dino')
         newPlayer("Jonathan", 4527, 'dino')
+        newPlayer("Jayden", 4122, 'dino')
         newPlayer("Jayvyn", 2460, 'dino')
+        newPlayer("Caleb", 1674, 'dino')
         newPlayer("Remy", 2148, 'dino')
         newPlayer("Seth D.", 2430, 'dino')
     };

@@ -3,3 +3,4 @@ vscode:
   extensions:
     - ritwickdey.liveserver
     - github.vscode-pull-request-github
+    - eamodio.gitlens
