@@ -1,14 +1,17 @@
 const fs = require("fs")
 const {
+    stringify
+} = require("querystring")
+const {
     setTimeout
 } = require("timers/promises")
 
 var text = ""
 var preserveText = ""
-var defaultValue = "PLACEHOLDER"
+var defaultValue = ""
 var preserveBool
-var path = "writeTest.txt"
-var finalTimeout = 1000
+var path = "writeTest.js"
+var finalTimeout = 0
 
 function writeFile(path, value) {
     fs.writeFileSync(path, value, function (err) {
@@ -46,7 +49,7 @@ function newObject(key, value) {
 function newText(value) {
     if (value !== "undefined" && value !== undefined) {
         text += value;
-    } else if (value === "undefined" || value === undefined){
+    } else if (value === "undefined" || value === undefined) {
         console.log("'undefined' found")
     }
 }
@@ -57,10 +60,13 @@ function finalWrite(path, value) {
     if (preserveBool) {
         newText(preserveText);
         console.log(text);
+        var last = findLast(value, "}")
+        text.slice(-1)
         writeFile(path, value);
     } else {
         writeFile(path, value)
     }
+
     console.log('Final Write Complete')
     console.log('Final Contents: ' + x)
     preserveText, text = ""
@@ -85,13 +91,14 @@ function preserveOld(path) {
         x = readFile(path)
         if (x) {
             console.log("Preserve complete")
+            newText(x);
         } else if (!x) {
             console.log("Issue occurred while preserving data, defaulting value to " + defaultValue)
             x = defaultValue
             console.log(x)
         };
         //return value of x
-        newText(x);
+
     } else if (!preserveBool) {
         //if the previous text should not be saved, wipe the file
         wipeText(path);
@@ -103,12 +110,13 @@ function newLine() {
     text += "\r"
 }
 
+function findLast(string, find) {
+    var lastIndex = string.lastIndexOf(find)
+    return (lastIndex)
+}
+
 preserveBool = true;
 preserveOld(path);
-newLine();
-newText("new1");
-newLine();
-newText("new2");
 finalWrite(path, text)
 //to be less close to function names
 //just removing extra wait
