@@ -150,6 +150,7 @@ function leadTetris() {
         newPlayer("Remy", 293081, 'tetris')
         newPlayer("Silas", 199722, 'tetris')
         newPlayer("Gabriel", 150781, 'tetris')
+        newPlayer("Cas", 166292, 'tetris')
     };
     newGame('tetris')
     addTetris();
@@ -179,7 +180,7 @@ function leadEventTetris() {
         //add players here
         newPlayer("Rowan", 273948, 'tetrisEvent')
         newPlayer("Remy", 293081, 'tetrisEvent')
-        newPlayer("N/A", 0, 'tetrisEvent')
+        newPlayer("Cas", 166292, 'tetris')
         newPlayer("N/A", 0, 'tetrisEvent')
         newPlayer("N/A", 0, 'tetrisEvent')
     };
