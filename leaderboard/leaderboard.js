@@ -1,5 +1,4 @@
-var leaderboard = {
-}
+var leaderboard = {}
 
 function textChange(id, text) {
     $(id).text(text)
@@ -126,8 +125,9 @@ function setLeaderboard(game) {
         newId = game
     }
 }
-function newGame (title) {
-    leaderboard[title] =  {
+
+function newGame(title) {
+    leaderboard[title] = {
         top: [],
         scores: {},
         names: [],
@@ -145,13 +145,13 @@ function leadTetris() {
         newPlayer("Jayvyn", 10820, 'tetris')
         newPlayer("Jace", 90931, 'tetris')
         newPlayer("Benji", 41207, 'tetris')
-        newPlayer("Rowan", 248205, 'tetris')
+        newPlayer("Rowan", 273948, 'tetris')
         newPlayer("Jonah", 71337, 'tetris')
-        newPlayer("Remy", 264488, 'tetris') 
-        newPlayer("Silas", 199722, 'tetris') 
+        newPlayer("Remy", 293081, 'tetris')
+        newPlayer("Silas", 199722, 'tetris')
         newPlayer("Gabriel", 150781, 'tetris')
     };
-    newGame ('tetris')
+    newGame('tetris')
     addTetris();
     setLeaderboard('tetris')
 }
@@ -160,7 +160,7 @@ function leadTetris() {
 function leadDino() {
     function addDino() {
         //here too
-
+        newPlayer("Colton Watts", 2938, 'dinoEvent')
         newPlayer("Benji", 3289, 'dino')
         newPlayer("Jonathan", 4527, 'dino')
         newPlayer("Jayden", 4122, 'dino')
@@ -174,6 +174,41 @@ function leadDino() {
     setLeaderboard('dino')
 }
 
+function leadEventTetris() {
+    function addEventTetris() {
+        //add players here
+        newPlayer("Rowan", 273948, 'tetrisEvent')
+        newPlayer("Remy", 293081, 'tetrisEvent')
+        newPlayer("N/A", 0, 'tetrisEvent')
+        newPlayer("N/A", 0, 'tetrisEvent')
+        newPlayer("N/A", 0, 'tetrisEvent')
+    };
+    newGame('tetrisEvent')
+    addEventTetris();
+    setLeaderboard('tetrisEvent')
+}
+
+function leadEventDino() {
+    function addEventDino() {
+        //add players here
+        newPlayer("Colton Watts", 2938, 'dinoEvent')
+        newPlayer("N/A", 0, 'dinoEvent')
+        newPlayer("N/A", 0, 'dinoEvent')
+        newPlayer("N/A", 0, 'dinoEvent')
+        newPlayer("N/A", 0, 'dinoEvent')
+    };
+    newGame('dinoEvent')
+    addEventDino();
+    setLeaderboard('dinoEvent')
+
+}
+/*leadTetris()
+leadDino()
+leadEventDino()
+leadEventTetris()
+retrieveStats('tetrisEvent', "All_Scores", "All_Scores")
+retrieveStats('dinoEvent', "All_Scores", "All_Scores")
+*/
 //Node.js test code here \/ \/ \/ \/ \/
 /*
 leadDino()
