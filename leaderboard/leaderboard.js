@@ -164,7 +164,7 @@ function leadDino() {
         newPlayer("Benji", 3289, 'dino')
         newPlayer("Jonathan", 4527, 'dino')
         newPlayer("Jayden", 4122, 'dino')
-        newPlayer("Jayvyn", 2460, 'dino')
+        newPlayer("Jayvyn", 4753, 'dino')
         newPlayer("Caleb", 1674, 'dino')
         newPlayer("Remy", 2148, 'dino')
         newPlayer("Seth D.", 2430, 'dino')
@@ -192,7 +192,7 @@ function leadEventDino() {
     function addEventDino() {
         //add players here
         newPlayer("Colton Watts", 2938, 'dinoEvent')
-        newPlayer("N/A", 0, 'dinoEvent')
+        newPlayer("Jayvyn", 4753, 'dinoEvent')
         newPlayer("N/A", 0, 'dinoEvent')
         newPlayer("N/A", 0, 'dinoEvent')
         newPlayer("N/A", 0, 'dinoEvent')
