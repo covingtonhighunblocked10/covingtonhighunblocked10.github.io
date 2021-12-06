@@ -180,7 +180,7 @@ function leadEventTetris() {
         //add players here
         newPlayer("Rowan", 273948, 'tetrisEvent')
         newPlayer("Remy", 293081, 'tetrisEvent')
-        newPlayer("Cas", 166292, 'tetris')
+        newPlayer("Cas", 166292, 'tetrisEvent')
         newPlayer("N/A", 0, 'tetrisEvent')
         newPlayer("N/A", 0, 'tetrisEvent')
     };
