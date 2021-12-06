@@ -16,8 +16,11 @@
  *
  */
 var games = {
+    "hotwheelsadvance": "hotwheelsadvance",
+    "TCRSRogueSpear": "RS Rogue Spear",
     "dukenukem": "Duke Nukem",
     "doom":"DOOM",
+    "doom2": "doom2",
     "pokemonglaze":"Pokemon Glazed",
     "pokemonlightplat":"Pokemon Light Platinum",
     "pokemondarkviolet":"Pokemon Dark Violet",
