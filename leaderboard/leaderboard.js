@@ -1,4 +1,8 @@
-var leaderboard = {}
+$(document).ready(sortAll)
+var leaderboard;
+leaderboard = {
+    x: 0
+}
 
 function textChange(id, text) {
     $(id).text(text)
@@ -36,9 +40,9 @@ function selectionSort(inputArr, prop) {
 
 function printGameScores(game) {
     console.log("start")
-    for (var i = 0; i < (leaderboard[game].names).length; i++) {
-        var name = leaderboard[game].names[i];
-        var score = leaderboard[game].scores[name].score
+    for (var i = 0; i <= (leaderboard[game].names).length - 1; i++) {
+        var name = leaderboard[game].scores[i].name
+        var score = leaderboard[game].scores[i].score
         console.log(name)
         console.log(score)
         //alert("Index: " + i + "\r" + "Name: " + name + "\r" + "Score: " + score)
@@ -59,8 +63,8 @@ function objsToArray(game) {
     return (newArr);
 }
 
-function topFive(arr) {
-    var array = arr.splice(0, 5)
+function topArr(arr, length) {
+    var array = arr.splice(0, length)
     //console.log(array)
     return (array)
 }
@@ -69,7 +73,7 @@ function topFive(arr) {
 function playerStat(g, pr, pl) {
     //g is game, pl is player, pr is property to return
     var game = g;
-    var player = pl ? pl : "All";
+    var player = pl ? pl : game;
     var prop = pr ? pr : "none"
     if (prop === "Score") {
         return leaderboard[game].scores[player].score;
@@ -79,51 +83,50 @@ function playerStat(g, pr, pl) {
         return leaderboard[game].scores[player].name
     } else if (prop === "All_Names") {
         return leaderboard[game].names
-    } else if (prop === "Top") {
-        return leaderboard[game].top
     } else if (prop === "none") {
         return ("No property inserted")
     }
 }
 
 function retrieveStats(game, prop, player) {
-    var stats = playerStat(game, player, prop)
+    var stats = playerStat(game, prop, player)
     console.log("Stats for " + player)
     console.log(stats)
 }
 
-function sortLeaderboard(game) {
+function sortLeaderboard(game, length) {
     function sortScores(game) {
         var tempArray = objsToArray(game)
-        //console.log("Sorting scores for " + game)
-        //console.log("Unsorted Array: ")
-        //console.log(tempArray)
         tempArray = selectionSort(tempArray, 'score')
         return (tempArray)
     }
     var newArr = sortScores(game)
-    newArr = topFive(newArr)
+    console.log(newArr)
+    newArr = topArr(newArr, length)
     //console.log(newArr)
     return (newArr)
 }
 
 //append highScores
-function setLeaderboard(game) {
+function setLeaderboard(game, length) {
     var newId = game
-    var newText
-    var temp = sortLeaderboard(game);
-    console.log(temp)
-    leaderboard[game].scores = temp
-    var places = ["First", "Second", "Third", "Fourth", "Fifth"]
-    for (var i = 0; i < 5; i++) {
+    var temp = sortLeaderboard(game, length);
+    //console.log(temp)
+    leaderboard[game].scores = temp;
+    var places = ["First", "Second", "Third", "Fourth", "Fifth"];
+    for (var i = 0; i < (leaderboard[game].scores).length; i++) {
         newId = "#" + newId + (i + 1)
         console.log(newId)
-        newText = places[i] + ": " + leaderboard[game].scores[i].score + " (" + leaderboard[game].scores[i].name + ")"
-        $(newId).text(newText)
+        let newText = (places[i] + ": " + leaderboard[game].scores[i].score + " (" + leaderboard[game].scores[i].name + ")")
+        //alert(newText)
         console.log(newText)
+        //document.getElementById(newId).innerHTML = newText
+        $(newId).text(newText)
+        //console.log(newText)
         //reset newId
         newId = game
     }
+    console.log()
 }
 
 function newGame(title) {
@@ -133,89 +136,89 @@ function newGame(title) {
         names: [],
     }
 }
-//setLeaderboard('tetris', )
-//TETRIS SCORES
 function leadTetris() {
-    function addTetris() {
-        //add players here
-
-        //people have to send me the scores right now, since id have to go into the games code
-        //theyre open source but writing to files isnt something im good with yet, still trying to find better ways
-        //ive tried fs on node.js but the formatting and inserting scores without messing with files is tricky for me
-        newPlayer("Jayvyn", 10820, 'tetris')
-        newPlayer("Jace", 90931, 'tetris')
-        newPlayer("Benji", 41207, 'tetris')
-        newPlayer("Rowan", 273948, 'tetris')
-        newPlayer("Jonah", 71337, 'tetris')
-        newPlayer("Remy", 293081, 'tetris')
-        newPlayer("Silas", 199722, 'tetris')
-        newPlayer("Gabriel", 150781, 'tetris')
-    };
     newGame('tetris')
-    addTetris();
-    setLeaderboard('tetris')
+    tetris()
+    setLeaderboard('tetris', 5)
+    //printGameScores('tetris')
 }
 
-//TREX GAME SCORES
 function leadDino() {
-    function addDino() {
-        //here too
-        newPlayer("Colton Watts", 2938, 'dinoEvent')
-        newPlayer("Benji", 3289, 'dino')
-        newPlayer("Jonathan", 4527, 'dino')
-        newPlayer("Jayden", 4122, 'dino')
-        newPlayer("Jayvyn", 4753, 'dino')
-        newPlayer("Caleb", 1674, 'dino')
-        newPlayer("Remy", 2148, 'dino')
-        newPlayer("Seth D.", 2430, 'dino')
-    };
     newGame('dino')
-    addDino();
-    setLeaderboard('dino')
-}
-
-function leadEventTetris() {
-    function addEventTetris() {
-        //add players here
-        newPlayer("Rowan", 273948, 'tetrisEvent')
-        newPlayer("Remy", 293081, 'tetrisEvent')
-        newPlayer("N/A", 0, 'tetrisEvent')
-        newPlayer("N/A", 0, 'tetrisEvent')
-        newPlayer("N/A", 0, 'tetrisEvent')
-    };
-    newGame('tetrisEvent')
-    addEventTetris();
-    setLeaderboard('tetrisEvent')
+    dino()
+    setLeaderboard('dino', 5)
+    //printGameScores('dino')
 }
 
 function leadEventDino() {
-    function addEventDino() {
-        //add players here
-        newPlayer("Colton Watts", 2938, 'dinoEvent')
-        newPlayer("Jayvyn", 4753, 'dinoEvent')
-        newPlayer("N/A", 0, 'dinoEvent')
-        newPlayer("N/A", 0, 'dinoEvent')
-        newPlayer("N/A", 0, 'dinoEvent')
-    };
     newGame('dinoEvent')
-    addEventDino();
-    setLeaderboard('dinoEvent')
-
+    dinoEvent()
+    setLeaderboard('dinoEvent', 3)
+    //printGameScores('dinoEvent')
 }
-/*leadTetris()
-leadDino()
-leadEventDino()
+
+function leadEventTetris() {
+    newGame('tetrisEvent')
+    tetrisEvent()
+    setLeaderboard('tetrisEvent', 3)
+    //printGameScores('tetrisEvent')
+}
+
+function tetris() {
+    var game = 'tetris'
+    newPlayer("Jayvyn", 10820, game)
+    newPlayer("Jace", 90931, game)
+    newPlayer("Benji", 41207, game)
+    newPlayer("Rowan", 273948, game)
+    newPlayer("Jonah", 71337, game)
+    newPlayer("Remy", 293081, game)
+    newPlayer("Silas", 199722, game)
+    newPlayer("Gabriel", 150781, game)
+}
+
+function dino() {
+    var game = 'dino'
+    newPlayer("Colton Watts", 2938, game)
+    newPlayer("Benji", 3289, game)
+    newPlayer("Jonathan", 4527, game)
+    newPlayer("Jayden", 4122, game)
+    newPlayer("Jayvyn", 4753, game)
+    newPlayer("Caleb", 1674, game)
+    newPlayer("Remy", 2148, game)
+    newPlayer("Seth D.", 2459, game)
+}
+
+function tetrisEvent() {
+    var game = 'tetrisEvent'
+    newPlayer("Rowan", 273948, game)
+    newPlayer("Remy", 293081, game)
+    newPlayer("N/A", 0, game)
+    newPlayer("N/A", 0, game)
+    newPlayer("N/A", 0, game)
+}
+
+function dinoEvent() {
+    var game = 'dinoEvent'
+    newPlayer("Colton Watts", 2938, game)
+    newPlayer("Jayvyn", 4753, game)
+    newPlayer("Seth D.", 2459, game)
+    newPlayer("N/A", 0, game)
+    newPlayer("N/A", 0, game)
+}
+
+function sortAll() {
+    console.log("start sortAll")
+    leadTetris()
+    leadDino()
+    leadEventDino()
+    leadEventTetris()
+    console.log("Finish")
+}
+/* leadEventDino()
 leadEventTetris()
-retrieveStats('tetrisEvent', "All_Scores", "All_Scores")
-retrieveStats('dinoEvent', "All_Scores", "All_Scores")
-*/
-//Node.js test code here \/ \/ \/ \/ \/
-/*
-leadDino()
 leadTetris()
-retrieveStats('tetris', "All_Scores", "All_Scores")
-retrieveStats('dino', "All_Scores", "All_Scores")
-*/
+leadDino()
+retrieveStats('tetrisEvent', "All_Scores") */
 //Finished December 1st 2021, 5:16PM
 
 //Velkhana
