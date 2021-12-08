@@ -1,0 +1,5 @@
+X = Y = 0
+
+Blur radius = 20
+
+Opacity = 2
