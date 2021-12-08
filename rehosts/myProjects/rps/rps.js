@@ -1,21 +1,7 @@
 $(document).ready(runProgram)
 
 function runProgram() {
-    var board = {
-        html: {
-            width: parseFloat($("#board").attr('width')),
-            height: parseFloat($("#board").attr('height')),
-            id: "#board",
-            x: parseFloat($("#board").attr('left')),
-            y: parseFloat($("#board").attr('top')),
-        },
-    }
-    var game = {
-        players: {
-            names: [],
-            all: [],
-        },
-    };
+
     var _ = {
         update: {
             single: function (object) {
@@ -31,6 +17,21 @@ function runProgram() {
                     sides: function () {
                         return (functions.game.get.sides(object))
                     },
+                    position: {
+                        x: _.html.get.position.x(player),
+                        y: _.html.get.position.y(player),
+                    },
+                    middle: {
+                        x: _.game.get.middle.x(player),
+                        y: _.game.get.middle.y(player),
+                    },
+                    sides: function () {
+                        return (_.game.get.sides(player))
+                    },
+                    speed: {
+                        x: _.game.set.velocity.x(player, 0),
+                        y: _.game.set.velocity.y(player, 0),
+                    },
                 }
             },
         },
@@ -38,10 +39,10 @@ function runProgram() {
             set: {
                 position: {
                     x: function (object) {
-                        return ($(object.html.id).css('left', object.data.position.x));
+                        $(object.html.id).css('left', object.data.position.x);
                     },
                     y: function (object) {
-                        return ($(object.html.id).css('top', object.data.position.y))
+                        $(object.html.id).css('top', object.data.position.y)
                     },
                 },
                 color: function (object, color) {
@@ -58,10 +59,10 @@ function runProgram() {
                     },
                 },
                 width: function (object) {
-                    return ($(object.html.id).attr('width'))
+                    return (parseFloat($(object.html.id).css('width')))
                 },
                 height: function (object) {
-                    return ($(object.html.id).attr('height'))
+                    return (parseFloat($(object.html.id).css('height')))
                 },
             },
         },
@@ -69,10 +70,10 @@ function runProgram() {
             set: {
                 position: {
                     x: function (object) {
-                        return (object.game.position.x += object.game.speed.x);
+                        object.game.position.x += object.game.speed.x;
                     },
                     y: function (object) {
-                        return (object.game.position.y += object.game.speed.y);
+                        object.game.position.y += object.game.speed.y;
                     },
                 },
                 velocity: {
@@ -119,6 +120,22 @@ function runProgram() {
         },
     };
     //var interval = setInterval(update, 1000)
+    var board = {
+        html: {
+            id: "#board",
+            width: parseFloat($("#board").css('width')),
+            height: parseFloat($("#board").css('height')),
+            x: 0,
+            y: 0,
+        },
+    }
+    console.log(board)
+    var game = {
+        players: {
+            names: [],
+            all: [],
+        },
+    };
 
     function objsToArray() {
         var newArr = []
@@ -132,63 +149,78 @@ function runProgram() {
         return (newArr);
     }
 
-    function newPlayer(parent, type, classes) {
+    function newPlayer(parent, type) {
         var player = {
             html: {
                 id: ("#player" + game.players.names.length),
                 src: "img/" + type + ".png",
-                content: ("<img class='sprite " + classes + "' src='" + this.src + "'>"),
+                content: ("<img class='sprite' id='" + ("player" + game.players.names.length) + "' src='" + "img/" + type + ".png" + "'>"),
+                width: parseFloat($(".sprite").css('width')),
+                height: parseFloat($(".sprite").css('height')),
             },
             data: {
                 id: ("player" + game.players.names.length),
                 position: {
-                    x: _.html.get.position.x(player),
-                    y: _.html.get.position.y(player),
+                    x: 0,
+                    y: 0,
                 },
                 middle: {
-                    x: _.game.get.middle.x(player),
-                    y: _.game.get.middle.y(player),
+                    x: 0,
+                    y: 0,
                 },
-                sides: function () {
-                    return (_.game.get.sides(player))
+                sides: {
+
                 },
                 speed: {
-                    x: _.game.set.velocity.x(player, 0),
-                    y: _.game.set.velocity.y(player, 0),
+                    x: 0,
+                    y: 0,
                 },
             },
-            type: "player",
+            type: type,
         };
-        var name = player.data.id
-        game.players.push(name)
-        console.log(player)
-        //appendNew(parent, player.html.content)
-        game.players.names.push(player.html.id)
+        appendNew(parent, player.html.content)
+        game.players.names.push(player.data.id)
         game.players.all.push(player)
-        console.log(game.players)
     }
 
-    function appendNew(parent, content, classes) {
-        $(parent).append(content).addClass(classes)
+    function appendNew(parent, content) {
+        $(parent).append(content)
     }
 
     function changePosition(id, x, y) {
-        //alert("hello")
-        $(id).attr({
-            'left': x,
-            'top': y
-        })
+        //console.log("moving")
+        $(id).css('left', x)
+        $(id).css('top', y)
     }
-
+    //changePosition("#player0", 87, 90)
     function placeRandom(amount) {
         for (var i = 0; i < amount; i++) {
-            var x = getRandom()
-            var y = getRandom()
+            var type = getRandom(3)
+            if (type === 1) {
+                type = "rock"
+            } else if (type === 2) {
+                type = "paper"
+            } else if (type === 3) {
+                type = "scissors"
+            } else {
+                type = "paper"
+            }
+            newPlayer("#board", type)
+            var t = game.players.names.length - 1;
+            var newId = (game.players.names[t])
+            var player = game.players.all[t]
+            var x = getRandom(board.html.width - _.html.get.width(player))
+            var y = getRandom(board.html.height - _.html.get.height(player))
+            changePosition(player.html.id, x, y)
         }
     }
+    placeRandom(100)
 
     function getRandom(max) {
-        return (Math.round(Math.random(max)))
+        return (Math.round(Math.random() * max))
+    }
+    function checkCollisions (obj1, obj2) {
+        
     }
 
     function wait(milliseconds) {
@@ -205,6 +237,4 @@ function runProgram() {
         alert(variable)
     }
     //alert($("#board").css('width'))
-    newPlayer("#board", "scissors", "rock")
-    console.log(game)
 }
