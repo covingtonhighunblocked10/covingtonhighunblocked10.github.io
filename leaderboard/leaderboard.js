@@ -169,9 +169,9 @@ function tetris() {
     newPlayer("Jayvyn", 10820, game)
     newPlayer("Jace", 90931, game)
     newPlayer("Benji", 41207, game)
-    newPlayer("Rowan", 273948, game)
+    newPlayer("Rowan", 470536, game)
     newPlayer("Jonah", 71337, game)
-    newPlayer("Remy", 293081, game)
+    newPlayer("Remy", 805720, game)
     newPlayer("Silas", 199722, game)
     newPlayer("Gabriel", 150781, game)
     newPlayer("Chris", 171646, game)
@@ -193,8 +193,8 @@ function dino() {
 
 function tetrisEvent() {
     var game = 'tetrisEvent'
-    newPlayer("Rowan", 273948, game)
-    newPlayer("Remy", 293081, game)
+    newPlayer("Rowan", 470536, game)
+    newPlayer("Remy", 805720, game)
     newPlayer("Chris", 171646, game)
 }
 
