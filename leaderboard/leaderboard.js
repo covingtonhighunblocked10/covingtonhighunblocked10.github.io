@@ -136,6 +136,7 @@ function newGame(title) {
         names: [],
     }
 }
+
 function leadTetris() {
     newGame('tetris')
     tetris()
@@ -189,7 +190,7 @@ function dino() {
     newPlayer("Caleb", 1674, game)
     newPlayer("Remy", 2148, game)
     newPlayer("Seth D.", 2459, game)
-    newPlayer("Gaylord(chaisse benson)", 69696969, game)
+    //newPlayer("Gaylord(chaisse benson)", 69696969, game)
 }
 
 function tetrisEvent() {
@@ -201,7 +202,7 @@ function tetrisEvent() {
 
 function dinoEvent() {
     var game = 'dinoEvent'
-    newPlayer("Gaylord(chaisse benson)", 69696969, game)
+    //newPlayer("Gaylord(chaisse benson)", 69696969, game)
     newPlayer("Elyssa", 7667, game)
     newPlayer("Cameron Gauthier", 3806, game)
     newPlayer("Colton Watts", 2938, game)
