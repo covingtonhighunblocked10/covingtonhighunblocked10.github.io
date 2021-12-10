@@ -38,7 +38,6 @@ function takeScreenshot() {
 
 function setKeybinds() {
     $(document).on('keydown', toggleMenu);
-
 }
 var states = {
     menu: {
@@ -64,5 +63,5 @@ function toggle(variable) {
 }
 
 function addElements() {
-    $("body").prepend('<div id="captureMenu"><div id="menuClose" class="close">X</div><p id="text">Capture Menu</p></div><div id="captureResult"><div id="captureClose" class="close">X</div><a id="download" href>Download</a></div>')
+    $("body").prepend('<div id="captureMenu"><div id="menuClose" class="close">X</div><a id="download" href>Download</a><p id="text">Capture Menu</p></div><div id="captureResult"><div id="captureClose" class="close">X</div><a id="download" href>Download</a></div>')
 }
