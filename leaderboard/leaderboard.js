@@ -191,6 +191,8 @@ function dino() {
     newPlayer("Seth D.", 2459, game)
     newPlayer("Bill", 6935, game)
     newPlayer("Jace E.", 7691, game)
+    newPlayer("Jacob", 5362, game)
+    //newPlayer("Gaylord(chaisse benson)", 69696969, game)
 }
 
 function tetrisEvent() {
@@ -212,6 +214,7 @@ function dinoEvent() {
     newPlayer("Seth D.", 2459, game)
     newPlayer("Bill", 6935, game)
     newPlayer("Jace E.", 7691, game)
+    newPlayer("Jacob", 5362, game)
 }
 
 function sortAll() {
