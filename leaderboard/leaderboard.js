@@ -141,28 +141,24 @@ function leadTetris() {
     newGame('tetris')
     tetris()
     setLeaderboard('tetris', 5)
-    //printGameScores('tetris')
 }
 
 function leadDino() {
     newGame('dino')
     dino()
     setLeaderboard('dino', 5)
-    //printGameScores('dino')
 }
 
 function leadEventDino() {
     newGame('dinoEvent')
     dinoEvent()
     setLeaderboard('dinoEvent', 3)
-    //printGameScores('dinoEvent')
 }
 
 function leadEventTetris() {
     newGame('tetrisEvent')
     tetrisEvent()
     setLeaderboard('tetrisEvent', 3)
-    //printGameScores('tetrisEvent')
 }
 
 function tetris() {
@@ -177,10 +173,12 @@ function tetris() {
     newPlayer("Gabriel", 150781, game)
     newPlayer("Chris", 171646, game)
     newPlayer("Loopysix246", 106949, game)
+    newPlayer("Cameron", 174448, game)
 }
 
 function dino() {
     var game = 'dino'
+    //newPlayer("Gaylord(chaisse benson)", 69696969, game)
     newPlayer("Elyssa", 7667, game)
     newPlayer("Cameron Gauthier", 3806, game)
     newPlayer("Colton Watts", 2938, game)
@@ -191,11 +189,13 @@ function dino() {
     newPlayer("Caleb", 1674, game)
     newPlayer("Remy", 2148, game)
     newPlayer("Seth D.", 2459, game)
-    //newPlayer("Gaylord(chaisse benson)", 69696969, game)
+    newPlayer("Bill", 6935, game)
+    newPlayer("Jace E.", 7691, game)
 }
 
 function tetrisEvent() {
     var game = 'tetrisEvent'
+    newPlayer("Cameron", 174448, game)
     newPlayer("Rowan", 470536, game)
     newPlayer("Remy", 805720, game)
     newPlayer("Chris", 171646, game)
@@ -210,6 +210,8 @@ function dinoEvent() {
     newPlayer("Colton Watts", 2938, game)
     newPlayer("Jayvyn", 4753, game)
     newPlayer("Seth D.", 2459, game)
+    newPlayer("Bill", 6935, game)
+    newPlayer("Jace E.", 7691, game)
 }
 
 function sortAll() {

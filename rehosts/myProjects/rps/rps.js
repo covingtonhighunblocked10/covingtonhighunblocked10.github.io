@@ -62,13 +62,15 @@ function runProgram() {
         game: {
             set: {
                 position: {
-                    x: function (object) {
-                        object.game.position.x += object.game.speed.x;
+                    //set the position in game storage to be updated in the DOM
+                    x: function (object, x) {
+                        object.game.position.x = x;
                     },
-                    y: function (object) {
-                        object.game.position.y += object.game.speed.y;
+                    y: function (object, y) {
+                        object.game.position.y = y;
                     },
                 },
+                //set a velocity 
                 velocity: {
                     x: function (object, speed) {
                         object.game.speed.x = speed;
@@ -102,6 +104,7 @@ function runProgram() {
                     return temp
                 },
                 middle: {
+                    //find the middle x and y, used with circle collisions mainly
                     x: function (object) {
                         return (object.game.position.x + (object.html.width / 2))
                     },
@@ -152,24 +155,30 @@ function runProgram() {
                 height: parseFloat($(".sprite").css('height')),
             },
             data: {
+                //used in update cycles
                 id: ("player" + game.players.names.length),
+                //stores position
                 position: {
                     x: 0,
                     y: 0,
                 },
+                //declaring in advance
                 middle: {
                     x: 0,
                     y: 0,
                 },
+                //declared in advance, used for collisions
                 sides: {
 
                 },
+                //might use this, might not
                 speed: {
                     x: 0,
                     y: 0,
                 },
+                //type of player
+                type: type,
             },
-            type: type,
         };
         appendNew(parent, player.html.content)
         game.players.names.push(player.data.id)
@@ -205,7 +214,8 @@ function runProgram() {
             var player = game.players.all[t]
             var x = getRandom(board.html.width - _.html.get.width(player))
             var y = getRandom(board.html.height - _.html.get.height(player))
-            changePosition(player.html.id, x, y)
+            game.players[player].position.x =
+                changePosition(player.html.id, x, y)
         }
     }
     placeRandom(1000)
