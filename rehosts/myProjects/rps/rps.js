@@ -7,23 +7,16 @@ function runProgram() {
             single: function (object) {
                 object.data = {
                     position: {
-                        x: functions.game.set.position.x(object),
-                        y: functions.game.set.position.y(object),
+                        x: _.html.set.position.x(player),
+                        y: _.html.set.position.y(player),
                     },
                     middle: {
-                        x: functions.game.get.middle.x(object),
-                        y: functions.game.get.middle.y(object),
-                    },
-                    sides: function () {
-                        return (functions.game.get.sides(object))
-                    },
-                    position: {
-                        x: _.html.get.position.x(player),
-                        y: _.html.get.position.y(player),
-                    },
-                    middle: {
-                        x: _.game.get.middle.x(player),
-                        y: _.game.get.middle.y(player),
+                        x: function () {
+                            return (_.game.get.middle.x(player))
+                        },
+                        y: function () {
+                            return (_.game.get.middle.y(player))
+                        },
                     },
                     sides: function () {
                         return (_.game.get.sides(player))
@@ -189,6 +182,7 @@ function runProgram() {
 
     function changePosition(id, x, y) {
         //console.log("moving")
+        //_.html.set.position.x(id)
         $(id).css('left', x)
         $(id).css('top', y)
     }
@@ -214,13 +208,14 @@ function runProgram() {
             changePosition(player.html.id, x, y)
         }
     }
-    placeRandom(100)
+    placeRandom(1000)
 
     function getRandom(max) {
         return (Math.round(Math.random() * max))
     }
-    function checkCollisions (obj1, obj2) {
-        
+
+    function checkCollisions(obj1, obj2) {
+
     }
 
     function wait(milliseconds) {

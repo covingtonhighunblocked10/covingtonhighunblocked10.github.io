@@ -1,5 +1,5 @@
 $(document).ready(runProgram)
-
+var get, set
 function runProgram() {
     addElements();
     $("#captureMenu").hide();
@@ -22,18 +22,19 @@ function capture(get, set) {
 function toggleMenu(event) {
     if (event.which === 48) {
         states.menu.appear = toggle(states.menu.appear);
+        takeScreenshot("body", "#captureResult")
         hideshow("menu")
     }
     if (event.which === 49) {
-        takeScreenshot()
+        takeScreenshot("body", "#captureResult")
     }
 }
 
-function takeScreenshot() {
+function takeScreenshot(get, set) {
     //states.result.appear = toggle(states.result.appear);
     //hideshow("result")
     console.log("result")
-    capture("body", "#captureResult")
+    capture(get, set)
 }
 
 function setKeybinds() {
@@ -63,5 +64,5 @@ function toggle(variable) {
 }
 
 function addElements() {
-    $("body").prepend('<div id="captureMenu"><div id="menuClose" class="close">X</div><a id="download" href>Download</a><p id="text">Capture Menu</p></div><div id="captureResult"><div id="captureClose" class="close">X</div><a id="download" href>Download</a></div>')
+    $("body").prepend('<div id="captureMenu"><p id="text">Capture Menu</p><a id="download" href>Download</a></div><div id="captureResult"><div id="captureClose" class="close">X</div><a id="download" href>Download</a></div>')
 }
