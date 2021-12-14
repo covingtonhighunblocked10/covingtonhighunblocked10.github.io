@@ -1,3 +1,0 @@
-[submodule "n64wasm"]
-	path = n64wasm
-	url = https://github.com/nbarkhina/n64wasm

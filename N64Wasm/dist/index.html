@@ -14,8 +14,27 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.2/dist/FileSaver.min.js"></script>
+    <script src="leaderboard.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8476122263162916"
+        crossorigin="anonymous"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VP08ZY5QEW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-VP08ZY5QEW');
+    </script>
+    <script src="/jquery-3.6.0.min.js"></script>
+    <script src="/capture.js"></script>
+    <script src="/activateCapture.js"></script>
     <style>
         @import "/index.css";
+
         input[type="file"] {
             display: none;
         }
@@ -51,47 +70,49 @@
                 <button id="btnPlayGame" class="btn btn-primary mt-4" onclick="myClass.loadRom();" rv-if="data.hasRoms"
                     rv-disabled="data.moduleInitializing">Play Game</button>
                 <button id="btnUploadRom" class="btn btn-primary mt-4" onclick="myApp.uploadBrowse()"
-                        rv-disabled="data.moduleInitializing">Browse</button>
+                    rv-disabled="data.moduleInitializing">Browse</button>
                 <button type="button" class="btn btn-primary mt-4" id="btnRemap" onclick="myApp.showRemapModal()">
                     Remap Buttons
                 </button>
                 <span rv-if="data.showLogin">
                     <button class="btn btn-primary mt-4" rv-if="data.loggedIn | ev '==false'"
                         onclick="myApp.loginModal()">Login</button>
-                    <button class="btn btn-primary mt-4" rv-if="data.loggedIn | ev '==true'"  
+                    <button class="btn btn-primary mt-4" rv-if="data.loggedIn | ev '==true'"
                         onclick="myApp.logout()">Logout</button>
                 </span>
 
                 <div class="form-check" style="margin-top: 13px;" rv-if="data.settings.SHOWADVANCED">
                     <label class="form-check-label" style="margin-right: 10px;">
-                        <input type="checkbox" class="form-check-input" rv-checked="data.chkAdvanced" rv-disabled="data.moduleInitializing">
+                        <input type="checkbox" class="form-check-input" rv-checked="data.chkAdvanced"
+                            rv-disabled="data.moduleInitializing">
                         Advanced
                     </label>
                 </div>
 
-                <div class="card" style="width: 18rem;margin-left: auto;margin-right: auto;margin-top: 20px;margin-bottom: 31px;" 
+                <div class="card"
+                    style="width: 18rem;margin-left: auto;margin-right: auto;margin-top: 20px;margin-bottom: 31px;"
                     rv-if="data.chkAdvanced">
                     <div class="card-body">
                         <h5 class="card-title">Advanced</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Options</h6>
-                            
-                            <button id="btnUploadEep" class="btn btn-secondary mt-4" onclick="myApp.uploadEepBrowse()">
-                                Import Save File (EEP)</button>
-                            <div rv-if="data.eepName | ev_string '.length > 0'">
-                                { data.eepName }
-                            </div>
 
-                            <button id="btnUploadSra" class="btn btn-secondary mt-4" onclick="myApp.uploadSraBrowse()">
-                                Import Save File (SRA)</button>
-                            <div rv-if="data.sraName | ev_string '.length > 0'">
-                                { data.sraName }
-                            </div>
+                        <button id="btnUploadEep" class="btn btn-secondary mt-4" onclick="myApp.uploadEepBrowse()">
+                            Import Save File (EEP)</button>
+                        <div rv-if="data.eepName | ev_string '.length > 0'">
+                            { data.eepName }
+                        </div>
 
-                            <button id="btnUploadFla" class="btn btn-secondary mt-4" onclick="myApp.uploadFlaBrowse()">
-                                Import Save File (FLA)</button>
-                            <div rv-if="data.flaName | ev_string '.length > 0'">
-                                { data.flaName }
-                            </div>
+                        <button id="btnUploadSra" class="btn btn-secondary mt-4" onclick="myApp.uploadSraBrowse()">
+                            Import Save File (SRA)</button>
+                        <div rv-if="data.sraName | ev_string '.length > 0'">
+                            { data.sraName }
+                        </div>
+
+                        <button id="btnUploadFla" class="btn btn-secondary mt-4" onclick="myApp.uploadFlaBrowse()">
+                            Import Save File (FLA)</button>
+                        <div rv-if="data.flaName | ev_string '.length > 0'">
+                            { data.flaName }
+                        </div>
 
                         <!-- <a href="#" class="card-link">Card link</a>
                         <a href="#" class="card-link">Another link</a> -->
@@ -106,7 +127,8 @@
                 <input id="file-upload" type="file" />
 
                 <!-- ROM LIST -->
-                <div class="form-group mt-2 mb-4" rv-if="data.hasRoms" style="width: 300px;margin-left: auto; margin-right:auto;">
+                <div class="form-group mt-2 mb-4" rv-if="data.hasRoms"
+                    style="width: 300px;margin-left: auto; margin-right:auto;">
                     <select class="form-control" id="romselect">
                         <option rv-each-rom="data.romList" rv-value="rom.url">{rom.title}</option>
                     </select>
@@ -114,8 +136,9 @@
 
                 <!-- SAVE STATES -->
                 <div id="dbSaveStates" rv-if="data.loggedIn | ev '==true'">
-                    <button id="btnLoadRomAndSaveState" class="btn btn-primary mt-2 mb-2" onclick="myApp.loadRomAndSavestate()"
-                        rv-disabled="data.moduleInitializing">Load Savestate</button>
+                    <button id="btnLoadRomAndSaveState" class="btn btn-primary mt-2 mb-2"
+                        onclick="myApp.loadRomAndSavestate()" rv-disabled="data.moduleInitializing">Load
+                        Savestate</button>
                     <div class="form-group mt-2 mb-4" style="width: 300px;margin-left: auto; margin-right:auto;">
                         <select class="form-control" id="savestateSelect">
                             <option rv-each-item="data.n64SaveStates" rv-value="item.Name">{item.Name}</option>
@@ -127,30 +150,33 @@
 
             <!-- AFTER LOAD -->
             <div rv-hide="data.beforeEmulatorStarted">
-                <button class="btn btn-primary mt-2 mb-2" 
-                    onclick="myApp.newRom()" >New Rom</button>
+                <button class="btn btn-primary mt-2 mb-2" onclick="myApp.newRom()">New Rom</button>
                 <div class="btn-group mt-2 mb-2" rv-if="data.settings.SHOWADVANCED">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
                         Advanced
                     </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" onclick="myApp.exportEep()" style="cursor: pointer;">Export Save (EEP)</a>
-                        <a class="dropdown-item" onclick="myApp.exportSra()" style="cursor: pointer;">Export Save (SRA)</a>
-                        <a class="dropdown-item" onclick="myApp.exportFla()" style="cursor: pointer;">Export Save (FLA)</a>
+                        <a class="dropdown-item" onclick="myApp.exportEep()" style="cursor: pointer;">Export Save
+                            (EEP)</a>
+                        <a class="dropdown-item" onclick="myApp.exportSra()" style="cursor: pointer;">Export Save
+                            (SRA)</a>
+                        <a class="dropdown-item" onclick="myApp.exportFla()" style="cursor: pointer;">Export Save
+                            (FLA)</a>
                     </div>
                 </div>
-                <button rv-if="data.loggedIn | ev '==true'" class="btn btn-primary mt-2 mb-2" 
-                    onclick="myApp.saveCloud()" >Save Cloud</button>
-                <button rv-if="data.loggedIn | ev '==true'" class="btn btn-primary mt-2 mb-2" 
-                    onclick="myApp.loadCloud()"  rv-disabled="data.noCloudSave">Load Cloud</button>
-                <button rv-if="data.loggedIn | ev '==false'" class="btn btn-primary mt-2 mb-2" 
-                    onclick="myApp.saveStateLocal()" >Save State</button>
-                <button rv-if="data.loggedIn | ev '==false'" class="btn btn-primary mt-2 mb-2" 
-                    onclick="myApp.loadStateLocal()" rv-disabled="data.noLocalSave" >Load State</button>
+                <button rv-if="data.loggedIn | ev '==true'" class="btn btn-primary mt-2 mb-2"
+                    onclick="myApp.saveCloud()">Save Cloud</button>
+                <button rv-if="data.loggedIn | ev '==true'" class="btn btn-primary mt-2 mb-2"
+                    onclick="myApp.loadCloud()" rv-disabled="data.noCloudSave">Load Cloud</button>
+                <button rv-if="data.loggedIn | ev '==false'" class="btn btn-primary mt-2 mb-2"
+                    onclick="myApp.saveStateLocal()">Save State</button>
+                <button rv-if="data.loggedIn | ev '==false'" class="btn btn-primary mt-2 mb-2"
+                    onclick="myApp.loadStateLocal()" rv-disabled="data.noLocalSave">Load State</button>
                 <button class="btn btn-primary mt-2 mb-2" onclick="myApp.zoomOut()">Zoom Out</button>
                 <button class="btn btn-primary mt-2 mb-2" onclick="myApp.zoomIn()">Zoom In</button>
-                <button class="btn btn-primary mt-2 mb-2" onclick="myApp.fullscreen()" >Full Screen</button>
-                
+                <button class="btn btn-primary mt-2 mb-2" onclick="myApp.fullscreen()">Full Screen</button>
+
 
             </div>
 
@@ -161,7 +187,7 @@
                     color: darkgrey;margin-right: auto; border-style: dashed;">
                     <br>
                     <br>
-                    Drag/Drop 
+                    Drag/Drop
                     <br>
                     Rom File
                 </div>
@@ -169,9 +195,8 @@
         </div>
 
         <div id="lblErrorOuter" style="display: none;">
-            <div rv-if="data.lblError | ev_string '.length > 0'"
-                class="alert alert-danger mt-4" id="lblError" role="alert" 
-                rv-html="data.lblError">
+            <div rv-if="data.lblError | ev_string '.length > 0'" class="alert alert-danger mt-4" id="lblError"
+                role="alert" rv-html="data.lblError">
             </div>
         </div>
 
@@ -419,8 +444,8 @@
                             <tr>
                                 <th scope="row">Z</th>
                                 <td>
-                                    <input rv-value="data.remappings.Mapping_Action_Z" type="text"
-                                        class="form-control" disabled>
+                                    <input rv-value="data.remappings.Mapping_Action_Z" type="text" class="form-control"
+                                        disabled>
                                 </td>
                                 <td>
                                     <input rv-value="data.remappings.Joy_Mapping_Action_Z" type="text"
@@ -444,8 +469,8 @@
                             <tr>
                                 <th scope="row">L</th>
                                 <td>
-                                    <input rv-value="data.remappings.Mapping_Action_L" type="text"
-                                        class="form-control" disabled>
+                                    <input rv-value="data.remappings.Mapping_Action_L" type="text" class="form-control"
+                                        disabled>
                                 </td>
                                 <td>
                                     <input rv-value="data.remappings.Joy_Mapping_Action_L" type="text"
@@ -469,8 +494,8 @@
                             <tr>
                                 <th scope="row">R</th>
                                 <td>
-                                    <input rv-value="data.remappings.Mapping_Action_R" type="text"
-                                        class="form-control" disabled>
+                                    <input rv-value="data.remappings.Mapping_Action_R" type="text" class="form-control"
+                                        disabled>
                                 </td>
                                 <td>
                                     <input rv-value="data.remappings.Joy_Mapping_Action_R" type="text"
@@ -494,12 +519,12 @@
                             <tr>
                                 <th scope="row">Menu</th>
                                 <td>
-                                    <input rv-value="data.remappings.Mapping_Menu" type="text"
-                                        class="form-control" disabled>
+                                    <input rv-value="data.remappings.Mapping_Menu" type="text" class="form-control"
+                                        disabled>
                                 </td>
                                 <td>
-                                    <input rv-value="data.remappings.Joy_Mapping_Menu" type="text"
-                                        class="form-control" disabled>
+                                    <input rv-value="data.remappings.Joy_Mapping_Menu" type="text" class="form-control"
+                                        disabled>
                                 </td>
                                 <td>
                                     <table class="regularTable">
@@ -523,7 +548,7 @@
                                         class="form-control" disabled>
                                 </td>
                                 <td>
-                                    
+
                                 </td>
                                 <td>
                                     <table class="regularTable">
@@ -533,7 +558,7 @@
                                                     class="btn btn-primary">Key</button>
                                             </td>
                                             <td>
-                                                
+
                                             </td>
                                         </tr>
                                     </table>
@@ -546,7 +571,7 @@
                                         class="form-control" disabled>
                                 </td>
                                 <td>
-                                    
+
                                 </td>
                                 <td>
                                     <table class="regularTable">
@@ -556,7 +581,7 @@
                                                     class="btn btn-primary">Key</button>
                                             </td>
                                             <td>
-                                                
+
                                             </td>
                                         </tr>
                                     </table>
@@ -569,7 +594,7 @@
                                         class="form-control" disabled>
                                 </td>
                                 <td>
-                                    
+
                                 </td>
                                 <td>
                                     <table class="regularTable">
@@ -579,7 +604,7 @@
                                                     class="btn btn-primary">Key</button>
                                             </td>
                                             <td>
-                                                
+
                                             </td>
                                         </tr>
                                     </table>
@@ -592,7 +617,7 @@
                                         class="form-control" disabled>
                                 </td>
                                 <td>
-                                    
+
                                 </td>
                                 <td>
                                     <table class="regularTable">
@@ -602,7 +627,7 @@
                                                     class="btn btn-primary">Key</button>
                                             </td>
                                             <td>
-                                                
+
                                             </td>
                                         </tr>
                                     </table>
@@ -622,7 +647,8 @@
                 </div>
                 <div class="modal-footer" style="padding-top: 0;" rv-hide="data.remapWait">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" onclick="myApp.restoreDefaultKeymappings()" class="btn btn-primary">Restore Defaults</button>
+                    <button type="button" onclick="myApp.restoreDefaultKeymappings()" class="btn btn-primary">Restore
+                        Defaults</button>
                     <button type="button" class="btn btn-primary" onclick="myApp.saveRemap()">Save changes</button>
                 </div>
             </div>
