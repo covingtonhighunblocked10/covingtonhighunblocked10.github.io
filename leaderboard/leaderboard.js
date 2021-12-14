@@ -190,7 +190,7 @@ function dino() {
     newPlayer("Caleb", 1674, game)
     newPlayer("Remy", 2148, game)
     newPlayer("Seth D.", 2459, game)
-    newPlayer("Bill", 6935, game)
+    newPlayer("Bill", 10255, game)
     newPlayer("Jace E.", 7691, game)
     newPlayer("Jacob", 5362, game)
     //newPlayer("Gaylord(chaisse benson)", 69696969, game)
@@ -214,7 +214,7 @@ function dinoEvent() {
     newPlayer("Colton Watts", 2938, game)
     newPlayer("Jayvyn", 4753, game)
     newPlayer("Seth D.", 2459, game)
-    newPlayer("Bill", 6935, game)
+    newPlayer("Bill", 10255, game)
     newPlayer("Jace E.", 7691, game)
     newPlayer("Jacob", 5362, game)
 }
