@@ -163,6 +163,7 @@ function leadEventTetris() {
 
 function tetris() {
     var game = 'tetris'
+    newPlayer("Melon Man", 830561, game)
     newPlayer("Jayvyn", 10820, game)
     newPlayer("Jace", 90931, game)
     newPlayer("Benji", 41207, game)
@@ -198,6 +199,7 @@ function dino() {
 
 function tetrisEvent() {
     var game = 'tetrisEvent'
+    newPlayer("Melon Man", 830561, game)
     newPlayer("Cameron", 174448, game)
     newPlayer("Rowan", 470536, game)
     newPlayer("Remy", 805720, game)
