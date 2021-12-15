@@ -6,12 +6,19 @@ const {
     setTimeout
 } = require("timers/promises")
 
-var text = ""
-var preserveText = ""
-var defaultValue = ""
-var preserveBool
-var path = "writeTest.js"
+var text = ''
+var preserveText = ''
+var defaultValue = ''
+var preserveBool;
+var readPath = "readTest.js"
+var writePath = "writeTest.json"
 var finalTimeout = 0
+
+function jsonRead(path) {
+    var data = JSON.stringify(readFile(path))
+    console.log("JSON Read Results: " + data);
+    return data;
+}
 
 function writeFile(path, value) {
     fs.writeFileSync(path, value, function (err) {
@@ -60,13 +67,10 @@ function finalWrite(path, value) {
     if (preserveBool) {
         newText(preserveText);
         console.log(text);
-        var last = findLast(value, "}")
-        text.slice(-1)
         writeFile(path, value);
     } else {
         writeFile(path, value)
     }
-
     console.log('Final Write Complete')
     console.log('Final Contents: ' + x)
     preserveText, text = ""
@@ -114,11 +118,13 @@ function findLast(string, find) {
     var lastIndex = string.lastIndexOf(find)
     return (lastIndex)
 }
+preserveBool = false
+var text = jsonRead(readPath);
+text.replace('"', '')
+finalWrite(writePath, text);
+/*preserveBool = true;
+preserveOld(readPath);
+finalWrite(writePath, text)*/
 
-preserveBool = true;
-preserveOld(path);
-finalWrite(path, text)
-//to be less close to function names
-//just removing extra wait
 //console.log("Start Timeout For " + finalTimeout / 1000 + " Seconds")
 //setTimeout(finalTimeout, finalWrite(path, text))
