@@ -121,6 +121,6 @@ function chance(x) {
 //^^(negative values will speed up the digits a random amount, up to 1000 max still)
 //last value is text to search for, and will stop the function when it is found
 
-monkeyStart(9999999, 0, 0, "text here")
+monkeyStart(9999999, 0, 0, "kek")
 
 //Velkhana
