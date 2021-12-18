@@ -167,7 +167,7 @@ function tetris() {
     newPlayer("Jayvyn", 10820, game)
     newPlayer("Jace", 90931, game)
     newPlayer("Benji", 41207, game)
-    newPlayer("Rowan", 700688, game)
+    newPlayer("Rowan", 1354933, game)
     newPlayer("Jonah", 71337, game)
     newPlayer("Remy", 830805, game)
     newPlayer("Silas", 199722, game)
@@ -201,7 +201,7 @@ function tetrisEvent() {
     var game = 'tetrisEvent'
     newPlayer("Melon Man", 830561, game)
     newPlayer("Cameron", 256986, game)
-    newPlayer("Rowan", 700688, game)
+    newPlayer("Rowan", 1354933, game)
     newPlayer("Remy", 830805, game)
     newPlayer("Chris", 171646, game)
     newPlayer("Loopysix246", 106949, game)
