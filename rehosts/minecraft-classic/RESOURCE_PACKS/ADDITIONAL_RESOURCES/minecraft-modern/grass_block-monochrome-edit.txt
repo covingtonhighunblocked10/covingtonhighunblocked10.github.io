@@ -1,7 +1,0 @@
-Select alpha
-
-Shrink = 14 px
-
-Selection Invert
-
-Color Invert
