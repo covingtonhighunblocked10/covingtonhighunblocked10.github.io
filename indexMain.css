@@ -1,0 +1,55 @@
+/*Index*/
+body {
+    background-color: goldenrod;
+}
+
+#title {
+    margin-left: 0px;
+    margin-right: 0px;
+    width: 300px;
+    height: 300px;
+    position: relative;
+    color: gold;
+    font-size: 50px;
+    margin-top: 20%;
+    flex: 1;
+    transition: .3s;
+}
+
+#title:hover {
+    color: goldenrod;
+    font-size: 25px;
+    padding: 25px;
+    width: 150px;
+    height: 150px;
+    background-color: navy;
+    border-radius: 50%;
+    flex: 1;
+    transition: .3s;
+}
+
+#title p {
+    margin-top: 0px;
+    padding: 0px;
+}
+
+a {
+    text-decoration: none;
+    color: goldenrod;
+}
+
+.glow {
+    -webkit-animation: glow 4s ease-in-out infinite alternate;
+    -moz-animation: glow 4s ease-in-out infinite alternate;
+    animation: glow 4s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes glow {
+    from {
+        text-shadow: 0 0 7px goldenrod
+    }
+
+    to {
+        text-shadow: 0 0 7px navy
+    }
+}

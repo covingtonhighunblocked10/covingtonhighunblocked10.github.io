@@ -1,0 +1,139 @@
+body {
+    background-color: goldenrod;
+    user-select: none;
+}
+
+.text {
+    color: goldenrod;
+}
+
+.outline {
+    outline: black solid 3px;
+}
+
+#mainTitle {
+    font-size: 50px;
+    text-align: center;
+}
+
+.bodyCW {
+    width: 800px;
+    flex: 1;
+    margin-top: 5px;
+    background-color: navy;
+    border-radius: 5px;
+    position: relative;
+}
+
+/*Nav*/
+#topbar {
+    height: 60px;
+    margin-top: 0px;
+    padding-top: 0px;
+    display: inline-block;
+    font-size: 20px;
+}
+
+#topbar ul li {
+    display: inline-block;
+    flex: 1;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+#topbar ul li a:link {
+    color: gold;
+    text-decoration: none;
+}
+
+
+#topbar ul li a:visited {
+    color: gold;
+}
+
+#topbar ul li a:hover {
+    padding: 2px;
+    background-color: blue;
+    transition: .1s;
+    border-radius: 20px;
+}
+
+body {
+    list-style-type: none;
+}
+
+.link {
+    list-style-type: none;
+    text-decoration: none;
+    margin-left: 0px;
+    padding-left: 0px;
+    margin-right: 0px;
+    padding-right: 0px;
+}
+
+.link li a:visited {
+    color: gold;
+}
+
+.link li a:hover {
+    color: gold;
+}
+
+.link li a:link {
+    color: gold;
+}
+
+.center {
+    text-align: center;
+}
+
+.glow {
+    -webkit-animation: glow 4s ease-in-out infinite alternate;
+    -moz-animation: glow 4s ease-in-out infinite alternate;
+    animation: glow 4s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes glow {
+    from {
+        text-shadow: 0 0 7px goldenrod
+    }
+
+    to {
+        text-shadow: 0 0 7px navy
+    }
+}
+
+#captureResult {
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+#captureMenu {
+    left: 5px;
+    position: fixed;
+    z-index: 40;
+    background-color: aquamarine;
+    flex: 1;
+    border-radius: 25%;
+    width: 100px;
+    height: 100px;
+    text-align: center;
+}
+#captureMenu p{
+top: 5px;
+}
+
+.close {
+    background-color: white;
+    text-align: center;
+    color: black;
+    flex: 1;
+    border-radius: 25%;
+    z-index: 11;
+    width: 50px;
+    height: 50px;
+    left: 80%;
+    top: 5%;
+}

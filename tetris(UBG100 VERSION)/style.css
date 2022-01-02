@@ -1,0 +1,35 @@
+* {
+  box-sizing: border-box;
+  -webkit-transition: 0.3s cubic-bezier(0.6, 0, 0.2, 1);
+  transition: 0.3s cubic-bezier(0.6, 0, 0.2, 1);
+}
+body {
+  -webkit-transition: 0s;
+  transition: 0s;
+  background-color: #000a1e;
+}
+.canvas-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  height: 720px;
+  width: 720px;
+}
+#cnv {
+  height: 100%;
+  width: 100%;
+}
+@media screen and (max-height: 800px) {
+  .canvas-container {
+    -webkit-transform: translate(-50%, -50%) scale(0.8);
+            transform: translate(-50%, -50%) scale(0.8);
+  }
+}
+@media screen and (max-width: 900px) {
+  .canvas-container {
+    -webkit-transform: translate(-50%, -50%) scale(0.7);
+            transform: translate(-50%, -50%) scale(0.7);
+  }
+}
