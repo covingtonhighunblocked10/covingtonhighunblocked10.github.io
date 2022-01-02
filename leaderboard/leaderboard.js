@@ -163,18 +163,19 @@ function leadEventTetris() {
 
 function tetris() {
     var game = 'tetris'
-    newPlayer("Big Safety", 103859, game)
+    newPlayer("Melon Man", 830561, game)
     newPlayer("Jayvyn", 10820, game)
     newPlayer("Jace", 90931, game)
     newPlayer("Benji", 41207, game)
-    newPlayer("Rowan", 470536, game)
+    newPlayer("Rowan", 1354933, game)
     newPlayer("Jonah", 71337, game)
-    newPlayer("Remy", 805720, game)
+    newPlayer("Remy", 830805, game)
     newPlayer("Silas", 199722, game)
     newPlayer("Gabriel", 150781, game)
     newPlayer("Chris", 171646, game)
     newPlayer("Loopysix246", 106949, game)
-    newPlayer("Cameron", 174448, game)
+    newPlayer("Cameron", 256986, game)
+    newPlayer("Hayden", 231092, game)
 }
 
 function dino() {
@@ -190,7 +191,7 @@ function dino() {
     newPlayer("Caleb", 1674, game)
     newPlayer("Remy", 2148, game)
     newPlayer("Seth D.", 2459, game)
-    newPlayer("Bill", 6935, game)
+    newPlayer("Bill", 10255, game)
     newPlayer("Jace E.", 7691, game)
     newPlayer("Jacob", 5362, game)
     //newPlayer("Gaylord(chaisse benson)", 69696969, game)
@@ -198,12 +199,13 @@ function dino() {
 
 function tetrisEvent() {
     var game = 'tetrisEvent'
-    newPlayer("Big Safety", 103859, game)
-    newPlayer("Cameron", 174448, game)
-    newPlayer("Rowan", 470536, game)
-    newPlayer("Remy", 805720, game)
+    newPlayer("Melon Man", 830561, game)
+    newPlayer("Cameron", 256986, game)
+    newPlayer("Rowan", 1354933, game)
+    newPlayer("Remy", 830805, game)
     newPlayer("Chris", 171646, game)
     newPlayer("Loopysix246", 106949, game)
+    newPlayer("Hayden", 231092, game)
 }
 
 function dinoEvent() {
@@ -214,10 +216,11 @@ function dinoEvent() {
     newPlayer("Colton Watts", 2938, game)
     newPlayer("Jayvyn", 4753, game)
     newPlayer("Seth D.", 2459, game)
-    newPlayer("Bill", 6935, game)
+    newPlayer("Bill", 10255, game)
     newPlayer("Jace E.", 7691, game)
     newPlayer("Jacob", 5362, game)
 }
+
 
 function sortAll() {
     console.log("start sortAll")

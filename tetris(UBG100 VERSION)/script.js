@@ -78,7 +78,7 @@ var player = {
         }
         return false;
     },
-    draw: function() { 
+    draw: function() {
         drawMatrix(this.matrix, {x: this.pos.x + arena.pos.x, y: this.pos.y + arena.pos.y});
         // Ghost piece
         for(var y = 0; y < 20; y++) {
