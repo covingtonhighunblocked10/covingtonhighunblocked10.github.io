@@ -4,6 +4,7 @@
     "jquery": "^3.6.0",
     "jsdom": "^19.0.0",
     "line-reader": "^0.4.0",
-    "promise": "^8.1.0"
+    "promise": "^8.1.0",
+    "three.js": "^0.77.1"
   }
 }
