@@ -149,6 +149,12 @@ function leadDino() {
     setLeaderboard('dino', 5)
 }
 
+function leadHextris() {
+    newGame('hextris')
+    hextris()
+    setLeaderboard('hextris', 5)
+}
+
 function leadEventDino() {
     newGame('dinoEvent')
     dinoEvent()
@@ -161,8 +167,14 @@ function leadEventTetris() {
     setLeaderboard('tetrisEvent', 3)
 }
 
+function leadEventHextris() {
+    newGame('hextrisEvent')
+    hextrisEvent()
+    setLeaderboard('hextrisEvent', 3)
+}
+
 function tetris() {
-    var game = 'tetris'
+    var game = 'tetris';
     newPlayer("Melon Man", 830561, game)
     newPlayer("Jayvyn", 10820, game)
     newPlayer("Jace", 90931, game)
@@ -174,12 +186,12 @@ function tetris() {
     newPlayer("Gabriel", 150781, game)
     newPlayer("Chris", 171646, game)
     newPlayer("Loopysix246", 106949, game)
-    newPlayer("Cameron", 256986, game)
+    newPlayer("Cameron K.", 914208, game)
     newPlayer("Hayden", 231092, game)
 }
 
 function dino() {
-    var game = 'dino'
+    var game = 'dino';
     //newPlayer("Gaylord(chaisse benson)", 69696969, game)
     newPlayer("Elyssa", 7667, game)
     newPlayer("Cameron Gauthier", 3806, game)
@@ -197,28 +209,32 @@ function dino() {
     //newPlayer("Gaylord(chaisse benson)", 69696969, game)
 }
 
+function hextris() {
+    var game = 'hextris';
+    newPlayer("N/A", 0, game)
+    newPlayer("N/A", 0, game)
+    newPlayer("N/A", 0, game)
+}
+
 function tetrisEvent() {
     var game = 'tetrisEvent'
-    newPlayer("Melon Man", 830561, game)
-    newPlayer("Cameron", 256986, game)
-    newPlayer("Rowan", 1354933, game)
-    newPlayer("Remy", 830805, game)
-    newPlayer("Chris", 171646, game)
-    newPlayer("Loopysix246", 106949, game)
-    newPlayer("Hayden", 231092, game)
+    newPlayer("Cameron K", 914208, game)
+    newPlayer("N/A", 0, game);
+    newPlayer("N/A", 0, game);
 }
 
 function dinoEvent() {
     var game = 'dinoEvent'
-    //newPlayer("Gaylord(chaisse benson)", 69696969, game)
-    newPlayer("Elyssa", 7667, game)
-    newPlayer("Cameron Gauthier", 3806, game)
-    newPlayer("Colton Watts", 2938, game)
-    newPlayer("Jayvyn", 4753, game)
-    newPlayer("Seth D.", 2459, game)
-    newPlayer("Bill", 10255, game)
-    newPlayer("Jace E.", 7691, game)
-    newPlayer("Jacob", 5362, game)
+    newPlayer("N/A", 0, game);
+    newPlayer("N/A", 0, game)
+    newPlayer("N/A", 0, game)
+}
+
+function hextrisEvent() {
+    var game = 'hextrisEvent'
+    newPlayer("N/A", 0, game)
+    newPlayer("N/A", 0, game)
+    newPlayer("N/A", 0, game)
 }
 
 
@@ -226,8 +242,10 @@ function sortAll() {
     console.log("start sortAll")
     leadTetris()
     leadDino()
+    leadHextris()
     leadEventDino()
     leadEventTetris()
+    leadEventHextris()
     console.log("Finish")
 }
 /* leadEventDino()
