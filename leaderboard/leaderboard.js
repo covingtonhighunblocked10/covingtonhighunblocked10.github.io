@@ -175,6 +175,9 @@ function leadEventHextris() {
 
 function tetris() {
     var game = 'tetris';
+    alert("tetris")
+    newPlayer("Reeciepou", 103176, game)
+    newPlayer("Brian B.", 11572, game)
     newPlayer("Melon Man", 830561, game)
     newPlayer("Jayvyn", 10820, game)
     newPlayer("Jace", 90931, game)
@@ -193,6 +196,7 @@ function tetris() {
 function dino() {
     var game = 'dino';
     //newPlayer("Gaylord(chaisse benson)", 69696969, game)
+    alert("dino")
     newPlayer("Reeciepou", 10556, game);
     newPlayer("Elyssa", 7667, game)
     newPlayer("Cameron Gauthier", 3806, game)
@@ -212,16 +216,16 @@ function dino() {
 
 function hextris() {
     var game = 'hextris';
-    newPlayer("N/A", 0, game)
+    newPlayer("Reeciepou", 5134, game)
     newPlayer("N/A", 0, game)
     newPlayer("N/A", 0, game)
 }
 
 function tetrisEvent() {
     var game = 'tetrisEvent'
+    newPlayer("Brian B.", 11572, game);
     newPlayer("Cameron K", 914208, game)
-    newPlayer("N/A", 0, game);
-    newPlayer("N/A", 0, game);
+    newPlayer("Reeciepou", 103176, game);
 }
 
 function dinoEvent() {
@@ -234,7 +238,7 @@ function dinoEvent() {
 function hextrisEvent() {
     var game = 'hextrisEvent'
     newPlayer("Andreas", 3232, game)
-    newPlayer("N/A", 0, game)
+    newPlayer("Reeciepou", 5134, game)
     newPlayer("N/A", 0, game)
 }
 
