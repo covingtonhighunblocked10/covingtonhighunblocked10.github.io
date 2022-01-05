@@ -193,6 +193,7 @@ function tetris() {
 function dino() {
     var game = 'dino';
     //newPlayer("Gaylord(chaisse benson)", 69696969, game)
+    newPlayer("Reece P.", 10556, game);
     newPlayer("Elyssa", 7667, game)
     newPlayer("Cameron Gauthier", 3806, game)
     newPlayer("Colton Watts", 2938, game)
@@ -225,14 +226,14 @@ function tetrisEvent() {
 
 function dinoEvent() {
     var game = 'dinoEvent'
-    newPlayer("N/A", 0, game);
+    newPlayer("Reece P.", 10556, game);
     newPlayer("N/A", 0, game)
     newPlayer("N/A", 0, game)
 }
 
 function hextrisEvent() {
     var game = 'hextrisEvent'
-    newPlayer("N/A", 0, game)
+    newPlayer("Andreas", 3232, game)
     newPlayer("N/A", 0, game)
     newPlayer("N/A", 0, game)
 }
