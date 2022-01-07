@@ -212,12 +212,13 @@ function dino() {
 function hextris() {
     var game = 'hextris';
     newPlayer("Reeciepou", 5134, game)
-    newPlayer("N/A", 0, game)
-    newPlayer("N/A", 0, game)
+    newPlayer("'Chad'", 8461, game)
+    newPlayer("Madi G.", 6205, game)
 }
 
 function tetrisEvent() {
     var game = 'tetrisEvent'
+    newPlayer("Andreas", 3232, game)
     newPlayer("Brian B.", 11572, game);
     newPlayer("Cameron K", 914208, game)
     newPlayer("Reeciepou", 103176, game);
@@ -236,6 +237,7 @@ function hextrisEvent() {
     newPlayer("Andreas", 3232, game)
     newPlayer("Reeciepou", 5134, game)
     newPlayer("Madi G.", 6205, game)
+    newPlayer("'Chad'", 8461, game)
 }
 
 
