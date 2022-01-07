@@ -118,11 +118,8 @@ function setLeaderboard(game, length) {
         newId = "#" + newId + (i + 1)
         console.log(newId)
         let newText = (places[i] + ": " + leaderboard[game].scores[i].score + " (" + leaderboard[game].scores[i].name + ")")
-        //alert(newText)
         console.log(newText)
-        //document.getElementById(newId).innerHTML = newText
         $(newId).text(newText)
-        //console.log(newText)
         //reset newId
         newId = game
     }
@@ -175,7 +172,6 @@ function leadEventHextris() {
 
 function tetris() {
     var game = 'tetris';
-    alert("tetris")
     newPlayer("Reeciepou", 103176, game)
     newPlayer("Brian B.", 11572, game)
     newPlayer("Melon Man", 830561, game)
@@ -196,7 +192,6 @@ function tetris() {
 function dino() {
     var game = 'dino';
     //newPlayer("Gaylord(chaisse benson)", 69696969, game)
-    alert("dino")
     newPlayer("Reeciepou", 10556, game);
     newPlayer("Elyssa", 7667, game)
     newPlayer("Cameron Gauthier", 3806, game)
@@ -253,7 +248,8 @@ function sortAll() {
     leadEventHextris()
     console.log("Finish")
 }
-/* leadEventDino()
+/* 
+leadEventDino()
 leadEventTetris()
 leadTetris()
 leadDino()
