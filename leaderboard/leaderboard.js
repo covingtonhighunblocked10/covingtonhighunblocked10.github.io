@@ -178,7 +178,7 @@ function tetris() {
     newPlayer("Jayvyn", 10820, game)
     newPlayer("Jace", 90931, game)
     newPlayer("Benji", 41207, game)
-    newPlayer("Rowan", 1734776, game)
+    newPlayer("Rowan", 2098958, game)
     newPlayer("Jonah", 71337, game)
     newPlayer("Remy", 830805, game)
     newPlayer("Silas", 199722, game)
@@ -222,7 +222,7 @@ function tetrisEvent() {
     newPlayer("Brian B.", 11572, game);
     newPlayer("Cameron K", 914208, game)
     newPlayer("Reeciepou", 103176, game);
-    newPlayer("Rowan", 1734776, game)
+    newPlayer("Rowan", 2098958, game)
 }
 
 function dinoEvent() {
