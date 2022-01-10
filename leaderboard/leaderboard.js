@@ -213,7 +213,7 @@ function hextris() {
     var game = 'hextris';
     newPlayer("Jace E.", 10013, game)
     newPlayer("Andreas", 3232, game)
-    newPlayer("Reeciepou", 5134, game)
+    newPlayer("Reeciepou", 9850, game)
     newPlayer("'Chad'", 8461, game)
     newPlayer("Madi G.", 6205, game)
 }
@@ -238,7 +238,7 @@ function hextrisEvent() {
     var game = 'hextrisEvent'
     newPlayer("Jace E.", 10013, game)
     newPlayer("Andreas", 3232, game)
-    newPlayer("Reeciepou", 5134, game)
+    newPlayer("Reeciepou", 9850, game)
     newPlayer("Madi G.", 6205, game)
     newPlayer("'Chad'", 8461, game)
 }
