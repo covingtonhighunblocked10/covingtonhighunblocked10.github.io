@@ -1,8 +1,25 @@
 <html>
 <html lang="en-US">
-<head>
 
-<!--
+<head>
+	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8476122263162916"
+		crossorigin="anonymous"></script>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-VP08ZY5QEW"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+
+		function gtag() {
+			dataLayer.push(arguments);
+		}
+		gtag('js', new Date());
+
+		gtag('config', 'G-VP08ZY5QEW');
+	</script>
+	<script src="/jquery-3.6.0.min.js"></script>
+	<script src="/capture.js"></script>
+	<script src="/activateCapture.js"></script>
+	<!--
 
 Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch controls / ie6+ shim from pf
 
@@ -11,7 +28,7 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 	<title>Jump</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<style>
-
+		@import "/index.css";
 		@import url(https://fonts.googleapis.com/css?family=Gloria+Hallelujah);
 
 		div {
@@ -26,7 +43,8 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 
 		body {
 			background-color: goldenrod;
-			margin: 0; padding: 0;
+			margin: 0;
+			padding: 0;
 			font-family: 'Gloria Hallelujah', cursive;
 		}
 
@@ -63,9 +81,12 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 			margin: 0px 0 0 5px;
 		}
 
-		img {display: none}
+		img {
+			display: none
+		}
 
-		#mainMenu, #gameOverMenu {
+		#mainMenu,
+		#gameOverMenu {
 			height: 100%;
 			width: 100%;
 			text-align: center;
@@ -79,7 +100,12 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 			visibility: hidden;
 		}
 
-		h2, h3, h1 {font-weight: normal}
+		h2,
+		h3,
+		h1 {
+			font-weight: normal
+		}
+
 		h1 {
 			font-size: 60px;
 			color: #5a5816;
@@ -87,15 +113,22 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 			margin: 0px;
 		}
 
-		h3 {text-align: right; margin: -10px 20px 0 0; color: #5e96be}
-		h3 a {color: #5a5816}
+		h3 {
+			text-align: right;
+			margin: -10px 20px 0 0;
+			color: #5e96be
+		}
+
+		h3 a {
+			color: #5a5816
+		}
 
 		.button {
 			width: 105px;
 			height: 31px;
 			background: url(sprites.png) 0 0 no-repeat;
 			display: block;
-			color:  #000;
+			color: #000;
 			font-size: 12px;
 			line-height: 31px;
 			text-decoration: none;
@@ -105,7 +138,13 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 			margin-left: -53px;
 		}
 
-		.info {position: absolute; right: 20px; bottom: 00px; margin: 0; color: green}
+		.info {
+			position: absolute;
+			right: 20px;
+			bottom: 00px;
+			margin: 0;
+			color: green
+		}
 
 		.info .key {
 			width: 16px;
@@ -115,14 +154,19 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 			display: inline-block;
 		}
 
-		.info .key.left {background-position: -92px -621px;}
-		.info .key.right {background-position: -92px -641px;}
+		.info .key.left {
+			background-position: -92px -621px;
+		}
 
+		.info .key.right {
+			background-position: -92px -641px;
+		}
 	</style>
 
 	<!--[if IE]><script src="../$/e.js"></script><![endif]-->
 
 </head>
+
 <body>
 	<div class="container">
 		<canvas id="canvas">
@@ -151,56 +195,65 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 
 
 		<!-- Preloading image ;) -->
-		<img id="sprite" src="sprites.png"/>
+		<img id="sprite" src="sprites.png" />
 
 		<div id="scoreBoard">
 			<p id="score">0</p>
 		</div>
 
 	</div>
-	<center><div id="keys"></div></center>
+	<center>
+		<div id="keys"></div>
+	</center>
 
 	<script>
-
 		var ua = navigator.userAgent;
 		var isIE = ua.match("MSIE");
-		var bTouch = (ua.indexOf("(iP")==-1 && ua.indexOf("Android")==-1 && ua.indexOf("BlackBerry")==-1 && ua.indexOf("HTC")==-1 && ua.indexOf("PlayBook")==-1 && ua.indexOf("webOS")==-1 && ua.indexOf("IEMobile")==-1 && ua.indexOf("Silk")==-1)?false:true;
+		var bTouch = (ua.indexOf("(iP") == -1 && ua.indexOf("Android") == -1 && ua.indexOf("BlackBerry") == -1 && ua.indexOf(
+				"HTC") == -1 && ua.indexOf("PlayBook") == -1 && ua.indexOf("webOS") == -1 && ua.indexOf("IEMobile") == -
+			1 && ua.indexOf("Silk") == -1) ? false : true;
 		var bT = 0; // emulate keys pressed
 		var bTlast = 0;
 		var Dir = "left";
 
-		function mobile(id){ // TODO: pass keys as arrays (as could change)
+		function mobile(id) { // TODO: pass keys as arrays (as could change)
 			var o = document.getElementById(id);
-			if(o){
-				if(bTouch){
-					o.innerHTML="<p><div style='border:1px solid red;width:60px;float:left;margin-left:60px;font-size:xx-large;-webkit-user-select:none;' ontouchend='Dir = \"left\";player.isMovingLeft = false;' ontouchstart='Dir = \"left\";player.isMovingLeft = true;' >&larr;</div> <div style='border:1px solid red;width:60px;float:right;margin-right:60px;font-size:xx-large;-webkit-user-select:none;' ontouchend='Dir = \"right\";player.isMovingRight = false;' ontouchstart='Dir = \"right\";player.isMovingRight = true;' >&rarr;</div></p>";
+			if (o) {
+				if (bTouch) {
+					o.innerHTML =
+						"<p><div style='border:1px solid red;width:60px;float:left;margin-left:60px;font-size:xx-large;-webkit-user-select:none;' ontouchend='Dir = \"left\";player.isMovingLeft = false;' ontouchstart='Dir = \"left\";player.isMovingLeft = true;' >&larr;</div> <div style='border:1px solid red;width:60px;float:right;margin-right:60px;font-size:xx-large;-webkit-user-select:none;' ontouchend='Dir = \"right\";player.isMovingRight = false;' ontouchstart='Dir = \"right\";player.isMovingRight = true;' >&rarr;</div></p>";
 
-					document.body.addEventListener('touchmove',function(event){event.preventDefault();});
-					setTimeout(function(){window.scrollTo(0, 1);}, 1);
+					document.body.addEventListener('touchmove', function (event) {
+						event.preventDefault();
+					});
+					setTimeout(function () {
+						window.scrollTo(0, 1);
+					}, 1);
 				}
 			}
 		}
 
 
-		if ( !Array.prototype.forEach ) {
-		  Array.prototype.forEach = function(fn, scope) {
-		    for(var i = 0, len = this.length; i < len; ++i) {
-		      fn.call(scope, this[i], i, this);
-		    }
-		  }
+		if (!Array.prototype.forEach) {
+			Array.prototype.forEach = function (fn, scope) {
+				for (var i = 0, len = this.length; i < len; ++i) {
+					fn.call(scope, this[i], i, this);
+				}
+			}
 		}
 
 		// RequestAnimFrame: a browser API for getting smooth animations
-		window.requestAnimFrame = (function() {
-			return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
-			function(callback) {
-				window.setTimeout(callback, 1000 / 60);
-			};
+		window.requestAnimFrame = (function () {
+			return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window
+				.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+				function (callback) {
+					window.setTimeout(callback, 1000 / 60);
+				};
 		})();
 
 		var canvas = document.getElementById('canvas');
-		if(navigator.userAgent.match("MSIE"))G_vmlCanvasManager.initElement(canvas);
-			ctx = canvas.getContext('2d');
+		if (navigator.userAgent.match("MSIE")) G_vmlCanvasManager.initElement(canvas);
+		ctx = canvas.getContext('2d');
 
 		var width = 422,
 			height = 552;
@@ -217,10 +270,11 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 			animloop,
 			flag = 0,
 			menuloop, broken = 0,
-			dir, score = 0, firstRun = true;
+			dir, score = 0,
+			firstRun = true;
 
 		//Base object
-		var Base = function() {
+		var Base = function () {
 			this.height = 5;
 			this.width = width;
 
@@ -235,9 +289,10 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 			this.x = 0;
 			this.y = height - this.height;
 
-			this.draw = function() {
+			this.draw = function () {
 				try {
-					ctx.drawImage(image, this.cx, this.cy, this.cwidth, this.cheight, this.x, this.y, this.width, this.height);
+					ctx.drawImage(image, this.cx, this.cy, this.cwidth, this.cheight, this.x, this.y, this.width, this
+						.height);
 				} catch (e) {}
 			};
 		};
@@ -245,7 +300,7 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 		var base = new Base();
 
 		//Player object
-		var Player = function() {
+		var Player = function () {
 			this.vy = 11;
 			this.vx = 0;
 
@@ -268,22 +323,23 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 			this.y = height;
 
 			//Function to draw it
-			this.draw = function() {
+			this.draw = function () {
 				try {
 					if (this.dir == "right") this.cy = 121;
 					else if (this.dir == "left") this.cy = 201;
 					else if (this.dir == "right_land") this.cy = 289;
 					else if (this.dir == "left_land") this.cy = 371;
 
-					ctx.drawImage(image, this.cx, this.cy, this.cwidth, this.cheight, this.x, this.y, this.width, this.height);
+					ctx.drawImage(image, this.cx, this.cy, this.cwidth, this.cheight, this.x, this.y, this.width, this
+						.height);
 				} catch (e) {}
 			};
 
-			this.jump = function() {
+			this.jump = function () {
 				this.vy = -8;
 			};
 
-			this.jumpHigh = function() {
+			this.jumpHigh = function () {
 				this.vy = -16;
 			};
 
@@ -312,7 +368,7 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 			this.cheight = 31;
 
 			//Function to draw it
-			this.draw = function() {
+			this.draw = function () {
 				try {
 
 					if (this.type == 1) this.cy = 0;
@@ -322,7 +378,8 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 					else if (this.type == 4 && this.state === 0) this.cy = 90;
 					else if (this.type == 4 && this.state == 1) this.cy = 1000;
 
-					ctx.drawImage(image, this.cx, this.cy, this.cwidth, this.cheight, this.x, this.y, this.width, this.height);
+					ctx.drawImage(image, this.cx, this.cy, this.cwidth, this.cheight, this.x, this.y, this.width, this
+						.height);
 				} catch (e) {}
 			};
 
@@ -358,7 +415,7 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 		}
 
 		//Broken platform object
-		var Platform_broken_substitute = function() {
+		var Platform_broken_substitute = function () {
 			this.height = 30;
 			this.width = 70;
 
@@ -373,9 +430,10 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 
 			this.appearance = false;
 
-			this.draw = function() {
+			this.draw = function () {
 				try {
-					if (this.appearance === true) ctx.drawImage(image, this.cx, this.cy, this.cwidth, this.cheight, this.x, this.y, this.width, this.height);
+					if (this.appearance === true) ctx.drawImage(image, this.cx, this.cy, this.cwidth, this.cheight,
+						this.x, this.y, this.width, this.height);
 					else return;
 				} catch (e) {}
 			};
@@ -384,7 +442,7 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 		var platform_broken_substitute = new Platform_broken_substitute();
 
 		//Spring Class
-		var spring = function() {
+		var spring = function () {
 			this.x = 0;
 			this.y = 0;
 
@@ -399,12 +457,13 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 
 			this.state = 0;
 
-			this.draw = function() {
+			this.draw = function () {
 				try {
 					if (this.state === 0) this.cy = 445;
 					else if (this.state == 1) this.cy = 501;
 
-					ctx.drawImage(image, this.cx, this.cy, this.cwidth, this.cheight, this.x, this.y, this.width, this.height);
+					ctx.drawImage(image, this.cx, this.cy, this.cwidth, this.cheight, this.x, this.y, this.width, this
+						.height);
 				} catch (e) {}
 			};
 		};
@@ -413,7 +472,7 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 
 		function init() {
 			//Variables for the game
-			var	dir = "left",
+			var dir = "left",
 				jumpCount = 0;
 
 			firstRun = false;
@@ -428,7 +487,7 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 
 			function playerCalc() {
 
-				if(bTouch)dir = Dir;
+				if (bTouch) dir = Dir;
 
 				if (dir == "left") {
 					player.dir = "left";
@@ -439,8 +498,8 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 				}
 
 				//Adding keyboard controls
-				document.onkeydown = function(e) {
-					var key = (isIE)?event.keyCode:e.keyCode;
+				document.onkeydown = function (e) {
+					var key = (isIE) ? event.keyCode : e.keyCode;
 
 					if (key == 37) {
 						dir = "left";
@@ -450,16 +509,16 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 						player.isMovingRight = true;
 					}
 
-					if(key == 32) {
-						if(firstRun === true)
+					if (key == 32) {
+						if (firstRun === true)
 							init();
 						else
 							reset();
 					}
 				};
 
-				document.onkeyup = function(e) {
-					var key = (isIE)?event.keyCode:e.keyCode;
+				document.onkeyup = function (e) {
+					var key = (isIE) ? event.keyCode : e.keyCode;
 
 					if (key == 37) {
 						dir = "left";
@@ -488,9 +547,9 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 				}
 
 				// Speed limits!
-				if(player.vx > 8)
+				if (player.vx > 8)
 					player.vx = 8;
-				else if(player.vx < -8)
+				else if (player.vx < -8)
 					player.vx = -8;
 
 				//console.log(player.vx);
@@ -513,7 +572,7 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 
 				//When the player reaches half height, move the platforms to create the illusion of scrolling and recreate the platforms that are out of viewport...
 				else {
-					platforms.forEach(function(p, i) {
+					platforms.forEach(function (p, i) {
 
 						if (player.vy < 0) {
 							p.y -= player.vy;
@@ -567,7 +626,7 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 			function platformCalc() {
 				var subs = platform_broken_substitute;
 
-				platforms.forEach(function(p, i) {
+				platforms.forEach(function (p, i) {
 					if (p.type == 2) {
 						if (p.x < 0 || p.x + p.width > width) p.vx *= -1;
 
@@ -595,8 +654,10 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 
 			function collides() {
 				//Platforms
-				platforms.forEach(function(p, i) {
-					if (player.vy > 0 && p.state === 0 && (player.x + 15 < p.x + p.width) && (player.x + player.width - 15 > p.x) && (player.y + player.height > p.y) && (player.y + player.height < p.y + p.height)) {
+				platforms.forEach(function (p, i) {
+					if (player.vy > 0 && p.state === 0 && (player.x + 15 < p.x + p.width) && (player.x + player
+							.width - 15 > p.x) && (player.y + player.height > p.y) && (player.y + player.height < p
+							.y + p.height)) {
 
 						if (p.type == 3 && p.flag === 0) {
 							p.flag = 1;
@@ -614,7 +675,8 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 
 				//Springs
 				var s = Spring;
-				if (player.vy > 0 && (s.state === 0) && (player.x + 15 < s.x + s.width) && (player.x + player.width - 15 > s.x) && (player.y + player.height > s.y) && (player.y + player.height < s.y + s.height)) {
+				if (player.vy > 0 && (s.state === 0) && (player.x + 15 < s.x + s.width) && (player.x + player.width - 15 > s
+						.x) && (player.y + player.height > s.y) && (player.y + player.height < s.y + s.height)) {
 					s.state = 1;
 					player.jumpHigh();
 				}
@@ -627,16 +689,15 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 			}
 
 			function gameOver() {
-				platforms.forEach(function(p, i) {
+				platforms.forEach(function (p, i) {
 					p.y -= 12;
 				});
 
-				if(player.y > height/2 && flag === 0) {
+				if (player.y > height / 2 && flag === 0) {
 					player.y -= 8;
 					player.vy = 0;
-				}
-				else if(player.y < height / 2) flag = 1;
-				else if(player.y + player.height > height) {
+				} else if (player.y < height / 2) flag = 1;
+				else if (player.y + player.height > height) {
 					showGoMenu();
 					hideScore();
 					player.isDead = "lol";
@@ -662,8 +723,10 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 				updateScore();
 			}
 
-			menuLoop = function(){return;};
-			animloop = function() {
+			menuLoop = function () {
+				return;
+			};
+			animloop = function () {
 				update();
 				requestAnimFrame(animloop);
 			};
@@ -698,7 +761,8 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 		function hideMenu() {
 			var menu = document.getElementById("mainMenu");
 			menu.style.zIndex = -1;
-			if(navigator.userAgent.toLowerCase().indexOf("firefox") != -1 && navigator.userAgent.toLowerCase().indexOf("android") != -1)menu.style.display="none";// *ff
+			if (navigator.userAgent.toLowerCase().indexOf("firefox") != -1 && navigator.userAgent.toLowerCase().indexOf(
+					"android") != -1) menu.style.display = "none"; // *ff
 		}
 
 		//Shows the game over menu
@@ -706,7 +770,8 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 			var menu = document.getElementById("gameOverMenu");
 			menu.style.zIndex = 1;
 			menu.style.visibility = "visible";
-			if(navigator.userAgent.toLowerCase().indexOf("firefox") != -1 && navigator.userAgent.toLowerCase().indexOf("android") != -1)menu.style.display="block";// *ff
+			if (navigator.userAgent.toLowerCase().indexOf("firefox") != -1 && navigator.userAgent.toLowerCase().indexOf(
+					"android") != -1) menu.style.display = "block"; // *ff
 			var scoreText = document.getElementById("go_score");
 			scoreText.innerHTML = "You scored " + score + " points!";
 		}
@@ -716,26 +781,29 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 			var menu = document.getElementById("gameOverMenu");
 			menu.style.zIndex = -1;
 			menu.style.visibility = "hidden";
-			if(navigator.userAgent.toLowerCase().indexOf("firefox") != -1 && navigator.userAgent.toLowerCase().indexOf("android") != -1)menu.style.display="none";// *ff
+			if (navigator.userAgent.toLowerCase().indexOf("firefox") != -1 && navigator.userAgent.toLowerCase().indexOf(
+					"android") != -1) menu.style.display = "none"; // *ff
 		}
 
 		//Show ScoreBoard
 		function showScore() {
 			var menu = document.getElementById("scoreBoard");
 			menu.style.zIndex = 1;
-			if(navigator.userAgent.toLowerCase().indexOf("firefox") != -1 && navigator.userAgent.toLowerCase().indexOf("android") != -1)menu.style.display="block";// *ff
+			if (navigator.userAgent.toLowerCase().indexOf("firefox") != -1 && navigator.userAgent.toLowerCase().indexOf(
+					"android") != -1) menu.style.display = "block"; // *ff
 		}
 
 		//Hide ScoreBoard
 		function hideScore() {
 			var menu = document.getElementById("scoreBoard");
 			menu.style.zIndex = -1;
-			if(navigator.userAgent.toLowerCase().indexOf("firefox") != -1 && navigator.userAgent.toLowerCase().indexOf("android") != -1)menu.style.display="none";// *ff
+			if (navigator.userAgent.toLowerCase().indexOf("firefox") != -1 && navigator.userAgent.toLowerCase().indexOf(
+					"android") != -1) menu.style.display = "none"; // *ff
 		}
 
 		function playerJump() {
 
-			if(bTouch)dir = Dir;
+			if (bTouch) dir = Dir;
 
 			player.y += player.vy;
 			player.vy += gravity;
@@ -756,8 +824,8 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 			}
 
 			//Adding keyboard controls
-			document.onkeydown = function(e) {
-				var key = (isIE)?event.keyCode:e.keyCode;
+			document.onkeydown = function (e) {
+				var key = (isIE) ? event.keyCode : e.keyCode;
 
 				if (key == 37) {
 					dir = "left";
@@ -767,18 +835,17 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 					player.isMovingRight = true;
 				}
 
-				if(key == 32) {
-					if(firstRun === true) {
+				if (key == 32) {
+					if (firstRun === true) {
 						init();
 						firstRun = false;
-					}
-					else
+					} else
 						reset();
 				}
 			};
 
-			document.onkeyup = function(e) {
-				var key = (isIE)?event.keyCode:e.keyCode;
+			document.onkeyup = function (e) {
+				var key = (isIE) ? event.keyCode : e.keyCode;
 
 				if (key == 37) {
 					dir = "left";
@@ -821,15 +888,15 @@ Orginal code / game based on Authors: Kushagra Agarwal and Lima Sky with touch c
 			playerJump();
 		}
 
-		menuLoop = function() {
+		menuLoop = function () {
 			update();
 			requestAnimFrame(menuLoop);
 		};
 
 		mobile('keys');
 		menuLoop();
-
 	</script>
 
 </body>
+
 </html>
