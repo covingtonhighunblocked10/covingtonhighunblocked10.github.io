@@ -16,6 +16,7 @@
  *
  */
 var games = {
+    "gbatris": "gbatris",
     "hotwheelsadvance": "hotwheelsadvance",
     "TCRSRogueSpear": "RS Rogue Spear",
     "dukenukem": "Duke Nukem",
