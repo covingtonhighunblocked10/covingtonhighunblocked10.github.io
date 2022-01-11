@@ -134,6 +134,12 @@ function newGame(title) {
     }
 }
 
+function leadJump() {
+    newGame('jump')
+    jump();
+    setLeaderboard('jump', 5)
+}
+
 function leadTetris() {
     newGame('tetris')
     tetris()
@@ -152,6 +158,12 @@ function leadHextris() {
     setLeaderboard('hextris', 5)
 }
 
+function leadEventJump() {
+    newGame('jumpEvent')
+    jumpEvent();
+    setLeaderboard('jumpEvent', 3)
+}
+
 function leadEventDino() {
     newGame('dinoEvent')
     dinoEvent()
@@ -168,6 +180,15 @@ function leadEventHextris() {
     newGame('hextrisEvent')
     hextrisEvent()
     setLeaderboard('hextrisEvent', 3)
+}
+
+function jump() {
+    var game = 'jump'
+    newPlayer("N/A", 0, game)
+    newPlayer("N/A", 0, game)
+    newPlayer("N/A", 0, game)
+    newPlayer("N/A", 0, game)
+    newPlayer("N/A", 0, game)
 }
 
 function tetris() {
@@ -218,6 +239,13 @@ function hextris() {
     newPlayer("Madi G.", 6205, game)
 }
 
+function jumpEvent() {
+    var game = 'jumpEvent'
+    newPlayer("N/A", 0, game)
+    newPlayer("N/A", 0, game)
+    newPlayer("N/A", 0, game)
+}
+
 function tetrisEvent() {
     var game = 'tetrisEvent'
     newPlayer("Andreas", 3232, game)
@@ -246,9 +274,11 @@ function hextrisEvent() {
 
 function sortAll() {
     console.log("start sortAll")
+    leadJump()
     leadTetris()
     leadDino()
     leadHextris()
+    leadEventJump()
     leadEventDino()
     leadEventTetris()
     leadEventHextris()
