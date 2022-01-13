@@ -121,8 +121,9 @@ body {
     height: 100px;
     text-align: center;
 }
-#captureMenu p{
-top: 5px;
+
+#captureMenu p {
+    top: 5px;
 }
 
 .close {

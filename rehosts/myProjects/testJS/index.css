@@ -1,0 +1,50 @@
+body {
+    background-color: blue;
+}
+
+#bigMan {
+    width: 75px;
+    height: 75px;
+    position: absolute;
+}
+
+#board {
+    width: 500px;
+    height: 500px;
+    background-color: white
+}
+
+.boundingBox {
+    position: relative;
+    background-color: grey;
+    outline-color: black;
+    outline-width: 2px;
+    outline-style: solid;
+}
+
+#floor {
+    z-index: 2;
+    margin-top: 98%;
+    width: 500px;
+    height: 10px;
+}
+
+#roof {
+    z-index: 2;
+    width: 500px;
+    height: 10px;
+}
+
+#left-wall {
+    z-index: 1;
+    float: left;
+    height: 490px;
+    width: 10px;
+}
+
+#right-wall {
+    z-index: 1;
+    float: right;
+    height: 490px;
+    width: 10px;
+}
