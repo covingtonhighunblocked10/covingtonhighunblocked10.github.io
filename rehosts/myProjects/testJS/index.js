@@ -80,8 +80,8 @@ function startBigMan() {
         width: parseFloat($("#bigMan").css('width')),
     };
     console.log(bigMan)
-    bigMan.position.x = (board.position.x + board.width / 2) + getRandom(-70, 70)
-    bigMan.position.y = (board.position.y + board.height / 2) + getRandom(-70, 70)
+    bigMan.position.x = (board.position.x + board.width / 2) + getRandom(-30, 30)
+    bigMan.position.y = (board.position.y + board.height / 2) + getRandom(-30, 30)
     randomAngle()
 
     updateHTML()
@@ -121,10 +121,8 @@ function startBigMan() {
     }
 
     function randomAngle() {
-        $("#randomAngle").text("true")
-        bigMan.speed.x = getRandom(-2, 2)
-        bigMan.speed.y = getRandom(-2, 2)
-        $("#randomAngle").text("false")
+        bigMan.speed.x = getRandom(-7, 7)
+        bigMan.speed.y = getRandom(-7, 7)
     }
 
     function updateSpeed() {
@@ -162,16 +160,16 @@ function startBigMan() {
         if (handleCollisionObjects(roof, bigMan) || handleCollisionObjects(floor, bigMan)) {
             console.log("collide roof/floor")
             bigMan.speed.y *= -1
-            $("#board").css("background-color", "red");
-        } else {
             $("#board").css("background-color", "white");
+        } else {
+            $("#board").css("background-color", "black");
         }
         if (handleCollisionObjects(leftWall, bigMan) || handleCollisionObjects(rightWall, bigMan)) {
             console.log("collide wall")
             bigMan.speed.x *= -1
-            $("body").css("background-color", "red");
+            $("body").css("background-color", "white");
         } else {
-            $("body").css("background-color", "blue");
+            $("body").css("background-color", "black");
         }
 
     }
@@ -234,8 +232,6 @@ function startBigMan() {
 
 
     function updateHTML() {
-        i++
-        $("#status").text(i)
         $("#bigMan").css('left', bigMan.position.x + "px")
         $("#bigMan").css('top', bigMan.position.y + "px")
         $("#x").text(parseFloat($("#bigMan").css('left')))
