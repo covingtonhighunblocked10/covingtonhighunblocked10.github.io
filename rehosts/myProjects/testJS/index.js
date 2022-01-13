@@ -6,19 +6,19 @@ function startBigMan() {
     var fps = 60
     var interval = 1000 / fps
     setInterval(update, interval)
+    //setInterval(randomAngle, 3000)
 
     //use to test
-    setInterval(randomAngle, 1000)
-    var i = 0;
     class Board {
         constructor(name) {
             var id = "#" + name
+            var pos = $(id).offset()
             return {
                 name: name,
                 id: id,
                 position: {
-                    x: parseFloat($(id).css('left')),
-                    y: parseFloat($(id).css('top')),
+                    x: parseFloat(pos.left), //$("$"),
+                    y: parseFloat(pos.top),
                 },
                 middle: {
                     x: 0,
@@ -30,8 +30,8 @@ function startBigMan() {
                     top: 0,
                     bottom: 0,
                 },
-                height: parseFloat($(id).css('height')),
-                width: parseFloat($(id).css('width')),
+                height: parseFloat($("#" + name).css('height')),
+                width: parseFloat($("#" + name).css('width')),
             }
         }
     };
@@ -42,18 +42,23 @@ function startBigMan() {
     var leftWall = new Board("left-wall")
     var rightWall = new Board("right-wall")
     var floor = new Board("floor")
+    findSides(board)
+    findSides(roof)
+    findSides(leftWall)
+    findSides(rightWall)
+    findSides(floor)
 
-    /* console.log(board)
+    console.log(board)
     console.log(floor)
     console.log(roof)
     console.log(leftWall)
-    console.log(rightWall) */
+    console.log(rightWall)
 
-    var bigMan = {
+    var bigMan
+    bigMan = {
         name: "bigMan",
         id: "#bigMan",
         position: {
-            //set spawn positioning here or below
             x: 0,
             y: 0,
         },
@@ -71,11 +76,15 @@ function startBigMan() {
             x: 0,
             y: 0,
         },
-        height: parseFloat($(id).css('height')),
-        width: parseFloat($(id).css('width')),
+        height: parseFloat($("#bigMan").css('height')),
+        width: parseFloat($("#bigMan").css('width')),
     };
-    bigMan.position.x = board.position.x + board.width / 2
-    bigMan.position.y = board.position.y + board.height / 2
+    console.log(bigMan)
+    bigMan.position.x = (board.position.x + board.width / 2) + getRandom(-70, 70)
+    bigMan.position.y = (board.position.y + board.height / 2) + getRandom(-70, 70)
+    randomAngle()
+
+    updateHTML()
 
     function wait(milliseconds) {
         const date = Date.now();
@@ -86,12 +95,11 @@ function startBigMan() {
     }
 
     function update() {
-        //collisions()
-        i++
-        $("#status").text(i)
+        collisions()
         updateSpeed()
         updateHTML()
     }
+    //randomAngle()
 
     function limitSpeed() {
         if (Math.abs(bigMan.speed.x) + Math.abs(bigMan.speed.y) < 15) {
@@ -113,32 +121,76 @@ function startBigMan() {
     }
 
     function randomAngle() {
-        //alert("Random Angle")
-        bigMan.speed.x = getRandom(-10, 10)
-        bigMan.speed.y = getRandom(-10, 10)
+        $("#randomAngle").text("true")
+        bigMan.speed.x = getRandom(-2, 2)
+        bigMan.speed.y = getRandom(-2, 2)
+        $("#randomAngle").text("false")
     }
 
     function updateSpeed() {
         bigMan.position.x += bigMan.speed.x
         bigMan.position.y += bigMan.speed.y
+        if (!bigMan.position.x) {
+            bigMan.position.x = parseFloat($("#bigMan").css('left'))
+        }
+        if (!bigMan.position.y) {
+            bigMan.position.y = parseFloat($("#bigMan").css('top'))
+        }
+        if (!handleCollisionObjects(board, bigMan)) {
+            bigMan.position.x = (board.position.x + board.width / 2) + getRandom(-70, 70)
+            bigMan.position.y = (board.position.y + board.height / 2) + getRandom(-70, 70)
+            updateHTML()
+        }
+        /* if (bigMan.speed.x === NaN) {
+            bigMan.speed.x = 0;
+        }
+        if (!bigMan.speed.y === NaN) {
+            bigMan.speed.y = 0;
+        } */
     }
 
     function getRandom(min, max) {
-        return (Math.round(Math.random() * (max - min) + min));
+        var random = Math.round(Math.random() * (max - min) + min)
+        if (random) {
+            return (random);
+        } else {
+            return (getRandom(min, max))
+        }
     }
 
     function collisions() {
-        if (handleCollision(roof, bigMan) || handleCollision(floor, bigMan)) {
-            alert("collide roof/floor")
+        if (handleCollisionObjects(roof, bigMan) || handleCollisionObjects(floor, bigMan)) {
+            console.log("collide roof/floor")
             bigMan.speed.y *= -1
+            $("#board").css("background-color", "red");
+        } else {
+            $("#board").css("background-color", "white");
         }
-        if (handleCollision(leftWall, bigMan) || handleCollision(rightWall, bigMan)) {
-            alert("collide wall")
+        if (handleCollisionObjects(leftWall, bigMan) || handleCollisionObjects(rightWall, bigMan)) {
+            console.log("collide wall")
             bigMan.speed.x *= -1
+            $("body").css("background-color", "red");
+        } else {
+            $("body").css("background-color", "blue");
         }
+
     }
 
     function handleCollisionObjects(obj1, obj2) {
+        findSides(obj1);
+        findSides(obj2);
+        //if colliding with player
+
+        if (obj1.sides.left <= obj2.sides.right &&
+            obj1.sides.right >= obj2.sides.left &&
+            obj1.sides.top <= obj2.sides.bottom &&
+            obj1.sides.bottom >= obj2.sides.top) {
+            // collision detected!
+            return true;
+        }
+    };
+
+    /* function handleCollisionObjects(obj1, obj2) {
         if (obj1.position.x < obj2.position.x + obj2.width &&
             obj1.position.x + obj1.width > obj2.position.x &&
             obj1.position.y < obj2.position.y + obj2.height &&
@@ -158,7 +210,7 @@ function startBigMan() {
             // return true if collision detected
             return true;
         }
-    }
+    } */
 
     function findSides(object) {
         //find the sides of any given object by using its width, height, x, and y
@@ -182,11 +234,12 @@ function startBigMan() {
 
 
     function updateHTML() {
-        $("#bigMan").css('left', bigMan.position.x * -1)
-        $("#bigMan").css('top', bigMan.position.y * -1)
-
-        $("#x").text(bigMan.position.x)
-        $("#y").text(bigMan.position.y)
+        i++
+        $("#status").text(i)
+        $("#bigMan").css('left', bigMan.position.x + "px")
+        $("#bigMan").css('top', bigMan.position.y + "px")
+        $("#x").text(parseFloat($("#bigMan").css('left')))
+        $("#y").text(parseFloat($("#bigMan").css('top')))
         $("#speedX").text(bigMan.speed.x)
         $("#speedY").text(bigMan.speed.y)
     }
