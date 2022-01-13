@@ -1,6 +1,13 @@
 $(document).ready(startBigMan)
 
 function startBigMan() {
+    $(document).on('keydown', keydown)
+
+    function keydown(key) {
+        if (key.which === 13) {
+            pullSpeedInput()
+        }
+    }
 
     //setup intervals
     var fps = 60
@@ -135,8 +142,9 @@ function startBigMan() {
             bigMan.position.y = parseFloat($("#bigMan").css('top'))
         }
         if (!handleCollisionObjects(board, bigMan)) {
-            bigMan.position.x = (board.position.x + board.width / 2) + getRandom(-70, 70)
-            bigMan.position.y = (board.position.y + board.height / 2) + getRandom(-70, 70)
+            bigMan.position.x = (board.position.x + board.width / 2) + getRandom(-20, 20)
+            bigMan.position.y = (board.position.y + board.height / 2) + getRandom(-20, 20)
+            randomAngle()
             updateHTML()
         }
         /* if (bigMan.speed.x === NaN) {
@@ -160,18 +168,31 @@ function startBigMan() {
         if (handleCollisionObjects(roof, bigMan) || handleCollisionObjects(floor, bigMan)) {
             console.log("collide roof/floor")
             bigMan.speed.y *= -1
-            $("#board").css("background-color", "white");
+            //$("#bg").css("visibility", "visible");
         } else {
-            $("#board").css("background-color", "black");
+            $("#bg").css("visibility", "hidden");
         }
         if (handleCollisionObjects(leftWall, bigMan) || handleCollisionObjects(rightWall, bigMan)) {
             console.log("collide wall")
             bigMan.speed.x *= -1
-            $("body").css("background-color", "white");
+            //$("#bg").css("visibility", "visible");
         } else {
-            $("body").css("background-color", "black");
+            $("#bg").css("visibility", "hidden");
         }
 
+    }
+
+    function pullSpeedInput() {
+        var x = $("#xSpeed").val() ? $("#xSpeed").val() : bigMan.speed.x;
+        var y = $("#ySpeed").val() ? $("#ySpeed").val() : bigMan.speed.y;
+        if (x) {
+            bigMan.speed.x = parseFloat(x)
+            $("#xSpeed").val("")
+        }
+        if (y) {
+            bigMan.speed.y = parseFloat(y)
+            $("#ySpeed").val("")
+        }
     }
 
     function handleCollisionObjects(obj1, obj2) {
@@ -234,9 +255,10 @@ function startBigMan() {
     function updateHTML() {
         $("#bigMan").css('left', bigMan.position.x + "px")
         $("#bigMan").css('top', bigMan.position.y + "px")
-        $("#x").text(parseFloat($("#bigMan").css('left')))
-        $("#y").text(parseFloat($("#bigMan").css('top')))
+        $("#x").text(parseFloat(bigMan.position.x))
+        $("#y").text(parseFloat(bigMan.position.y))
         $("#speedX").text(bigMan.speed.x)
         $("#speedY").text(bigMan.speed.y)
+        $("#abSpeed").text(Math.abs(bigMan.speed.x) + Math.abs(bigMan.speed.y))
     }
 }
