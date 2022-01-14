@@ -1,0 +1,21 @@
+<html>
+
+<head>
+    <script src="crafty.js"></script>
+    <script src="craftyTEST.js"></script>
+</head>
+
+<body>
+    <div id="game"></div>
+    <script>
+        Crafty.init(500, 350, document.getElementById('game'));
+        Crafty.e('2D, DOM, Color').attr({
+            x: 0,
+            y: 0,
+            w: 100,
+            h: 100
+        }).color('#F00');
+    </script>
+</body>
+
+</html>
