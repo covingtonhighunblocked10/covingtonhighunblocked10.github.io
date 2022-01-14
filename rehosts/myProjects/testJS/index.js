@@ -142,9 +142,10 @@ function startBigMan() {
             bigMan.position.y = parseFloat($("#bigMan").css('top'))
         }
         if (!handleCollisionObjects(board, bigMan)) {
-            bigMan.position.x = (board.position.x + board.width / 2) + getRandom(-20, 20)
-            bigMan.position.y = (board.position.y + board.height / 2) + getRandom(-20, 20)
-            randomAngle()
+            bigMan.position.x = (board.position.x + board.width / 2) + getRandom(-80, 80)
+            bigMan.position.y = (board.position.y + board.height / 2) + getRandom(-80, 80)
+            $("#bg").css("visibility", "visible");
+            //randomAngle()
             updateHTML()
         }
         /* if (bigMan.speed.x === NaN) {
@@ -168,14 +169,14 @@ function startBigMan() {
         if (handleCollisionObjects(roof, bigMan) || handleCollisionObjects(floor, bigMan)) {
             console.log("collide roof/floor")
             bigMan.speed.y *= -1
-            //$("#bg").css("visibility", "visible");
+            $("#bg").css("visibility", "visible");
         } else {
             $("#bg").css("visibility", "hidden");
         }
         if (handleCollisionObjects(leftWall, bigMan) || handleCollisionObjects(rightWall, bigMan)) {
             console.log("collide wall")
             bigMan.speed.x *= -1
-            //$("#bg").css("visibility", "visible");
+            $("#bg").css("visibility", "visible");
         } else {
             $("#bg").css("visibility", "hidden");
         }
