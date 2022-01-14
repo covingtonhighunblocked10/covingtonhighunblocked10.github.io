@@ -1,6 +1,157 @@
 $(document).ready(startBigMan)
 
+//this program has 420 lines, thank you for reading this. just kidding how the fuck are you here did you steal the code or something??? or did you visit the github page?? or maybe i released this project publically, im not sure. anyways bye
+
 function startBigMan() {
+    var colors = ["AliceBlue",
+        "AntiqueWhite",
+        "Aqua",
+        "Aquamarine",
+        "Azure",
+        "Beige",
+        "Bisque",
+        "Black",
+        "BlanchedAlmond",
+        "Blue",
+        "BlueViolet",
+        "Brown",
+        "BurlyWood",
+        "CadetBlue",
+        "Chartreuse",
+        "Chocolate",
+        "Coral",
+        "CornflowerBlue",
+        "Cornsilk",
+        "Crimson",
+        "Cyan",
+        "DarkBlue",
+        "DarkCyan",
+        "DarkGoldenRod",
+        "DarkGray",
+        "DarkGrey",
+        "DarkGreen",
+        "DarkKhaki",
+        "DarkMagenta",
+        "DarkOliveGreen",
+        "DarkOrange",
+        "DarkOrchid",
+        "DarkRed",
+        "DarkSalmon",
+        "DarkSeaGreen",
+        "DarkSlateBlue",
+        "DarkSlateGray",
+        "DarkSlateGrey",
+        "DarkTurquoise",
+        "DarkViolet",
+        "DeepPink",
+        "DeepSkyBlue",
+        "DimGray",
+        "DimGrey",
+        "DodgerBlue",
+        "FireBrick",
+        "FloralWhite",
+        "ForestGreen",
+        "Fuchsia",
+        "Gainsboro",
+        "GhostWhite",
+        "Gold",
+        "GoldenRod",
+        "Gray",
+        "Grey",
+        "Green",
+        "GreenYellow",
+        "HoneyDew",
+        "HotPink",
+        "IndianRed",
+        "Indigo",
+        "Ivory",
+        "Khaki",
+        "Lavender",
+        "LavenderBlush",
+        "LawnGreen",
+        "LemonChiffon",
+        "LightBlue",
+        "LightCoral",
+        "LightCyan",
+        "LightGoldenRodYellow",
+        "LightGray",
+        "LightGrey",
+        "LightGreen",
+        "LightPink",
+        "LightSalmon",
+        "LightSeaGreen",
+        "LightSkyBlue",
+        "LightSlateGray",
+        "LightSlateGrey",
+        "LightSteelBlue",
+        "LightYellow",
+        "Lime",
+        "LimeGreen",
+        "Linen",
+        "Magenta",
+        "Maroon",
+        "MediumAquaMarine",
+        "MediumBlue",
+        "MediumOrchid",
+        "MediumPurple",
+        "MediumSeaGreen",
+        "MediumSlateBlue",
+        "MediumSpringGreen",
+        "MediumTurquoise",
+        "MediumVioletRed",
+        "MidnightBlue",
+        "MintCream",
+        "MistyRose",
+        "Moccasin",
+        "NavajoWhite",
+        "Navy",
+        "OldLace",
+        "Olive",
+        "OliveDrab",
+        "Orange",
+        "OrangeRed",
+        "Orchid",
+        "PaleGoldenRod",
+        "PaleGreen",
+        "PaleTurquoise",
+        "PaleVioletRed",
+        "PapayaWhip",
+        "PeachPuff",
+        "Peru",
+        "Pink",
+        "Plum",
+        "PowderBlue",
+        "Purple",
+        "RebeccaPurple",
+        "Red",
+        "RosyBrown",
+        "RoyalBlue",
+        "SaddleBrown",
+        "Salmon",
+        "SandyBrown",
+        "SeaGreen",
+        "SeaShell",
+        "Sienna",
+        "Silver",
+        "SkyBlue",
+        "SlateBlue",
+        "SlateGray",
+        "SlateGrey",
+        "Snow",
+        "SpringGreen",
+        "SteelBlue",
+        "Tan",
+        "Teal",
+        "Thistle",
+        "Tomato",
+        "Turquoise",
+        "Violet",
+        "Wheat",
+        "White",
+        "WhiteSmoke",
+        "Yellow",
+        "YellowGreen",
+    ]
     $(document).on('keydown', keydown)
 
     function keydown(key) {
@@ -147,6 +298,8 @@ function startBigMan() {
             $("#bg").css("visibility", "visible");
             //randomAngle()
             updateHTML()
+        } else {
+            $("#bg").css("visibility", "hidden");
         }
         /* if (bigMan.speed.x === NaN) {
             bigMan.speed.x = 0;
@@ -169,16 +322,20 @@ function startBigMan() {
         if (handleCollisionObjects(roof, bigMan) || handleCollisionObjects(floor, bigMan)) {
             console.log("collide roof/floor")
             bigMan.speed.y *= -1
-            $("#bg").css("visibility", "visible");
+            $("body").css("background-color", colors[getRandom(0, colors.length)])
+            //$("#bg").css("visibility", "visible");
         } else {
-            $("#bg").css("visibility", "hidden");
+            //$("body").css("background-color", "black")
+            //$("#bg").css("visibility", "hidden");
         }
         if (handleCollisionObjects(leftWall, bigMan) || handleCollisionObjects(rightWall, bigMan)) {
             console.log("collide wall")
             bigMan.speed.x *= -1
-            $("#bg").css("visibility", "visible");
+            $("body").css("background-color", colors[getRandom(0, colors.length)])
+            //$("#bg").css("visibility", "visible");
         } else {
-            $("#bg").css("visibility", "hidden");
+            //$("body").css("background-color", "black")
+            //$("#bg").css("visibility", "hidden");
         }
 
     }
@@ -250,8 +407,6 @@ function startBigMan() {
         var wh = (xy === "x" ? "width" : "height")
         return object.position[xy] + (object[wh] / 2)
     }
-
-
 
     function updateHTML() {
         $("#bigMan").css('left', bigMan.position.x + "px")
