@@ -1,6 +1,9 @@
 $(document).ready(startBigMan)
 
 //this program has 420 lines, thank you for reading this. just kidding how the fuck are you here did you steal the code or something??? or did you visit the github page?? or maybe i released this project publically, im not sure. anyways bye
+var TBhits = 0
+var wallHits = 0
+var cornerHits = 0
 
 function startBigMan() {
     var colors = ["AliceBlue",
@@ -150,7 +153,7 @@ function startBigMan() {
         "White",
         "WhiteSmoke",
         "Yellow",
-        "YellowGreen",
+        "YellowGreen"
     ]
     $(document).on('keydown', keydown)
 
@@ -164,7 +167,6 @@ function startBigMan() {
     var fps = 60
     var interval = 1000 / fps
     setInterval(update, interval)
-    //setInterval(randomAngle, 3000)
 
     //use to test
     class Board {
@@ -241,7 +243,19 @@ function startBigMan() {
     bigMan.position.x = (board.position.x + board.width / 2) + getRandom(-30, 30)
     bigMan.position.y = (board.position.y + board.height / 2) + getRandom(-30, 30)
     randomAngle()
-
+    /* bigMan.position.x = board.position.x + leftWall.width
+    bigMan.position.y = board.position.y + (board.height / 2) */
+    //bigMan.speed.x = 5
+    //setInterval (sine, 10)
+    function sine() {
+        bigMan.position.y = Math.sin(bigMan.position.x)
+        let a
+        let x
+        let h
+        let b
+        let k
+        bigMan.position.y = a*Math.sin((x - h)/b) + k
+    }
     updateHTML()
 
     function wait(milliseconds) {
@@ -279,8 +293,8 @@ function startBigMan() {
     }
 
     function randomAngle() {
-        bigMan.speed.x = getRandom(-7, 7)
-        bigMan.speed.y = getRandom(-7, 7)
+        bigMan.speed.x = getRandom(-10, 10)
+        bigMan.speed.y = getRandom(-10, 10)
     }
 
     function updateSpeed() {
@@ -318,17 +332,21 @@ function startBigMan() {
         }
     }
 
+    function alertHits() {
+        alert("Roof/Floor Hits: " + wallHits + "\r" + "Wall Hits: " + wallHits + "\r" + "Corner hits: " + cornerHits)
+    }
+
     function collisions() {
         if (handleCollisionObjects(roof, bigMan) || handleCollisionObjects(floor, bigMan)) {
+            TBhits++
             console.log("collide roof/floor")
             bigMan.speed.y *= -1
             $("body").css("background-color", colors[getRandom(0, colors.length)])
-            //$("#bg").css("visibility", "visible");
         } else {
             //$("body").css("background-color", "black")
-            //$("#bg").css("visibility", "hidden");
         }
         if (handleCollisionObjects(leftWall, bigMan) || handleCollisionObjects(rightWall, bigMan)) {
+            wallHits++
             console.log("collide wall")
             bigMan.speed.x *= -1
             $("body").css("background-color", colors[getRandom(0, colors.length)])
@@ -336,6 +354,10 @@ function startBigMan() {
         } else {
             //$("body").css("background-color", "black")
             //$("#bg").css("visibility", "hidden");
+        }
+        if ((handleCollisionObjects(leftWall, bigMan) || handleCollisionObjects(rightWall, bigMan)) && (handleCollisionObjects(roof, bigMan) || handleCollisionObjects(floor, bigMan))) {
+            cornerHits++
+            //alert ("x: " + bigMan.position.x + "\r" + "y: " + bigMan.position.x)
         }
 
     }
@@ -411,10 +433,13 @@ function startBigMan() {
     function updateHTML() {
         $("#bigMan").css('left', bigMan.position.x + "px")
         $("#bigMan").css('top', bigMan.position.y + "px")
-        $("#x").text(parseFloat(bigMan.position.x))
-        $("#y").text(parseFloat(bigMan.position.y))
-        $("#speedX").text(bigMan.speed.x)
-        $("#speedY").text(bigMan.speed.y)
-        $("#abSpeed").text(Math.abs(bigMan.speed.x) + Math.abs(bigMan.speed.y))
+        $("#x").text("Position X: " + parseFloat(bigMan.position.x))
+        $("#y").text("Position Y: " + parseFloat(bigMan.position.y))
+        $("#speedX").text("Speed X: " + bigMan.speed.x)
+        $("#speedY").text("Speed Y: " + bigMan.speed.y)
+        $("#abSpeed").text("Absolute Speed: " + Math.abs(bigMan.speed.x) + Math.abs(bigMan.speed.y))
+        $("#TBhits").text("Top/Bottom Hits: " + TBhits)
+        $("#wallHits").text("Wall Hits: " + wallHits)
+        $("#cornerHits").text("Corner Hits: " + cornerHits)
     }
 }

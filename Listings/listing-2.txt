@@ -1,0 +1,4 @@
+1 User Interaction
+2 Positional Logic
+3 Detect Collisions
+4 Resolve Collisions

@@ -198,6 +198,11 @@
   dependencies:
     "readable-stream" "^2.0.2"
 
+"emscripten@^0.0.2-beta":
+  "integrity" "sha512-bckLzZ9n/GhNB4NwE23frASTc0hB7EyrY9ykys+Ou5wKupOROtEzkeWqxoGmWYQVNbidSW5UYsHwo8hhCuqbKg=="
+  "resolved" "https://registry.npmjs.org/emscripten/-/emscripten-0.0.2-beta.tgz"
+  "version" "0.0.2-beta"
+
 "escodegen@^1.11.1":
   "integrity" "sha512-qFcX0XJkdg+PB3xjZZG/wKSuT1PnQWx57+TVSjIMmILd2yC/6ByYElPwJnslDsuWuSAp4AwJGumarAAmJch5Kw=="
   "resolved" "https://registry.npmjs.org/escodegen/-/escodegen-1.14.3.tgz"

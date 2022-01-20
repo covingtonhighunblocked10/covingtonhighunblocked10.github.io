@@ -1,0 +1,28 @@
+<!DOCTYPE webproject>
+<webproject>
+  <project type="Local" name="fruit_hunter" encoding="utf8" >
+    <upload/>
+    <author>Silver Moon</author>
+    <email>m00n.silv3r@gmail.com</email>
+    <defaultDTD>-//W3C//DTD XHTML 1.0 Strict//EN</defaultDTD>
+    <item url="code/" uploadstatus="1" />
+    <item url="code/lib/" uploadstatus="1" />
+    <item url="code/lib/Box2dWeb-2.1.a.3.min.js" uploadstatus="1" />
+    <item url="code/lib/jquery-1.7.1.min.js" uploadstatus="1" />
+    <item url="code/box2d.js" uploadstatus="1" />
+    <item url="code/game.js" uploadstatus="1" />
+    <item url="code/init.js" uploadstatus="1" />
+    <item url="index.html" uploadstatus="1" />
+    <item url="" uploadstatus="1" />
+    <templates>templates/</templates>
+    <toolbars>toolbars/</toolbars>
+    <annotations/>
+    <item url="code/media/" uploadstatus="1" />
+    <item url="fruit_hunter.session" uploadstatus="1" />
+    <item url="fruit_hunter.webprj" uploadstatus="1" />
+    <item url="code/media/apple.png" uploadstatus="1" />
+    <item url="code/media/monkey.png" uploadstatus="1" />
+    <item url="code/media/orange_hills.png" uploadstatus="1" />
+    <item url="code/media/wall.png" uploadstatus="1" />
+  </project>
+</webproject>

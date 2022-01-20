@@ -125,6 +125,9 @@ function runProgram() {
             y: 0,
         },
     }
+    class player {
+        constructor(x, y) {}
+    }
     console.log(board)
     var game = {
         players: {

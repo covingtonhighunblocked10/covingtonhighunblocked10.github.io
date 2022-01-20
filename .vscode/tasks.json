@@ -1,0 +1,13 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "install",
+			"path": "n64wasm/server/",
+			"problemMatcher": [],
+			"label": "npm: install - n64wasm/server",
+			"detail": "install dependencies from package"
+		}
+	]
+}
