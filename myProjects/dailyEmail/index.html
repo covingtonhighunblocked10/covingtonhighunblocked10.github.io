@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>FUCKKKKK</title>
+    <script src="https://smtpjs.com/v3/smtp.js">
+    </script>
+
+    <script type="text/javascript">
+        var suffixDefault = "@gmail.com"
+        var username = "covingtonhighunblocked"
+        var password = "Husky3467"
+        var receiver = "pokefreak54"
+
+        function sendEmail() {
+            Email.send({
+                    Host: "smtp.gmail.com",
+                    Username: username + suffixDefault,
+                    Password: password,
+                    To: receiver + suffixDefault,
+                    From: username + suffixDefault,
+                    Subject: "Test 1",
+                    Body: "Bing Bong, fuck my life",
+                })
+                .then(function (message) {
+                    alert("mail sent successfully")
+                });
+        }
+    </script>
+</head>
+
+<body>
+    <form method="post">
+        <input type="button" value="Send Email" onclick="sendEmail()" />
+    </form>
+</body>
+
+</html>
