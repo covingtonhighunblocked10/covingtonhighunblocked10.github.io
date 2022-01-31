@@ -27,6 +27,9 @@ function runClicker() {
             var current = upgrades[listUpgrades[i]]
             updateText(("#" + current.name + "Cost"), current.cost)
             updateText(("#" + current.name + "Owned"), current.owned)
+            if (current.name = "twine") {
+                alert("wtf did i do wrong")
+            }
         }
     }
 
@@ -75,14 +78,17 @@ function runClicker() {
                 image: image,
                 id: "#" + name + "Upgrade",
             }
-            var div = "<div id='" + (name + 'Upgrade') + "' class='upgrade'> <img class='icon' src='" + image + "'><p>" + nameProper + "</p> <p><span>" + description + "</span></p> <p><span>" + value + "</span> sleep per second</p> <p>Cost: <span id='" + name + "Cost"+ "'>" + x.cost + " sleep</span></p> <p>" + nameProper + " Owned: <span id='" + (name + "Owned") + "'></span></p> </div>"
+            var div = "<div id='" + (name + 'Upgrade') + "' class='upgrade'> <img class='icon' src='" + image + "'><p>" + nameProper + "</p> <p><span>" + description + "</span></p> <p><span>" + value + "</span> sleep per second</p> <p>Cost: <span id='" + name + "Cost" + "'>" + x.cost + " sleep</span></p> <p>" + nameProper + " Owned: <span id='" + (name + "Owned") + "'></span></p> </div>"
             $("#upgradesList").append(div)
             upgrades[name] = x
             listUpgrades.push(name)
             $(x.id).on('click', function () {
                 purchaseUpgrade(upgrades[name].name)
             })
+            //alert(div)
         }
     }
-    new Upgrade("cobblestone.png", "pebbles", "Pebbles", 1, 0.1, 10, "A small rock to lay your head on")
+    new Upgrade("cobblestone.png", "pebbles", "Pebbles", 1, 0.1, 10, "A small rock, to lay your head on");
+    new Upgrade("string.png", "twine", "Twine", 1, 1, 100, "A strand of fibers, useful for assorted crafts!");
+    //alert(upgrades["twine"].owned)
 }

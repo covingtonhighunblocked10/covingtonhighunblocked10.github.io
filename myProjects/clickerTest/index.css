@@ -8,6 +8,7 @@ body {
     outline-color: grey;
     width: fit-content;
     padding: 1px;
+    margin-bottom: 20px;
     position: sticky;
 }
 
