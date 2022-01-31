@@ -1,0 +1,42 @@
+body {
+    user-select: none;
+}
+
+.upgrade {
+    background-color: grey;
+    outline-style: groove;
+    outline-color: grey;
+    width: fit-content;
+    padding: 1px;
+    position: sticky;
+}
+
+#upgradesList {
+    outline-style: groove;
+    outline-color: grey;
+    overflow-y: auto;
+    float: right;
+    background-image: url("dirt.jpeg");
+    background-size: 50%;
+    height: 500px;
+    width: fit-content;
+    padding-top: 25px;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-bottom: 25px;
+}
+
+.icon {
+    float: left;
+    width: 50px;
+    height: 50px;
+
+}
+
+#sleepDiv {
+    padding-top: 0px;
+}
+
+.absolute {
+    position: absolute;
+}

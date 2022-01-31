@@ -11,14 +11,24 @@
 </head>
 
 <body>
-    <p>Total Sleep <span id="totalSleep"></span></p>
-    <img id="clickerPNG" src="bed.png">
+    <center>
+        <div class="absolute" id="sleepDiv">
+            <p>Total Sleep <span id="totalSleep"></span></p>
+            <img id="clickerPNG" src="bed.png">
+        </div>
+    </center>
 
-    <div id="upgradesList"></div>
-    <div id="upgradeTemplate">
-        <p>Test Idle Owned <span id="testIdle"></span></p>
-        <span>Test Idle Value: .1 per second</span>
+    <div id="upgradesList">
+        <!-- <div id="pebbleUpgrade" class="upgrade" onclick="purchaseUpgrade(pebbles)">
+            <img class="icon" src="cobblestone.png">
+            <p>Pebble</p>
+            <p><span>A small rock to lay your head on</span></p>
+            <p><span>0.1 sleep per second</span></p>
+            <p><span>Cost: 10 sleep</span></p>
+            <p>Pebbles Owned: <span id="pebblesOwned"></span></p>
+        </div> -->
     </div>
+
 </body>
 
 </html>
