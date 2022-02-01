@@ -9,7 +9,19 @@ function runClicker() {
     var upgrades = []
     var listUpgrades = []
     var inventory = []
-    var itemSources = ["cobblestone", "string", "wood_hoe", "wood_shovel", "wood_pickaxe", "wood_sword"]
+    var tools = {
+        prefix: "img/tools/",
+        materials: ["wood", "stone", "iron", "gold", "diamond", "netherite"],
+        names: ["shovel", "pickaxe", "hoe", "sword", "axe"],
+    }
+    var items = {
+        prefix: "img/blocks/",
+        names: ["cobblestone", "string"]
+    }
+    var all = {
+        sources: ["cobblestone", "string", "wood_hoe", "wood_shovel", "wood_pickaxe", "wood_sword"],
+    }
+    var example_descriptions = ["Test Description 1", "Test Description 2", "Test Description 3"];
 
     //audio elements
     //working on this later
@@ -152,19 +164,19 @@ function runClicker() {
     ////////////////////////////////////////////
 
     class Inventory_Item {
-        constructor(image, name, nameProper, owned, description) {
+        constructor(image, name, nameProper, owned, description, srcPrefix) {
             var x = {
                 name: name,
                 nameProper: nameProper,
                 description: description,
                 owned: owned,
                 image: image,
-                type: "idle",
-                id: "#Inventory_" + nameProper,
+                type: "inventory_object",
+                id: "#inventory_" + nameProper,
             };
-            var div = "<div class='inventoryObject'><img src='img/" + x.image + "' class='inventoryIcon'></img><p class='inventoryDescription' id='Inventory_" + x.name +"_Description'>" + x.description + "</p></div>";
+            var div = "<div class='inventoryObject'><img src='" + srcPrefix + x.image + "' class='inventoryIcon'></img><p class='inventoryDescription' id='Inventory_" + x.name + "_Description'>" + x.description + "</p></div>";
             //var div = "<img src='img/" + x.image + "' class='inventoryIcon'></img>"
-            console.log(div)
+            //alert(div)
             inventory.push(x)
             if (node_or_html === "html") {
                 $("#inventoryGrid").append(div)
@@ -183,13 +195,32 @@ function runClicker() {
         return (newString)
     }
 
-    function randomInventoryItem(amount) {
-        for (var i = 0; i < amount; i++) {
-            var random = getRandom(0, itemSources.length)
-            new Inventory_Item(itemSources[random] + ".png", itemSources[random], getProperName(itemSources[random]), 0, itemSources[random])
+    function RandomToolGenerator() {
+        //alert("gen random tool")
+        var random_tool = tools.names[getRandom(0, tools.names.length - 1)]
+        var random_material = tools.materials[getRandom(0, tools.materials.length - 1)]
+        return (random_material + "_" + random_tool + ".png")
+    }
+
+    function randomInventoryItem(amount, type) {
+        if (type === "tool") {
+            for (var i = 0; i < amount; i++) {
+                var tool = RandomToolGenerator()
+                //alert(tool)
+                new Inventory_Item(tool, tool, getProperName(tool), 0, tool, tools.prefix)
+            }
+        } else if (type === "block") {
+            for (var i = 0; i < amount; i++) {
+                var block = items.prefix + items.names[getRandom(0, items.names.length - 1)]
+                //alert(block)
+                new Inventory_Item(block, block, getProperName(block), 0, block, items.prefix)
+            }
+
+        } else {
+            alert("invalid type")
+            return
         }
     }
-    randomInventoryItem(10)
 
 
     //////////////////////////////////////////
@@ -209,7 +240,7 @@ function runClicker() {
                 type: "idle",
                 id: "#" + name + "Upgrade",
             }
-            var div = "<div id='" + (name + 'Upgrade') + "' class='upgrade'> <img class='icon' src='img/" + image + "'><p>" + nameProper + "</p><br><p><span class='upgradeDescription'>" + description + "</span></p> <p><span>" + value + "</span> sleep per second</p> <p>Cost: <span id='" + name + "Cost" + "'>" + x.cost + " sleep</span></p> <p>" + nameProper + " Owned: <span id='" + (name + "Owned") + "'></span></p> </div>";
+            var div = "<div id='" + (name + 'Upgrade') + "' class='upgrade'> <img class='icon' src='img/blocks/" + image + "'><p>" + nameProper + "</p><br><p><span class='upgradeDescription'>" + description + "</span></p> <p><span>" + value + "</span> sleep per second</p> <p>Cost: <span id='" + name + "Cost" + "'>" + x.cost + " sleep</span></p> <p>" + nameProper + " Owned: <span id='" + (name + "Owned") + "'></span></p> </div>";
             upgrades[name] = x
             listUpgrades.push(name)
             if (node_or_html === "html") {
@@ -235,7 +266,7 @@ function runClicker() {
                 type: "click",
                 id: "#" + name + "Upgrade",
             }
-            var div = "<div id='" + (name + 'Upgrade') + "' class='upgrade'> <img class='icon' src='img/" + image + "'><p>" + nameProper + "</p><br><p><span class='upgradeDescription'>" + description + "</span></p> <p><span>" + value + "</span> Extra sleep on click</p> <p>Cost: <span id='" + name + "Cost" + "'>" + x.cost + " sleep</span></p> <p>" + nameProper + " Owned: <span id='" + (name + "Owned") + "'></span></p> </div>";
+            var div = "<div id='" + (name + 'Upgrade') + "' class='upgrade'> <img class='icon' src='img/tools/" + image + "'><p>" + nameProper + "</p><br><p><span class='upgradeDescription'>" + description + "</span></p> <p><span>" + value + "</span> Extra sleep on click</p> <p>Cost: <span id='" + name + "Cost" + "'>" + x.cost + " sleep</span></p> <p>" + nameProper + " Owned: <span id='" + (name + "Owned") + "'></span></p> </div>";
             upgrades[name] = x
             listUpgrades.push(name)
             if (node_or_html === "html") {
@@ -264,6 +295,10 @@ function runClicker() {
     new Click_Upgrade("wood_pickaxe.png", "wooden_pickaxe", "Wooden Pickaxe", 0, 1, 50, "A wooden pickaxe. smack shit around i guess");
     new Click_Upgrade("wood_sword.png", "wooden_sword", "Wooden Sword", 0, 1, 50, "A wooden sword. clown on some hoes");
 
+
+    randomInventoryItem(10, "tool")
+    //alert(inventory)
+    //alert(inventory.length)
 }
 
 ///USE FOR NODE DEBUGGING

@@ -42,13 +42,13 @@ body {
 
 #idleUpgradesList {
     float: right;
-    background-image: url("img/dirt.jpeg");
+    background-image: url("img/blocks/dirt.jpeg");
     background-size: 50%;
 }
 
 #clickUpgradesList {
     float: right;
-    background-image: url("img/dirt.jpeg");
+    background-image: url("img/blocks/dirt.jpeg");
     background-size: 50%;
 }
 
@@ -58,12 +58,13 @@ body {
 }
 
 .list {
+    background-size: cover;
+    background-attachment: scroll;
     overflow: hidden;
     outline-style: groove;
     outline-color: black;
     overflow-y: scroll;
     overflow-x: unset;
-    background-size: 50%;
     padding-top: 25px;
     padding-left: 25px;
     padding-right: 25px;
@@ -78,17 +79,17 @@ body {
 }
 
 #inventory {
-    background-image: url("img/dirt.jpeg");
+    background-image: url("img/blocks/dirt.jpeg");
     background-size: 50%;
     position: sticky;
     float: right;
     display: block;
-    overflow-x:scroll;
+    overflow-x: clip;
 }
 
 #inventoryGrid {
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 10px;
     grid-auto-rows: 100px;
     align-items: start;
@@ -103,12 +104,19 @@ body {
     font-size: 100%;
     background-color: rgba(78, 78, 78, 0.7);
     overflow-x: unset;
-    padding-left: 0px;
-    margin: 3px;
     position: absolute;
 }
 
+.inventoryObject {
+    background-image: url("img/item_background.png");
+    background-size: 100%;
+    background-position-y: center;
+    width: fit-content;
+    height: fit-content;
+}
+
 .inventoryIcon {
+    padding-top: 10px;
     padding-left: 10px;
     padding-right: 10px;
     padding-bottom: 10px;
