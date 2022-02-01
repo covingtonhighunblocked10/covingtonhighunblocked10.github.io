@@ -1,37 +1,119 @@
 body {
     user-select: none;
+    background-image: url(img/background.gif);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: top;
+    font-family: minecraft;
+}
+
+@font-face {
+    font-family: minecraft;
+    src: url(MCFont.ttf);
 }
 
 .upgrade {
+    position: relative;
     background-color: grey;
     outline-style: groove;
     outline-color: grey;
-    width: fit-content;
+    width: unset;
+    height: unset;
+    flex: 1;
     padding: 1px;
     margin-bottom: 20px;
     position: sticky;
+    overflow-x: clip;
+    overflow-y: scroll;
+    font-size: 80%;
 }
 
-#upgradesList {
-    outline-style: groove;
-    outline-color: grey;
-    overflow-y: auto;
+.upgrade:hover {
+    transition: 0s;
+    font-size: 90%;
+}
+
+.upgradeDescription {
+    background-color: rgba(78, 78, 78, 0.7);
+    flex: 1;
+    border-radius: 3px;
+    overflow-x: unset;
+}
+
+#idleUpgradesList {
     float: right;
-    background-image: url("dirt.jpeg");
+    background-image: url("img/dirt.jpeg");
     background-size: 50%;
+}
+
+#clickUpgradesList {
+    float: right;
+    background-image: url("img/dirt.jpeg");
+    background-size: 50%;
+}
+
+.listUpgrades {
     height: 500px;
-    width: fit-content;
+    width: 15%;
+}
+
+.list {
+    overflow: hidden;
+    outline-style: groove;
+    outline-color: black;
+    overflow-y: scroll;
+    overflow-x: unset;
+    background-size: 50%;
     padding-top: 25px;
-    padding-left: 50px;
-    padding-right: 50px;
+    padding-left: 25px;
+    padding-right: 25px;
     padding-bottom: 25px;
+    margin-right: 10px;
 }
 
 .icon {
     float: left;
     width: 50px;
     height: 50px;
+}
 
+#inventory {
+    background-image: url("img/dirt.jpeg");
+    background-size: 50%;
+    position: sticky;
+    float: right;
+    display: block;
+    overflow-x:scroll;
+}
+
+#inventoryGrid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 10px;
+    grid-auto-rows: 100px;
+    align-items: start;
+}
+
+.inventoryDescription {
+    display: none;
+}
+
+.inventoryObject:hover .inventoryDescription {
+    display: block;
+    font-size: 100%;
+    background-color: rgba(78, 78, 78, 0.7);
+    overflow-x: unset;
+    padding-left: 0px;
+    margin: 3px;
+    position: absolute;
+}
+
+.inventoryIcon {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    width: 40px;
+    height: 40px;
 }
 
 #sleepDiv {
@@ -40,4 +122,10 @@ body {
 
 .absolute {
     position: absolute;
+}
+
+.generalText {
+    font-size: 100%;
+    color: white;
+    margin-bottom: 100px;
 }
