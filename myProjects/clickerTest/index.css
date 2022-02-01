@@ -12,6 +12,21 @@ body {
     src: url(MCFont.ttf);
 }
 
+#breakPNG {
+    pointer-events: none;
+    mask-mode: unset;
+    mask-position: center;
+    position: absolute;
+    mask-mode: luminance;
+    mask-type: luminance;
+    mask-clip:unset;
+}
+
+.clickerIcon {
+    width: 300px;
+    height: 300px;
+}
+
 .upgrade {
     position: relative;
     background-color: grey;
@@ -85,6 +100,7 @@ body {
     float: right;
     display: block;
     overflow-x: clip;
+    overflow-wrap: anywhere;
 }
 
 #inventoryGrid {
@@ -103,8 +119,11 @@ body {
     display: block;
     font-size: 100%;
     background-color: rgba(78, 78, 78, 0.7);
-    overflow-x: unset;
+    /* overflow-x: auto; */
     position: absolute;
+    width: 100px;
+    overflow-wrap: anywhere;
+    text-align: center;
 }
 
 .inventoryObject {

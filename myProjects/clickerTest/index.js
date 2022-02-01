@@ -1,14 +1,16 @@
-$(document).ready(runClicker)
+//$(document).ready(runClicker)
 
 function runClicker() {
 
     var baseClickValue = 1;
     var clickValue = baseClickValue
-    var totalSleep = 10000;
-    var sleepPerSecond = 0
+    var totalCurrency = 10000;
+    var currencyPerSecond = 0
     var upgrades = []
     var listUpgrades = []
     var inventory = []
+    var break_source = ["destroy_stage_0.png", "destroy_stage_1.png", "destroy_stage_2.png", "destroy_stage_3.png", "destroy_stage_4.png", "destroy_stage_5.png"]
+    var break_state = 0
     var tools = {
         prefix: "img/tools/",
         materials: ["wood", "stone", "iron", "gold", "diamond", "netherite"],
@@ -27,15 +29,15 @@ function runClicker() {
     //working on this later
 
     //use "node" for node debugging, "html" for display mode
-    var node_or_html = "html"
+    var node_or_html = "node"
 
     var fps = 60
 
     //use these variables when using clearInterval, they contain the ID for each interval.
     //typing this because I will absolutely forget it
 
-    var updateInterval = setInterval(updateLoop, 1000 / fps)
-    var idleInterval = setInterval(addIdle, 10)
+    //var updateInterval = setInterval(updateLoop, 1000 / fps)
+    //var idleInterval = setInterval(addIdle, 10)
 
     //setInterval(alert(upgrades["pebbles"].cost), 3000)
 
@@ -45,7 +47,7 @@ function runClicker() {
 
 
     function addIdle() {
-        sleepPerSecond = 0
+        currencyPerSecond = 0
         var clickValTemp = 0;
         console.log("Add Idle List Upgrades: " + listUpgrades);
         for (var i = 0; i <= listUpgrades.length - 1; i++) {
@@ -53,13 +55,13 @@ function runClicker() {
             console.log("Add Idle Current: ");
             console.log(current)
             if (current.type === "idle") {
-                sleepPerSecond += (current.value * current.owned)
-                totalSleep += (current.value * current.owned)
+                currencyPerSecond += (current.value * current.owned)
+                totalCurrency += (current.value * current.owned)
             }
             if (current.type === "click") {
                 clickValTemp += (current.value * current.owned)
             }
-            //console.log("Current Sleep: " + totalSleep)
+            //console.log("Current Sleep: " + totalCurrency)
         }
         clickValue = baseClickValue + clickValTemp
         updateText("#clickValue", clickValue)
@@ -77,8 +79,8 @@ function runClicker() {
     }
 
     function updateLoop() {
-        updateText("#totalSleep", totalSleep.toFixed(2))
-        updateText("#sleepPerSecond", sleepPerSecond.toFixed(2))
+        updateText("#totalCurrency", totalCurrency.toFixed(2))
+        updateText("#currencyPerSecond", currencyPerSecond.toFixed(2))
         updateOwned()
     }
 
@@ -92,8 +94,8 @@ function runClicker() {
     function purchaseUpgrade(upgrade) {
         increasePrice(upgrades[upgrade].name)
         var current = upgrades[upgrade]
-        if (totalSleep >= current.cost) {
-            totalSleep -= current.cost;
+        if (totalCurrency >= current.cost) {
+            totalCurrency -= current.cost;
             current.owned += 1;
         } else {
             //alert("Insufficient Sleep")
@@ -106,7 +108,17 @@ function runClicker() {
     }
 
     function click() {
-        totalSleep += clickValue
+        advanceBreak()
+    }
+
+    function advanceBreak() {
+        break_state++
+        if (break_state > break_source.length - 1) {
+            break_state = 0
+            totalCurrency += clickValue
+        }
+        $("#breakPNG").attr('src', ("img/" + break_source[break_state]))
+        //alert($("#breakPNG").attr('src'))
     }
 
     function getRandom(min, max) {
@@ -137,6 +149,43 @@ function runClicker() {
             } else if ($("#inventory").css('display') === "block") {
                 $("#inventory").css('display', "none")
             }
+        }
+    }
+
+    function getProperName(string) {
+        var newString = (string[0]).toUpperCase() + string.substring(1, string.length)
+        //console.log("UpperCaseString: " + newString)
+        return (newString)
+    }
+
+    /////////////////////////////////////////////////
+    ///////MISC FUNCTIONS FOR TESTING PURPOSES///////
+    /////////////////////////////////////////////////
+
+    function RandomToolGenerator() {
+        //alert("gen random tool")
+        var random_tool = tools.names[getRandom(0, tools.names.length - 1)]
+        var random_material = tools.materials[getRandom(0, tools.materials.length - 1)]
+        return (random_material + "_" + random_tool + ".png")
+    }
+
+    function randomInventoryItem(amount, type) {
+        if (type === "tool") {
+            for (var i = 0; i < amount; i++) {
+                var tool = RandomToolGenerator()
+                //alert(tool)
+                new Inventory_Item(tool, tool, getProperName(tool), 0, tool, tools.prefix)
+            }
+        } else if (type === "block") {
+            for (var i = 0; i < amount; i++) {
+                var block = items.prefix + items.names[getRandom(0, items.names.length - 1)]
+                //alert(block)
+                new Inventory_Item(block, block, getProperName(block), 0, block, items.prefix)
+            }
+
+        } else {
+            alert("invalid type")
+            return
         }
     }
 
@@ -177,7 +226,7 @@ function runClicker() {
             var div = "<div class='inventoryObject'><img src='" + srcPrefix + x.image + "' class='inventoryIcon'></img><p class='inventoryDescription' id='Inventory_" + x.name + "_Description'>" + x.description + "</p></div>";
             //var div = "<img src='img/" + x.image + "' class='inventoryIcon'></img>"
             //alert(div)
-            inventory.push(x)
+            inventory[name] = x
             if (node_or_html === "html") {
                 $("#inventoryGrid").append(div)
                 $(x.id).on('click', function () {
@@ -188,40 +237,6 @@ function runClicker() {
         };
 
     }
-
-    function getProperName(string) {
-        var newString = (string[0]).toUpperCase() + string.substring(1, string.length)
-        //console.log("UpperCaseString: " + newString)
-        return (newString)
-    }
-
-    function RandomToolGenerator() {
-        //alert("gen random tool")
-        var random_tool = tools.names[getRandom(0, tools.names.length - 1)]
-        var random_material = tools.materials[getRandom(0, tools.materials.length - 1)]
-        return (random_material + "_" + random_tool + ".png")
-    }
-
-    function randomInventoryItem(amount, type) {
-        if (type === "tool") {
-            for (var i = 0; i < amount; i++) {
-                var tool = RandomToolGenerator()
-                //alert(tool)
-                new Inventory_Item(tool, tool, getProperName(tool), 0, tool, tools.prefix)
-            }
-        } else if (type === "block") {
-            for (var i = 0; i < amount; i++) {
-                var block = items.prefix + items.names[getRandom(0, items.names.length - 1)]
-                //alert(block)
-                new Inventory_Item(block, block, getProperName(block), 0, block, items.prefix)
-            }
-
-        } else {
-            alert("invalid type")
-            return
-        }
-    }
-
 
     //////////////////////////////////////////
     ////////Constructor for Upgrades//////////
@@ -296,9 +311,38 @@ function runClicker() {
     new Click_Upgrade("wood_sword.png", "wooden_sword", "Wooden Sword", 0, 1, 50, "A wooden sword. clown on some hoes");
 
 
-    randomInventoryItem(10, "tool")
+    //randomInventoryItem(10, "tool")
     //alert(inventory)
     //alert(inventory.length)
+    var test = {
+        "stick": 5,
+    };
+
+    new Inventory_Item("wood_sword.png", "stick", "Stick", 10, "A stick")
+    console.log(inventory)
+    function attemptCraft(item) {
+        //alert("test")
+        var required_materials;
+        var keys = Object.keys(item)
+        console.log(keys)
+        var i = 0
+        for (const property in item) {
+            var object = keys[i];
+            var cost = item[object];
+            console.log(inventory[object].owned)
+            console.log("Item " + object + ", you need " + cost)
+            if (inventory[object].owned > cost) {
+                console.log("successful")
+                inventory[object].owned -= cost
+                console.log(inventory[object].owned)
+                inventory[item.name] +=
+            }
+            i++
+        }
+
+    }
+    attemptCraft(test)
 }
 
 ///USE FOR NODE DEBUGGING
+runClicker()
