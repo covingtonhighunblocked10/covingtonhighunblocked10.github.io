@@ -1,15 +1,24 @@
-//$(document).ready(runClicker)
+//use "node" for node debugging, "html" for display mode
+var node_or_html = "html"
+if (node_or_html === "html") {
+    $(document).ready(runClicker)
+}
+
+if (node_or_html === "node") {
+    ///USE FOR NODE DEBUGGING
+    runClicker()
+}
 
 function runClicker() {
-
     var baseClickValue = 1;
-    var clickValue = baseClickValue
+    var clickValue = baseClickValue;
     var totalCurrency = 10000;
-    var currencyPerSecond = 0
-    var upgrades = []
-    var listUpgrades = []
-    var inventory = []
-    var break_source = ["destroy_stage_0.png", "destroy_stage_1.png", "destroy_stage_2.png", "destroy_stage_3.png", "destroy_stage_4.png", "destroy_stage_5.png"]
+    var currencyPerSecond = 0;
+    var upgrades = {};
+    var inventory = {};
+    var current_block_texture = "cobblestone";
+    var block_textures = ["cobblestone", "oak_log", "acacia_log", "birch_log", "jungle_log", "spruce_log"]
+    var break_stage_source = ["destroy_stage_0.png", "destroy_stage_1.png", "destroy_stage_2.png", "destroy_stage_3.png", "destroy_stage_4.png", "destroy_stage_5.png", "destroy_stage_6.png", "destroy_stage_7.png", "destroy_stage_8.png", "destroy_stage_9.png"]
     var break_state = 0
     var tools = {
         prefix: "img/tools/",
@@ -20,67 +29,78 @@ function runClicker() {
         prefix: "img/blocks/",
         names: ["cobblestone", "string"]
     }
-    var all = {
-        sources: ["cobblestone", "string", "wood_hoe", "wood_shovel", "wood_pickaxe", "wood_sword"],
-    }
-    var example_descriptions = ["Test Description 1", "Test Description 2", "Test Description 3"];
-
-    //audio elements
-    //working on this later
-
-    //use "node" for node debugging, "html" for display mode
-    var node_or_html = "node"
+    //var example_descriptions = ["Test Description 1", "Test Description 2", "Test Description 3"];
 
     var fps = 60
-
-    //use these variables when using clearInterval, they contain the ID for each interval.
-    //typing this because I will absolutely forget it
-
-    //var updateInterval = setInterval(updateLoop, 1000 / fps)
-    //var idleInterval = setInterval(addIdle, 10)
 
     //setInterval(alert(upgrades["pebbles"].cost), 3000)
 
     if (node_or_html === "html") {
         $("#clickerPNG").on('click', click)
+        //use these variables when using clearInterval, they contain the ID for each interval.
+        //typing this because I will absolutely forget it
+        var updateInterval = setInterval(updateLoop, 1000 / fps)
+        var idleInterval = setInterval(addIdle, 1000)
+        //var updateOwnedInterval = setInterval(updateOwned, 1000)
     }
 
+    function get_object_keys(object) {
+        var keys = Object.keys(object)
+        //console.log("get_object_keys returns: " + keys)
+        return (keys)
+    }
 
     function addIdle() {
         currencyPerSecond = 0
         var clickValTemp = 0;
-        console.log("Add Idle List Upgrades: " + listUpgrades);
-        for (var i = 0; i <= listUpgrades.length - 1; i++) {
-            var current = upgrades[listUpgrades[i]]
-            console.log("Add Idle Current: ");
-            console.log(current)
+        var keys = get_object_keys(upgrades)
+        for (var i = 0; i <= keys.length - 1; i++) {
+            var current = upgrades[keys[i]]
             if (current.type === "idle") {
-                currencyPerSecond += (current.value * current.owned)
-                totalCurrency += (current.value * current.owned)
+                currencyPerSecond += (current.value * current.owned);
+                totalCurrency += (current.value * current.owned);
             }
             if (current.type === "click") {
-                clickValTemp += (current.value * current.owned)
+                clickValTemp += (current.value * current.owned);
             }
-            //console.log("Current Sleep: " + totalCurrency)
         }
         clickValue = baseClickValue + clickValTemp
         updateText("#clickValue", clickValue)
     }
 
     function updateOwned() {
-        for (var i = 0; i <= listUpgrades.length - 1; i++) {
-            let current = upgrades[listUpgrades[i]]
-            //alert(current.nameProper)
-            /* console.log(current.nameProper + " Cost: " + current.cost)
-            console.log(current.nameProper + " Owned: " + (current.owned ? current.owned : "0")) */
-            updateText(("#" + current.name + "Cost"), current.cost)
-            updateText(("#" + current.name + "Owned"), (current.owned ? current.owned : "0"))
+        var inventory_keys = get_object_keys(inventory)
+        var upgrade_keys = get_object_keys(upgrades)
+        /* console.log(inventory_keys)
+        console.log(upgrade_keys) */
+        for (var i = 0; i <= upgrade_keys.length - 1; i++) {
+            if (upgrade_keys[i].type === "idle" || "click") {
+                let current = upgrades[upgrade_keys[i]]
+                /* console.log(current.name)
+                console.log(current.cost)
+                console.log(current.id) */
+                if (node_or_html === "html") {
+                    updateText(("#" + current.name + "_cost"), current.cost)
+                    updateText(("#" + current.name + "_owned"), (current.owned ? current.owned : "0"))
+                }
+            }
         }
+        for (var i = 0; i <= inventory_keys.length - 1; i++) {
+            let current = inventory[inventory_keys[i]]
+            /* console.log(current)
+            console.log(current.name)
+            console.log(current.id) */
+            if (node_or_html === "html") {
+                updateText(("#inventory_" + current.name + "_owned"), (current.owned ? current.owned : "0"))
+            }
+        }
+
     }
 
     function updateLoop() {
         updateText("#totalCurrency", totalCurrency.toFixed(2))
         updateText("#currencyPerSecond", currencyPerSecond.toFixed(2))
+        hide_show_inventory_objects();
         updateOwned()
     }
 
@@ -91,33 +111,21 @@ function runClicker() {
 
     }
 
-    function purchaseUpgrade(upgrade) {
-        increasePrice(upgrades[upgrade].name)
-        var current = upgrades[upgrade]
-        if (totalCurrency >= current.cost) {
-            totalCurrency -= current.cost;
-            current.owned += 1;
-        } else {
-            //alert("Insufficient Sleep")
-        }
-    }
-
-    function increasePrice(upgrade) {
-        var newPrice = upgrades[upgrade].baseCost * Math.pow(1.15, (upgrades[upgrade].owned))
-        upgrades[upgrade].cost = newPrice.toFixed(2)
-    }
-
     function click() {
         advanceBreak()
     }
 
     function advanceBreak() {
-        break_state++
-        if (break_state > break_source.length - 1) {
+        break_state += clickValue
+        if (break_state > break_stage_source.length - 1) {
             break_state = 0
             totalCurrency += clickValue
+            inventory[current_block_texture].owned++
+            current_block_texture = block_textures[getRandom(0, block_textures.length - 1)]
+            //alert(current_block_texture)
         }
-        $("#breakPNG").attr('src', ("img/" + break_source[break_state]))
+        $("#clickerPNG").attr('src', ("img/icons/" + current_block_texture + ".png"))
+        $("#breakPNG").attr('src', ("img/break_stages/" + break_stage_source[break_state]))
         //alert($("#breakPNG").attr('src'))
     }
 
@@ -129,6 +137,7 @@ function runClicker() {
             return (getRandom(min, max))
         }
     }
+
 
     ///////////////////////////
     ////////Keybinds//////////
@@ -174,13 +183,13 @@ function runClicker() {
             for (var i = 0; i < amount; i++) {
                 var tool = RandomToolGenerator()
                 //alert(tool)
-                new Inventory_Item(tool, tool, getProperName(tool), 0, tool, tools.prefix)
+                new Inventory_Item(tool, tool, getProperName(tool), 0, tool)
             }
         } else if (type === "block") {
             for (var i = 0; i < amount; i++) {
                 var block = items.prefix + items.names[getRandom(0, items.names.length - 1)]
                 //alert(block)
-                new Inventory_Item(block, block, getProperName(block), 0, block, items.prefix)
+                new Inventory_Item(block, block, getProperName(block), 0, block)
             }
 
         } else {
@@ -189,48 +198,32 @@ function runClicker() {
         }
     }
 
-
-    //////////////////////////////////////////
-    ////////Constructor for Inventory/////////
-    //////////////////////////////////////////
-
-    /* class Inventory_Object {
-        constructor(image, name, nameProper, owned, description) {
-            var x = {
-                name: name,
-                nameProper: nameProper,
-                description: description,
-                owned: owned,
-                image: image,
-                type: "inventory_object",
-                id: "#" + name + "InventoryObject",
-            }
-        }
-    } */
-
     /////////////////////////////////////////////
     //////Constructor for Inventory Items////////
     ////////////////////////////////////////////
-
     class Inventory_Item {
-        constructor(image, name, nameProper, owned, description, srcPrefix) {
+        constructor(image, name, nameProper, owned, description, tags) {
             var x = {
                 name: name,
                 nameProper: nameProper,
                 description: description,
                 owned: owned,
+                tags: tags ? tags : [],
                 image: image,
                 type: "inventory_object",
-                id: "#inventory_" + nameProper,
+                id: "inventory_" + name,
             };
-            var div = "<div class='inventoryObject'><img src='" + srcPrefix + x.image + "' class='inventoryIcon'></img><p class='inventoryDescription' id='Inventory_" + x.name + "_Description'>" + x.description + "</p></div>";
-            //var div = "<img src='img/" + x.image + "' class='inventoryIcon'></img>"
-            //alert(div)
+            var div = "<div class='inventoryObject' id='" + x.id + "'><img src='" + x.image + "' class='inventoryIcon'></img><p class='inventoryDescription' id='inventory_" + x.id + "_description'>" + x.description + "<br> Owned: <span id='" + x.id + "_owned'></span></p></div>";
+            //using this for testing//
+            x.div = div
+            //////////////////////////
+            x.id = "#" + x.id
             inventory[name] = x
+            //console.log(inventory)
             if (node_or_html === "html") {
                 $("#inventoryGrid").append(div)
                 $(x.id).on('click', function () {
-                    purchaseUpgrade(upgrades[name].name)
+                    //attemptCraft(upgrades[name].name)
                 })
             }
             //console.log(inventory)
@@ -242,55 +235,77 @@ function runClicker() {
     ////////Constructor for Upgrades//////////
     //////////////////////////////////////////
     class Idle_Upgrade {
-        constructor(image, name, nameProper, owned, value, baseCost, description) {
+        constructor(image, name, nameProper, owned, value, description, recipe, craftAmount, tags) {
             var x = {
                 name: name,
                 nameProper: nameProper,
                 description: description,
-                owned: owned,
+                owned: recipe ? 0 : owned,
                 value: value,
-                baseCost: baseCost,
-                cost: baseCost,
+                recipe: recipe ? recipe : false,
+                tags: tags ? tags : [],
+                craftAmount: craftAmount ? craftAmount : 0,
                 image: image,
                 type: "idle",
-                id: "#" + name + "Upgrade",
+                id: name + "_idle_upgrade",
             }
-            var div = "<div id='" + (name + 'Upgrade') + "' class='upgrade'> <img class='icon' src='img/blocks/" + image + "'><p>" + nameProper + "</p><br><p><span class='upgradeDescription'>" + description + "</span></p> <p><span>" + value + "</span> sleep per second</p> <p>Cost: <span id='" + name + "Cost" + "'>" + x.cost + " sleep</span></p> <p>" + nameProper + " Owned: <span id='" + (name + "Owned") + "'></span></p> </div>";
+            var div = "<div id='" + x.id + "' class='upgrade'> <img class='icon' src='" + image + "'><p>" + nameProper + "</p><br><p><span class='upgradeDescription'>" + description + "</span></p> <p><span>" + value + "</span> damage per second</p> <p>" + nameProper + " Owned: <span id='" + (name + "_owned") + "'></span></p> </div>";
+            x.id = "#" + x.id
+            //using this for testing//
+            x.div = div
+            //////////////////////////
             upgrades[name] = x
-            listUpgrades.push(name)
             if (node_or_html === "html") {
                 $("#idleUpgradesList").append(div)
+                if (x.recipe) {
+                    //console.log(x.name + " recipe")
+                    //console.log(x.recipe)
+                    $(x.id).append(recipe_to_div(upgrades[x.name]))
+                }
                 $(x.id).on('click', function () {
-                    purchaseUpgrade(upgrades[name].name)
+                    attemptCraft(upgrades[name])
                 })
             }
             //alert(div)
         }
     }
     class Click_Upgrade {
-        constructor(image, name, nameProper, owned, value, baseCost, description) {
+        constructor(image, name, nameProper, owned, value, description, recipe, craftAmount, tags) {
             var x = {
                 name: name,
                 nameProper: nameProper,
                 description: description,
                 owned: owned,
                 value: value,
-                baseCost: baseCost,
-                cost: baseCost,
+                tags: tags ? tags : [],
+                recipe: recipe ? recipe : false,
+                craftAmount: craftAmount ? craftAmount : 0,
                 image: image,
                 type: "click",
-                id: "#" + name + "Upgrade",
+                id: name + "_click_upgrade",
             }
-            var div = "<div id='" + (name + 'Upgrade') + "' class='upgrade'> <img class='icon' src='img/tools/" + image + "'><p>" + nameProper + "</p><br><p><span class='upgradeDescription'>" + description + "</span></p> <p><span>" + value + "</span> Extra sleep on click</p> <p>Cost: <span id='" + name + "Cost" + "'>" + x.cost + " sleep</span></p> <p>" + nameProper + " Owned: <span id='" + (name + "Owned") + "'></span></p> </div>";
+            var div = "<div id='" + x.id + "' class='upgrade'> <img class='icon' src='" + image + "'><p>" + nameProper + "</p><br><p><span class='upgradeDescription'>" + description + "</span></p> <p><span>" + value + "</span> extra damage on click</p> <p>" + nameProper + " Owned: <span id='" + (name + "_owned") + "'></span></p> </div>";
+            x.id = "#" + x.id
+            //using this for testing//
+            x.div = div
+            //////////////////////////
             upgrades[name] = x
-            listUpgrades.push(name)
+            if (x.recipe) {
+                //console.log(x.name + " recipe")
+                //console.log(x.recipe)
+            }
             if (node_or_html === "html") {
                 $("#clickUpgradesList").append(div)
+                if (x.recipe) {
+                    //console.log(x.name + " recipe")
+                    //console.log(x.recipe)
+                    $(x.id).append(recipe_to_div(upgrades[x.name]))
+                }
                 $(x.id).on('click', function () {
-                    purchaseUpgrade(upgrades[name].name)
+                    console.log(upgrades[name].name)
+                    attemptCraft(upgrades[name])
                 })
             }
-            //alert(div)
         }
     }
 
@@ -298,51 +313,146 @@ function runClicker() {
     ////////ADD IDLE UPGRADES//////////
     ///////////////////////////////////
 
-    new Idle_Upgrade("cobblestone.png", "pebbles", "Pebbles", 0, 0.1, 10, "A small rock, to lay your head on");
-    new Idle_Upgrade("string.png", "twine", "Twine", 0, 10, 100, "A strand of fibers, useful for assorted crafts!");
+    new Idle_Upgrade("img/icons/string.png", "string", "String", 0, 10, "String. Not sure how you got this bro", );
 
     ////////////////////////////////////
     ////////ADD CLICK UPGRADES//////////
     ////////////////////////////////////
+    new Click_Upgrade("img/icons/oak_plank.png", "oak_plank", "Oak Plank", 0, 0, "An oak plank", {
+        "oak_log": 1,
+    }, 4)
 
-    new Click_Upgrade("wood_hoe.png", "wooden_hoe", "Wooden Hoe", 0, 1, 10, "A wooden hoe. Im not sure why, but here you go");
-    new Click_Upgrade("wood_shovel.png", "wooden_shovel", "Wooden Shovel", 0, 1, 50, "A wooden shovel. go dig yourself some bitches.");
-    new Click_Upgrade("wood_pickaxe.png", "wooden_pickaxe", "Wooden Pickaxe", 0, 1, 50, "A wooden pickaxe. smack shit around i guess");
-    new Click_Upgrade("wood_sword.png", "wooden_sword", "Wooden Sword", 0, 1, 50, "A wooden sword. clown on some hoes");
+    new Click_Upgrade("img/icons/stick.png", "stick", "Stick", 0, 0, "A stick", {
+        "oak_plank": 2,
+    }, 4)
+
+    new Click_Upgrade("img/tools/wood_hoe.png", "wooden_hoe", "Wooden Hoe", 0, 1, "A wooden hoe. Im not sure why, but here you go", {
+        "oak_plank": 2,
+        "stick": 2,
+    }, 1);
+    new Click_Upgrade("img/tools/wood_shovel.png", "wooden_shovel", "Wooden Shovel", 0, 1, "A wooden shovel", {
+        "wood_plank": 1,
+        "stick": 2,
+    }, 1);
+    new Click_Upgrade("img/tools/wood_pickaxe.png", "wooden_pickaxe", "Wooden Pickaxe", 0, 1, "A wooden pickaxe", {
+        "wood_plank": 3,
+        "stick": 2,
+    }, 1);
+    new Click_Upgrade("img/tools/wood_sword.png", "wooden_sword", "Wooden Sword", 0, 1, "A wooden sword", {
+        "stick": 1,
+        "wood_plank": 2,
+    }, 1);
+    new Click_Upgrade("img/tools/stone_pickaxe.png", "stone_pickaxe", "Stone Pickaxe", 0, 0, "A Stone Pickaxe", {
+        "stick": 2,
+        "cobblestone": 3,
+    }, 1)
+
+    //inventory upgrades
+    new Inventory_Item("img/icons/acacia_log.png", "acacia_log", "Acacia Log", 0, "Acacia Log", ["wood_log"])
+    new Inventory_Item("img/icons/spruce_log.png", "spruce_log", "Spruce Log", 0, "Spruce Log", ["wood_log"])
+    new Inventory_Item("img/icons/jungle_log.png", "jungle_log", "Jungle Log", 0, "Jungle Log", ["wood_log"])
+    new Inventory_Item("img/icons/birch_log.png", "birch_log", "Birch Log", 0, "Birch Log", ["wood_log"])
+    new Inventory_Item("img/icons/oak_log.png", "oak_log", "Oak Log", 0, "Oak Log", ["wood_log"])
+    new Inventory_Item("img/icons/acacia_plank.png", "acacia_plank", "Acacia Plank", 0, "Acacia Plank", ["wood_plank"])
+    new Inventory_Item("img/icons/spruce_plank.png", "spruce_plank", "Spruce Plank", 0, "Spruce Plank", ["wood_plank"])
+    new Inventory_Item("img/icons/jungle_plank.png", "jungle_plank", "Jungle Plank", 0, "Jungle Plank", ["wood_plank"])
+    new Inventory_Item("img/icons/birch_plank.png", "birch_plank", "Birch Plank", 0, "Birch Plank", ["wood_plank"])
+    new Inventory_Item("img/icons/oak_plank.png", "oak_plank", "Oak Plank", 2, "Oak Plank", ["wood_plank"])
+    new Inventory_Item("img/icons/cobblestone.png", "cobblestone", "Cobblestone", 0, "Cobblestone")
+    new Inventory_Item("img/icons/stick.png", "stick", "Stick", 0, "Stick")
 
 
-    //randomInventoryItem(10, "tool")
-    //alert(inventory)
-    //alert(inventory.length)
-    var test = {
-        "stick": 5,
-    };
-
-    new Inventory_Item("wood_sword.png", "stick", "Stick", 10, "A stick")
-    console.log(inventory)
-    function attemptCraft(item) {
-        //alert("test")
-        var required_materials;
-        var keys = Object.keys(item)
-        console.log(keys)
-        var i = 0
-        for (const property in item) {
-            var object = keys[i];
-            var cost = item[object];
-            console.log(inventory[object].owned)
-            console.log("Item " + object + ", you need " + cost)
-            if (inventory[object].owned > cost) {
-                console.log("successful")
-                inventory[object].owned -= cost
-                console.log(inventory[object].owned)
-                inventory[item.name] +=
+    //hide or show objects depending on if they currently have any owned
+    function hide_show_inventory_objects() {
+        var keys = get_object_keys(inventory)
+        for (i = 0; i <= keys.length - 1; i++) {
+            //store current object in inventory
+            var object = inventory[keys[i]]
+            //console.log(object)
+            if (object.owned) {
+                /* console.log(object.name + " is currently being shown") */
+                if (node_or_html === "html") {
+                    $(object.id).css('display', 'block')
+                }
+            } else {
+                /* console.log(object.name + " is currently not being shown") */
+                if (node_or_html === "html") {
+                    $(object.id).css('display', 'none')
+                }
             }
-            i++
         }
-
     }
-    attemptCraft(test)
-}
 
-///USE FOR NODE DEBUGGING
-runClicker()
+    function recipe_to_div(item) {
+        if (item.recipe) {
+            var div = ""
+            //retrieve and store all keys in the selected item
+            var keys = get_object_keys(item.recipe)
+            //console.log(keys)
+            //store the number of succesful passes the loop should return to successfully craft, and current passed checks
+            var reqs = keys.length
+            for (let i = 0; i <= reqs - 1; i++) {
+                var object = keys[i];
+                //get cost and name of current resource
+                var cost = item.recipe[object];
+                var temp = getProperName(object) + ": " + cost
+                div += temp
+                div += " <br> "
+                //console.log(div)
+            }
+            return (div)
+        } else {
+            return
+        }
+    }
+
+    function increasePrice(upgrade) {
+        var newPrice = upgrades[upgrade].baseCost * Math.pow(1.15, (upgrades[upgrade].owned))
+        upgrades[upgrade].cost = newPrice.toFixed(2)
+    }
+
+    function attemptCraft(item) {
+        //store all keys in the selected craft
+        console.log()
+        var keys = get_object_keys(item.recipe)
+        console.log(keys)
+        //store the number of succesful passes the loop should return to successfully craft, and current passed checks
+        var reqs = keys.length;
+        var currentReqs = 0;
+        for (let i = 0; i <= reqs - 1; i++) {
+            var object = keys[i];
+            var cost = item.recipe[object];
+            console.log("Item " + object + ", you need " + cost)
+            if (inventory[object].owned >= cost) {
+                //console.log("You own enough " + object + " to craft " + item.name)
+                currentReqs++
+            } else {
+                //console.log("You do not enough " + object + " to craft " + item.name)
+            }
+        }
+        //if requirement to craft is met
+        if (currentReqs >= reqs) {
+            for (let i = 0; i <= reqs - 1; i++) {
+                var object = keys[i];
+                //console.log(keys)
+                var cost = item.recipe[object];
+                if (inventory[object].owned >= cost) {
+                    inventory[object].owned -= cost
+                    console.log(inventory[object].owned)
+                    //console.log("You now have " + inventory[object].owned + " " + inventory[object].name)
+                }
+            }
+            //console.log(item.name)
+            if (inventory[item.name]) {
+                inventory[item.name].owned += item.craftAmount
+            } else {
+                inventory[item.name] = item
+                inventory[item.name].owned += item.craftAmount
+            }
+            console.log(inventory[item.name])
+            console.log("Succesfully crafted " + item.name)
+        } else {
+            console.log("Unsuccessfully crafted " + item.name)
+        }
+    }
+}

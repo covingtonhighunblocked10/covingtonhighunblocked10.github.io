@@ -1,7 +1,9 @@
-random materials appear on screen, you need the appropriate tool to collect it
+random materials appear on screen, you need the appropriate tool to collect it(not working on yet, possibly not used in final)
 
-progressive increases in sps using crafted items
+progressive increases in sps using crafted items(complete)
 
 powerful upgrades using collected items to craft better items
 
-inventory, when items hovered over, an absolute div appears with descriptions and amount currently stored.
+inventory, when items hovered over, an absolute div appears with descriptions and amount currently stored.(description shown, )
+
+inventory only stores raw items, not tools or idle upgrades

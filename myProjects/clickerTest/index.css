@@ -1,6 +1,6 @@
 body {
     user-select: none;
-    background-image: url(img/background.gif);
+    background-image: url(img/wallpaper.jpg);
     background-repeat: no-repeat;
     background-size: 100%;
     background-position: top;
@@ -12,34 +12,19 @@ body {
     src: url(MCFont.ttf);
 }
 
-#breakPNG {
-    pointer-events: none;
-    mask-mode: unset;
-    mask-position: center;
-    position: absolute;
-    mask-mode: luminance;
-    mask-type: luminance;
-    mask-clip:unset;
-}
-
-.clickerIcon {
-    width: 300px;
-    height: 300px;
-}
-
 .upgrade {
-    position: relative;
     background-color: grey;
     outline-style: groove;
     outline-color: grey;
     width: unset;
     height: unset;
     flex: 1;
-    padding: 1px;
+    margin-top: 10px;
     margin-bottom: 20px;
+    padding: 5px;
     position: sticky;
     overflow-x: clip;
-    overflow-y: scroll;
+    overflow-y: auto;
     font-size: 80%;
 }
 
@@ -57,22 +42,23 @@ body {
 
 #idleUpgradesList {
     float: right;
-    background-image: url("img/blocks/dirt.jpeg");
+    background-image: url("img/icons/dirt.jpeg");
     background-size: 50%;
 }
 
 #clickUpgradesList {
     float: right;
-    background-image: url("img/blocks/dirt.jpeg");
+    background-image: url("img/icons/dirt.jpeg");
     background-size: 50%;
 }
 
-.listUpgrades {
-    height: 500px;
-    width: 15%;
+.list::-webkit-scrollbar {
+    display: none;
 }
 
 .list {
+    height: 500px;
+    width: 15%;
     background-size: cover;
     background-attachment: scroll;
     overflow: hidden;
@@ -94,19 +80,17 @@ body {
 }
 
 #inventory {
-    background-image: url("img/blocks/dirt.jpeg");
+    background-image: url("img/icons/dirt.jpeg");
     background-size: 50%;
     position: sticky;
     float: right;
     display: block;
-    overflow-x: clip;
-    overflow-wrap: anywhere;
 }
 
 #inventoryGrid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    gap: 5px;
     grid-auto-rows: 100px;
     align-items: start;
 }
@@ -119,15 +103,16 @@ body {
     display: block;
     font-size: 100%;
     background-color: rgba(78, 78, 78, 0.7);
-    /* overflow-x: auto; */
     position: absolute;
-    width: 100px;
-    overflow-wrap: anywhere;
+    width: fit-content;
+    max-width: 150px;
+    overflow-wrap: break-word;
     text-align: center;
+    overflow-wrap: anywhere;
 }
 
 .inventoryObject {
-    background-image: url("img/item_background.png");
+    background-image: url("img/background.png");
     background-size: 100%;
     background-position-y: center;
     width: fit-content;
@@ -144,15 +129,27 @@ body {
 }
 
 #sleepDiv {
-    padding-top: 0px;
+    float: left;
+    width: 200px;
+    height: 200px;
+}
+
+#breakPNG {
+    pointer-events: none;
+    z-index: 2;
+    position: absolute;
 }
 
 .absolute {
     position: absolute;
 }
 
+.clickerIcon {
+    width: 100%;
+    height: 100%;
+}
+
 .generalText {
     font-size: 100%;
     color: white;
-    margin-bottom: 100px;
 }
