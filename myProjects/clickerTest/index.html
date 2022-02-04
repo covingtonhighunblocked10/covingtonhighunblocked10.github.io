@@ -12,23 +12,38 @@
 </head>
 
 <body>
-        <div class="absolute" id="sleepDiv">
-            <!--             <p>Total Sleep <span id="totalCurrency"></span></p>
-            <p>SPS: <span id="currencyPerSecond"></span> (Sleep per Second)</p> -->
-            <p>Click Value: <span id="clickValue"></span></p>
-            <img id="breakPNG" src="img/break_stages/destroy_stage_0.png" class="clickerIcon">
-            <img id="clickerPNG" src="img/cobblestone.png" class="clickerIcon">
+    <div id="main">
+        <div id="inventory" class="list left">
+            <center><b>
+                    <p class="generalText">INVENTORY</p>
+                </b></center>
+            <div id="inventoryGrid" class="generalText left"></div>
         </div>
-    <div id="inventory" class="list">
-        <center><b><p class="generalText">INVENTORY</p></b></center>
-        <br>
-        <div id="inventoryGrid" class="generalText"></div>
-    </div>
-    <div id="idleUpgradesList" class="list listUpgrades">
-        <center><b><span class="generalText">IDLE UPGRADES</span></b></center>
-    </div>
-    <div id="clickUpgradesList" class="list listUpgrades">
-        <center><b><span class="generalText">CLICK UPGRADES</span></b></center>
+        <div id="idleUpgradesList" class="list">
+            <center><b>
+                    <p class="generalText">IDLE UPGRADES</p>
+                </b></center>
+        </div>
+        <div class="" id="sleepDiv">
+            <center>
+                <p>Click Value: <span id="clickValue"></span></p>
+                <p>Damage Per Second: <span id="damagePerSecond"></span></p>
+                <span>
+                    <img id="breakPNG" src="img/break_stages/destroy_stage_0.png" class="clickerIcon">
+                    <img id="clickerPNG" src="img/icons/cobblestone.png" class="clickerIcon">
+                </span>
+            </center>
+        </div>
+        <div id="clickUpgradesList" class="list right">
+            <center><b>
+                    <p class="generalText">CLICK UPGRADES</p>
+                </b></center>
+        </div>
+        <div id="craftableUpgradesList" class="list right">
+            <center><b>
+                    <p class="generalText">CRAFTABLE ITEMS</p>
+                </b></center>
+        </div>
     </div>
 </body>
 

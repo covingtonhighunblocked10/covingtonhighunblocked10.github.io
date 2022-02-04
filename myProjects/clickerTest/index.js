@@ -16,8 +16,13 @@ function runClicker() {
     var currencyPerSecond = 0;
     var upgrades = {};
     var inventory = {};
+    var crafts = {};
     var current_block_texture = "cobblestone";
-    var block_textures = ["cobblestone", "oak_log", "acacia_log", "birch_log", "jungle_log", "spruce_log"]
+    //later options for block_textures, if i feel it would make the game better
+    //"acacia_log", "birch_log", "jungle_log", "spruce_log"
+
+    //for the clicker icon, and the breaking stage overlays to go with it
+    var block_textures = ["oak_log", "cobblestone"]
     var break_stage_source = ["destroy_stage_0.png", "destroy_stage_1.png", "destroy_stage_2.png", "destroy_stage_3.png", "destroy_stage_4.png", "destroy_stage_5.png", "destroy_stage_6.png", "destroy_stage_7.png", "destroy_stage_8.png", "destroy_stage_9.png"]
     var break_state = 0
     var tools = {
@@ -25,15 +30,11 @@ function runClicker() {
         materials: ["wood", "stone", "iron", "gold", "diamond", "netherite"],
         names: ["shovel", "pickaxe", "hoe", "sword", "axe"],
     }
-    var items = {
-        prefix: "img/blocks/",
-        names: ["cobblestone", "string"]
-    }
+
+    //maybe used later for random tool generation
     //var example_descriptions = ["Test Description 1", "Test Description 2", "Test Description 3"];
 
     var fps = 60
-
-    //setInterval(alert(upgrades["pebbles"].cost), 3000)
 
     if (node_or_html === "html") {
         $("#clickerPNG").on('click', click)
@@ -45,40 +46,36 @@ function runClicker() {
     }
 
     function get_object_keys(object) {
-        var keys = Object.keys(object)
-        //console.log("get_object_keys returns: " + keys)
+        var keys = Object.keys(object);
         return (keys)
     }
 
     function addIdle() {
-        currencyPerSecond = 0
+        var damagePerSecond = 0;
         var clickValTemp = 0;
-        var keys = get_object_keys(upgrades)
+        //reduce the gain per iteration so that you gain steady damage instead of once a second
+        var keys = get_object_keys(upgrades);
         for (var i = 0; i <= keys.length - 1; i++) {
             var current = upgrades[keys[i]]
             if (current.type === "idle") {
-                currencyPerSecond += (current.value * current.owned);
-                totalCurrency += (current.value * current.owned);
+                damagePerSecond += ((current.value * current.owned));
+                advanceBreak((current.value * current.owned));
             }
             if (current.type === "click") {
                 clickValTemp += (current.value * current.owned);
             }
         }
         clickValue = baseClickValue + clickValTemp
+        updateText("#damagePerSecond", damagePerSecond)
         updateText("#clickValue", clickValue)
     }
 
     function updateOwned() {
         var inventory_keys = get_object_keys(inventory)
         var upgrade_keys = get_object_keys(upgrades)
-        /* console.log(inventory_keys)
-        console.log(upgrade_keys) */
         for (var i = 0; i <= upgrade_keys.length - 1; i++) {
             if (upgrade_keys[i].type === "idle" || "click") {
                 let current = upgrades[upgrade_keys[i]]
-                /* console.log(current.name)
-                console.log(current.cost)
-                console.log(current.id) */
                 if (node_or_html === "html") {
                     updateText(("#" + current.name + "_cost"), current.cost)
                     updateText(("#" + current.name + "_owned"), (current.owned ? current.owned : "0"))
@@ -86,11 +83,8 @@ function runClicker() {
             }
         }
         for (var i = 0; i <= inventory_keys.length - 1; i++) {
-            let current = inventory[inventory_keys[i]]
-            /* console.log(current)
-            console.log(current.name)
-            console.log(current.id) */
             if (node_or_html === "html") {
+                let current = inventory[inventory_keys[i]]
                 updateText(("#inventory_" + current.name + "_owned"), (current.owned ? current.owned : "0"))
             }
         }
@@ -98,9 +92,9 @@ function runClicker() {
     }
 
     function updateLoop() {
+        hide_show_inventory_objects();
         updateText("#totalCurrency", totalCurrency.toFixed(2))
         updateText("#currencyPerSecond", currencyPerSecond.toFixed(2))
-        hide_show_inventory_objects();
         updateOwned()
     }
 
@@ -108,34 +102,45 @@ function runClicker() {
         if (node_or_html === "html") {
             $(id).text(text);
         }
-
     }
 
     function click() {
-        advanceBreak()
+        advanceBreak(clickValue)
     }
 
-    function advanceBreak() {
-        break_state += clickValue
-        if (break_state > break_stage_source.length - 1) {
-            break_state = 0
-            totalCurrency += clickValue
+    function advanceBreak(clickValue) {
+        damage = clickValue
+        fullDamage(damage)
+        console.log(damage)
+        $("#clickerPNG").attr('src', ("img/icons/" + current_block_texture + ".png"))
+        $("#breakPNG").attr('src', ("img/break_stages/" + (break_stage_source[break_state])))
+    }
+
+    function fullDamage(hitDamage) {
+        if ((break_state + hitDamage) > break_stage_source.length && hitDamage >= break_stage_source.length) {
             inventory[current_block_texture].owned++
             current_block_texture = block_textures[getRandom(0, block_textures.length - 1)]
-            //alert(current_block_texture)
+            fullDamage(hitDamage -= break_stage_source.length - 1)
+        } else if (hitDamage > 0 && hitDamage <= break_stage_source.length - 1) {
+            //if the damage is below the block break amount
+            console.log(hitDamage)
+            break_state += hitDamage;
+            //check for fuckups in my own code
+            if (break_state >= break_stage_source.length) {
+                //just assume i messed up and break the block as intended
+                inventory[current_block_texture].owned++
+                current_block_texture = block_textures[getRandom(0, block_textures.length - 1)]
+                break_state = 0;
+            } else if (break_state < 0) {
+                break_state = 0;
+            }
         }
-        $("#clickerPNG").attr('src', ("img/icons/" + current_block_texture + ".png"))
-        $("#breakPNG").attr('src', ("img/break_stages/" + break_stage_source[break_state]))
-        //alert($("#breakPNG").attr('src'))
     }
 
     function getRandom(min, max) {
-        var random = Math.round(Math.random() * (max - min) + min)
-        if (random) {
-            return (random);
-        } else {
-            return (getRandom(min, max))
-        }
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
 
@@ -161,15 +166,15 @@ function runClicker() {
         }
     }
 
+    /////////////////////////////////////////////////
+    ///////MISC FUNCTIONS FOR TESTING PURPOSES///////
+    /////////////////////////////////////////////////
+
     function getProperName(string) {
         var newString = (string[0]).toUpperCase() + string.substring(1, string.length)
         //console.log("UpperCaseString: " + newString)
         return (newString)
     }
-
-    /////////////////////////////////////////////////
-    ///////MISC FUNCTIONS FOR TESTING PURPOSES///////
-    /////////////////////////////////////////////////
 
     function RandomToolGenerator() {
         //alert("gen random tool")
@@ -191,176 +196,11 @@ function runClicker() {
                 //alert(block)
                 new Inventory_Item(block, block, getProperName(block), 0, block)
             }
-
         } else {
             alert("invalid type")
             return
         }
     }
-
-    /////////////////////////////////////////////
-    //////Constructor for Inventory Items////////
-    ////////////////////////////////////////////
-    class Inventory_Item {
-        constructor(image, name, nameProper, owned, description, tags) {
-            var x = {
-                name: name,
-                nameProper: nameProper,
-                description: description,
-                owned: owned,
-                tags: tags ? tags : [],
-                image: image,
-                type: "inventory_object",
-                id: "inventory_" + name,
-            };
-            var div = "<div class='inventoryObject' id='" + x.id + "'><img src='" + x.image + "' class='inventoryIcon'></img><p class='inventoryDescription' id='inventory_" + x.id + "_description'>" + x.description + "<br> Owned: <span id='" + x.id + "_owned'></span></p></div>";
-            //using this for testing//
-            x.div = div
-            //////////////////////////
-            x.id = "#" + x.id
-            inventory[name] = x
-            //console.log(inventory)
-            if (node_or_html === "html") {
-                $("#inventoryGrid").append(div)
-                $(x.id).on('click', function () {
-                    //attemptCraft(upgrades[name].name)
-                })
-            }
-            //console.log(inventory)
-        };
-
-    }
-
-    //////////////////////////////////////////
-    ////////Constructor for Upgrades//////////
-    //////////////////////////////////////////
-    class Idle_Upgrade {
-        constructor(image, name, nameProper, owned, value, description, recipe, craftAmount, tags) {
-            var x = {
-                name: name,
-                nameProper: nameProper,
-                description: description,
-                owned: recipe ? 0 : owned,
-                value: value,
-                recipe: recipe ? recipe : false,
-                tags: tags ? tags : [],
-                craftAmount: craftAmount ? craftAmount : 0,
-                image: image,
-                type: "idle",
-                id: name + "_idle_upgrade",
-            }
-            var div = "<div id='" + x.id + "' class='upgrade'> <img class='icon' src='" + image + "'><p>" + nameProper + "</p><br><p><span class='upgradeDescription'>" + description + "</span></p> <p><span>" + value + "</span> damage per second</p> <p>" + nameProper + " Owned: <span id='" + (name + "_owned") + "'></span></p> </div>";
-            x.id = "#" + x.id
-            //using this for testing//
-            x.div = div
-            //////////////////////////
-            upgrades[name] = x
-            if (node_or_html === "html") {
-                $("#idleUpgradesList").append(div)
-                if (x.recipe) {
-                    //console.log(x.name + " recipe")
-                    //console.log(x.recipe)
-                    $(x.id).append(recipe_to_div(upgrades[x.name]))
-                }
-                $(x.id).on('click', function () {
-                    attemptCraft(upgrades[name])
-                })
-            }
-            //alert(div)
-        }
-    }
-    class Click_Upgrade {
-        constructor(image, name, nameProper, owned, value, description, recipe, craftAmount, tags) {
-            var x = {
-                name: name,
-                nameProper: nameProper,
-                description: description,
-                owned: owned,
-                value: value,
-                tags: tags ? tags : [],
-                recipe: recipe ? recipe : false,
-                craftAmount: craftAmount ? craftAmount : 0,
-                image: image,
-                type: "click",
-                id: name + "_click_upgrade",
-            }
-            var div = "<div id='" + x.id + "' class='upgrade'> <img class='icon' src='" + image + "'><p>" + nameProper + "</p><br><p><span class='upgradeDescription'>" + description + "</span></p> <p><span>" + value + "</span> extra damage on click</p> <p>" + nameProper + " Owned: <span id='" + (name + "_owned") + "'></span></p> </div>";
-            x.id = "#" + x.id
-            //using this for testing//
-            x.div = div
-            //////////////////////////
-            upgrades[name] = x
-            if (x.recipe) {
-                //console.log(x.name + " recipe")
-                //console.log(x.recipe)
-            }
-            if (node_or_html === "html") {
-                $("#clickUpgradesList").append(div)
-                if (x.recipe) {
-                    //console.log(x.name + " recipe")
-                    //console.log(x.recipe)
-                    $(x.id).append(recipe_to_div(upgrades[x.name]))
-                }
-                $(x.id).on('click', function () {
-                    console.log(upgrades[name].name)
-                    attemptCraft(upgrades[name])
-                })
-            }
-        }
-    }
-
-    ////////////////////////////////////
-    ////////ADD IDLE UPGRADES//////////
-    ///////////////////////////////////
-
-    new Idle_Upgrade("img/icons/string.png", "string", "String", 0, 10, "String. Not sure how you got this bro", );
-
-    ////////////////////////////////////
-    ////////ADD CLICK UPGRADES//////////
-    ////////////////////////////////////
-    new Click_Upgrade("img/icons/oak_plank.png", "oak_plank", "Oak Plank", 0, 0, "An oak plank", {
-        "oak_log": 1,
-    }, 4)
-
-    new Click_Upgrade("img/icons/stick.png", "stick", "Stick", 0, 0, "A stick", {
-        "oak_plank": 2,
-    }, 4)
-
-    new Click_Upgrade("img/tools/wood_hoe.png", "wooden_hoe", "Wooden Hoe", 0, 1, "A wooden hoe. Im not sure why, but here you go", {
-        "oak_plank": 2,
-        "stick": 2,
-    }, 1);
-    new Click_Upgrade("img/tools/wood_shovel.png", "wooden_shovel", "Wooden Shovel", 0, 1, "A wooden shovel", {
-        "wood_plank": 1,
-        "stick": 2,
-    }, 1);
-    new Click_Upgrade("img/tools/wood_pickaxe.png", "wooden_pickaxe", "Wooden Pickaxe", 0, 1, "A wooden pickaxe", {
-        "wood_plank": 3,
-        "stick": 2,
-    }, 1);
-    new Click_Upgrade("img/tools/wood_sword.png", "wooden_sword", "Wooden Sword", 0, 1, "A wooden sword", {
-        "stick": 1,
-        "wood_plank": 2,
-    }, 1);
-    new Click_Upgrade("img/tools/stone_pickaxe.png", "stone_pickaxe", "Stone Pickaxe", 0, 0, "A Stone Pickaxe", {
-        "stick": 2,
-        "cobblestone": 3,
-    }, 1)
-
-    //inventory upgrades
-    new Inventory_Item("img/icons/acacia_log.png", "acacia_log", "Acacia Log", 0, "Acacia Log", ["wood_log"])
-    new Inventory_Item("img/icons/spruce_log.png", "spruce_log", "Spruce Log", 0, "Spruce Log", ["wood_log"])
-    new Inventory_Item("img/icons/jungle_log.png", "jungle_log", "Jungle Log", 0, "Jungle Log", ["wood_log"])
-    new Inventory_Item("img/icons/birch_log.png", "birch_log", "Birch Log", 0, "Birch Log", ["wood_log"])
-    new Inventory_Item("img/icons/oak_log.png", "oak_log", "Oak Log", 0, "Oak Log", ["wood_log"])
-    new Inventory_Item("img/icons/acacia_plank.png", "acacia_plank", "Acacia Plank", 0, "Acacia Plank", ["wood_plank"])
-    new Inventory_Item("img/icons/spruce_plank.png", "spruce_plank", "Spruce Plank", 0, "Spruce Plank", ["wood_plank"])
-    new Inventory_Item("img/icons/jungle_plank.png", "jungle_plank", "Jungle Plank", 0, "Jungle Plank", ["wood_plank"])
-    new Inventory_Item("img/icons/birch_plank.png", "birch_plank", "Birch Plank", 0, "Birch Plank", ["wood_plank"])
-    new Inventory_Item("img/icons/oak_plank.png", "oak_plank", "Oak Plank", 2, "Oak Plank", ["wood_plank"])
-    new Inventory_Item("img/icons/cobblestone.png", "cobblestone", "Cobblestone", 0, "Cobblestone")
-    new Inventory_Item("img/icons/stick.png", "stick", "Stick", 0, "Stick")
-
 
     //hide or show objects depending on if they currently have any owned
     function hide_show_inventory_objects() {
@@ -388,21 +228,24 @@ function runClicker() {
             var div = ""
             //retrieve and store all keys in the selected item
             var keys = get_object_keys(item.recipe)
-            //console.log(keys)
+            //item name.
+            //fun fact, i spent three hours debugging just to now find out i had the proper name already stored prior to tearing my hair out.
+            //At 5:04PM, february the third, of 2022, i am feeling extremely slow.
+            //thanks for disabling inspect, school chromebooks. its great, really, that you did that.
+            //wait. im actually still stupid. one second. nvm im 
             //store the number of succesful passes the loop should return to successfully craft, and current passed checks
             var reqs = keys.length
             for (let i = 0; i <= reqs - 1; i++) {
-                var object = keys[i];
+                let object = keys[i];
+
                 //get cost and name of current resource
                 var cost = item.recipe[object];
-                var temp = getProperName(object) + ": " + cost
-                div += temp
-                div += " <br> "
-                //console.log(div)
+                var temp = object + ": " + cost
+                div += temp + "<br>"
             }
-            return (div)
+            return ("<p>" + div + "</p>")
         } else {
-            return
+            return; /* "<p> no recipe found, this is an error message, blah blah blah blah blah blah blah blah</p>" */
         }
     }
 
@@ -412,47 +255,315 @@ function runClicker() {
     }
 
     function attemptCraft(item) {
-        //store all keys in the selected craft
-        console.log()
+        console.log(item)
+        //store all keys for the selected craft
         var keys = get_object_keys(item.recipe)
-        console.log(keys)
         //store the number of succesful passes the loop should return to successfully craft, and current passed checks
         var reqs = keys.length;
         var currentReqs = 0;
-        for (let i = 0; i <= reqs - 1; i++) {
-            var object = keys[i];
-            var cost = item.recipe[object];
-            console.log("Item " + object + ", you need " + cost)
-            if (inventory[object].owned >= cost) {
-                //console.log("You own enough " + object + " to craft " + item.name)
-                currentReqs++
-            } else {
-                //console.log("You do not enough " + object + " to craft " + item.name)
-            }
-        }
-        //if requirement to craft is met
-        if (currentReqs >= reqs) {
+        if (item.owned <= item.maxCrafts) {
             for (let i = 0; i <= reqs - 1; i++) {
                 var object = keys[i];
-                //console.log(keys)
                 var cost = item.recipe[object];
+                console.log("Item " + object + ", you need " + cost)
                 if (inventory[object].owned >= cost) {
-                    inventory[object].owned -= cost
-                    console.log(inventory[object].owned)
-                    //console.log("You now have " + inventory[object].owned + " " + inventory[object].name)
+                    //console.log("You own enough " + object + " to craft " + item.name)
+                    currentReqs++
+                } else {
+                    //console.log("You do not enough " + object + " to craft " + item.name)
                 }
             }
-            //console.log(item.name)
-            if (inventory[item.name]) {
-                inventory[item.name].owned += item.craftAmount
+            //if requirement to craft is met
+            if (currentReqs >= reqs) {
+                for (let i = 0; i <= reqs - 1; i++) {
+                    var object = keys[i];
+                    //console.log(keys)
+                    var cost = item.recipe[object];
+                    if (inventory[object].owned >= cost) {
+                        inventory[object].owned -= cost
+                        //console.log("You now have " + inventory[object].owned + " " + inventory[object].name)
+                    }
+                }
+                if (inventory[item.name]) {
+                    inventory[item.name].owned += item.craftAmount
+                } else {
+                    inventory[item.name] = item
+                    inventory[item.name].owned += item.craftAmount
+                }
+                console.log("Succesfully crafted " + item.name)
             } else {
-                inventory[item.name] = item
-                inventory[item.name].owned += item.craftAmount
+                console.log("Unsuccessfully crafted " + item.name)
             }
-            console.log(inventory[item.name])
-            console.log("Succesfully crafted " + item.name)
         } else {
-            console.log("Unsuccessfully crafted " + item.name)
+            alert("max crafts reached for " + item.name)
         }
     }
+
+    /////////////////////////////////////////////
+    //////Constructor for Inventory Items////////
+    ////////////////////////////////////////////
+    class Inventory_Item {
+        constructor(image, name, nameProper, owned, description, tags) {
+            var x = {
+                name: name,
+                nameProper: nameProper,
+                description: description,
+                owned: owned,
+                tags: tags ? tags : [],
+                image: image,
+                type: "inventory_object",
+                id: "inventory_" + name,
+            };
+            var div = "<div class='inventoryObject' id='" + x.id + "'><img src='" + x.image + "' class='inventoryIcon'></img><p class='inventoryDescription' id='inventory_" + x.id + "_description'>" + x.description + "<br> Owned: <span id='" + x.id + "_owned'></span></p></div>";
+            //using this for testing//
+            //x.div = div
+            //////////////////////////
+            x.id = "#" + x.id
+            inventory[name] = x
+            if (node_or_html === "html") {
+                $("#inventoryGrid").append(div)
+                $(x.id).on('click', function () {
+                    //attemptCraft(upgrades[name].name)
+                })
+            }
+        };
+
+    }
+
+    //////////////////////////////////////////
+    ////////Constructor for Upgrades//////////
+    //////////////////////////////////////////
+    class Idle_Upgrade {
+        constructor(image, name, nameProper, owned, value, description, recipe, craftAmount, maxCrafts) {
+            var x = {
+                name: name,
+                nameProper: nameProper,
+                description: description,
+                owned: recipe ? 0 : owned,
+                value: value ? value : owned,
+                recipe: recipe ? recipe : false,
+                craftAmount: craftAmount ? craftAmount : 0,
+                maxCrafts: maxCrafts ? maxCrafts : 999999999999999,
+                image: image,
+                type: "idle",
+                id: name + "_idle_upgrade",
+            }
+            //if the owned number of objects is visible in the crafting area, hide the owned from here
+            var owned;
+            //same as above, but for displaying value
+            var damage;
+            var recipe;
+            if (!recipe && !value) {
+                recipe = ""
+                owned = ""
+                damage = ""
+            } else {
+                recipe = "<p><br>recipe-<br></p>" + recipe_to_div(x)
+                damage = "<p><span>" + value + "</span> damage per second</p>"
+                owned = "<p>" + nameProper + " Owned: <span id='" + (name + "_owned") + "'></span></p>"
+            }
+            var div = "<div id='" + x.id + "' class='upgrade'> <img class='icon' src='" + image + "'><p>" + nameProper + "</p><br><p><span class='upgradeDescription'>" + description + "</span></p>" + (damage) + (owned) + (recipe) + "</div>";
+            x.id = "#" + x.id
+            //using this for testing//
+            //x.div = div
+            //////////////////////////
+            upgrades[name] = x
+            if (node_or_html === "html") {
+                $("#idleUpgradesList").append(div)
+                $(x.id).on('click', function () {
+                    console.log("attempt craft for " + nameProper)
+                    attemptCraft(upgrades[name])
+                })
+            } else if (node_or_html === "node") {
+                if (x.recipe) {
+                    //console.log(upgrades[name])
+                    console.log(recipe_to_div(upgrades[name]))
+                    //console.log("appended " + x.nameProper + " to " + x.id)
+                }
+            }
+        }
+    }
+    class Click_Upgrade {
+        constructor(image, name, nameProper, owned, value, description, recipe, craftAmount, maxCrafts) {
+            //alert("creating " + name)
+            var x = {
+                name: name,
+                nameProper: nameProper,
+                description: description,
+                owned: owned,
+                value: value ? value : 0,
+                recipe: recipe ? recipe : false,
+                craftAmount: craftAmount ? craftAmount : 0,
+                maxCrafts: maxCrafts ? maxCrafts : 999999999999999,
+                crafted: 0,
+                image: image,
+                type: "click",
+                id: name + "_click_upgrade",
+            }
+            //if the owned number of objects is visible in the crafting area, hide the owned from here
+            var owned;
+            //same as above, but for displaying value
+            var damage;
+            var recipe;
+            if (!recipe && !value) {
+                recipe = ""
+                owned = ""
+                damage = ""
+            } else {
+                recipe = "<p><br>recipe-<br></p>" + recipe_to_div(x)
+                damage = "<p><span>" + value + "</span> Extra damage per click</p>"
+                owned = "<p>" + nameProper + " Owned: <span id='" + (name + "_owned") + "'></span></p"
+            }
+            var div = "<div id='" + x.id + "' class='upgrade'> <img class='icon' src='" + x.image + "'><p>" + x.nameProper + "</p><br><p><span class='upgradeDescription'>" + x.description + "</span></p>" + (damage) + (owned) + (recipe) + "</div>";
+            x.id = "#" + x.id
+            //using this for testing//
+            //x.div = div
+            //////////////////////////
+            upgrades[name] = x
+            if (node_or_html === "html") {
+                $("#clickUpgradesList").append(div)
+                $(x.id).on('click', function () {
+                    attemptCraft(upgrades[name])
+                })
+            } else if (node_or_html === "node") {
+                if (x.recipe) {
+                    console.log(recipe_to_div(upgrades[x.name]))
+                }
+            }
+        }
+    }
+    class Craftable_Item {
+        constructor(image, name, nameProper, owned, description, recipe, craftAmount, maxCrafts, type) {
+            var x = {
+                name: name,
+                nameProper: nameProper,
+                description: description,
+                owned: owned,
+                recipe: recipe ? recipe : false,
+                craftAmount: craftAmount ? craftAmount : 0,
+                maxCrafts: maxCrafts,
+                image: image,
+                type: type,
+                id: "craftable_item_" + name,
+            }
+            //if the owned number of objects is visible in the crafting area, hide the owned from here
+            var owned;
+            var recipe;
+            if (!recipe) {
+                recipe = ""
+                owned = ""
+            } else {
+                recipe = "<p><br>recipe-<br></p>" + recipe_to_div(x)
+                owned = "<p>" + nameProper + " Owned: <span id='" + (name + "_owned") + "'></span></p>"
+            }
+            var div = "<div id='" + x.id + "' class='upgrade'> <img class='icon' src='" + x.image + "'><p>" + x.nameProper + "</p><br><p><span class='upgradeDescription'>" + (owned) + (recipe) + "</span></p></div>";
+            x.id = "#" + x.id
+            //using this for testing//
+            //x.div = div//
+            //////////////////////////
+            crafts[name] = x
+            if (node_or_html === "html") {
+                $("#craftableUpgradesList").append(div)
+                if (x.recipe) {
+                    console.log(crafts[name])
+                    $(x.id).append(recipe_to_div(crafts[name]))
+                    console.log("appended" + x.nameProper)
+                }
+                $(x.id).on('click', function () {
+                    attemptCraft(crafts[name])
+                })
+            } else if (node_or_html === "node") {
+                if (x.recipe) {
+                    //console.log(upgrades[x.name])
+                    console.log(recipe_to_div(crafts[x.name]))
+                    //console.log("appended " + x.nameProper + " to " + x.id)
+                }
+            }
+        }
+    }
+
+    /////////////////////////////////////
+    ////////ADD INVENTORY ITEMS//////////
+    ////////////////////////////////////
+
+    new Inventory_Item("img/icons/acacia_log.png", "acacia_log", "Acacia Log", 0, "Acacia Log")
+    new Inventory_Item("img/icons/spruce_log.png", "spruce_log", "Spruce Log", 0, "Spruce Log")
+    new Inventory_Item("img/icons/jungle_log.png", "jungle_log", "Jungle Log", 0, "Jungle Log")
+    new Inventory_Item("img/icons/birch_log.png", "birch_log", "Birch Log", 0, "Birch Log")
+    new Inventory_Item("img/icons/oak_log.png", "oak_log", "Oak Log", 0, "Oak Log")
+    new Inventory_Item("img/icons/acacia_plank.png", "acacia_plank", "Acacia Plank", 0, "Acacia Plank")
+    new Inventory_Item("img/icons/spruce_plank.png", "spruce_plank", "Spruce Plank", 0, "Spruce Plank")
+    new Inventory_Item("img/icons/jungle_plank.png", "jungle_plank", "Jungle Plank", 0, "Jungle Plank")
+    new Inventory_Item("img/icons/birch_plank.png", "birch_plank", "Birch Plank", 0, "Birch Plank")
+    new Inventory_Item("img/icons/oak_plank.png", "oak_plank", "Oak Plank", 0, "Oak Plank")
+    new Inventory_Item("img/icons/cobblestone.png", "cobblestone", "Cobblestone", 0, "Cobblestone")
+    new Inventory_Item("img/icons/stick.png", "stick", "Stick", 0, "Stick")
+
+    //////////////////////////////////
+    ////////ADD CRAFT ITEMS//////////
+    /////////////////////////////////
+
+    new Craftable_Item("img/icons/oak_plank.png", "oak_plank", "Oak Plank", 0, "An oak plank", {
+        "oak_log": 1,
+    }, 4, false)
+    new Craftable_Item("img/icons/stick.png", "stick", "Stick", 0, "A stick", {
+        "oak_plank": 2,
+    }, 4, false)
+
+    ////////////////////////////////////
+    ////////ADD IDLE UPGRADES//////////
+    ///////////////////////////////////
+
+    /* new Idle_Upgrade("img/icons/string.png", "string", "String", 1, 1, "String. Not sure how you got this bro, this is literally for testing. if you see this, fuck you, because it means i messed up somewhere, nothing personal btw", ); */
+    new Idle_Upgrade("img/icons/furnace_active.png", "furnace", "Furnace", 0, 1, "A furnace", {
+        "cobblestone": 9,
+    }, 1, false);
+
+    ////////////////////////////////////
+    ////////ADD CLICK UPGRADES//////////
+    ////////////////////////////////////
+
+    new Click_Upgrade("img/tools/wood_hoe.png", "wooden_hoe", "Wooden Hoe", 0, 1, "A wooden hoe. Im not sure why, but here you go", {
+        "oak_plank": 2,
+        "stick": 2,
+    }, 1, false);
+    new Click_Upgrade("img/tools/wood_axe.png", "wooden_axe", "Wooden Axe", 0, 1, "A wooden axe.", {
+        "oak_plank": 2,
+        "stick": 2,
+    }, 1, false);
+    new Click_Upgrade("img/tools/wood_shovel.png", "wooden_shovel", "Wooden Shovel", 0, 1, "A wooden shovel", {
+        "oak_plank": 1,
+        "stick": 2,
+    }, 1, false);
+    new Click_Upgrade("img/tools/wood_sword.png", "wooden_sword", "Wooden Sword", 0, 1, "A wooden sword", {
+        "stick": 1,
+        "oak_plank": 2,
+    }, 1, false);
+    new Click_Upgrade("img/tools/wood_pickaxe.png", "wooden_pickaxe", "Wooden Pickaxe", 0, 1, "A wooden pickaxe", {
+        "oak_plank": 3,
+        "stick": 2,
+    }, 1, false);
+    new Click_Upgrade("img/tools/stone_hoe.png", "stone_hoe", "Stone Hoe", 0, 5, "A stone hoe", {
+        "stick": 2,
+        "cobblestone": 2,
+    }, 1, false);
+    new Click_Upgrade("img/tools/stone_axe.png", "stone_axe", "Stone Axe", 0, 5, "A stone xe", {
+        "stick": 2,
+        "cobblestone": 3,
+    }, 1, false);
+    new Click_Upgrade("img/tools/stone_shovel.png", "stone_shovel", "Stone Shovel", 0, 5, "A stone shovel", {
+        "stick": 2,
+        "cobblestone": 1,
+    }, 1, false);
+    new Click_Upgrade("img/tools/stone_sword.png", "stone_sword", "Stone Sword", 0, 5, "A stone sword", {
+        "stick": 1,
+        "cobblestone": 2,
+    }, 1, false);
+    new Click_Upgrade("img/tools/stone_pickaxe.png", "stone_pickaxe", "Stone Pickaxe", 0, 5, "A Stone Pickaxe", {
+        "stick": 2,
+        "cobblestone": 3,
+    }, 1, false);
+    console.log(inventory)
+    console.log(crafts)
+    console.log(upgrades)
 }

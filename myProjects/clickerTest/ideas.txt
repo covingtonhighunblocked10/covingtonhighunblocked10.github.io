@@ -1,9 +1,13 @@
-random materials appear on screen, you need the appropriate tool to collect it(not working on yet, possibly not used in final)
+random materials appear on screen, you need the appropriate tool to collect it(not working on yet, possibly not used in final(definitely not using this in the final game))
 
 progressive increases in sps using crafted items(complete)
 
-powerful upgrades using collected items to craft better items
+powerful upgrades using collected items to craft better items(completed, on a small scale)
 
-inventory, when items hovered over, an absolute div appears with descriptions and amount currently stored.(description shown, )
+inventory, when items hovered over, an absolute div appears with descriptions and amount currently stored.(complete)
 
-inventory only stores raw items, not tools or idle upgrades
+inventory only stores raw items, not tools or idle upgrades(completed, maybe changed eventually)
+
+furnace for smelting ore and food
+
+farming possibly?

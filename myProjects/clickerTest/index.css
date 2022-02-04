@@ -5,6 +5,7 @@ body {
     background-size: 100%;
     background-position: top;
     font-family: minecraft;
+    display: flex;
 }
 
 @font-face {
@@ -40,24 +41,13 @@ body {
     overflow-x: unset;
 }
 
-#idleUpgradesList {
-    float: right;
-    background-image: url("img/icons/dirt.jpeg");
-    background-size: 50%;
-}
-
-#clickUpgradesList {
-    float: right;
-    background-image: url("img/icons/dirt.jpeg");
-    background-size: 50%;
-}
-
 .list::-webkit-scrollbar {
     display: none;
 }
 
 .list {
-    height: 500px;
+    margin-top: 8%;
+    height: 600px;
     width: 15%;
     background-size: cover;
     background-attachment: scroll;
@@ -70,7 +60,8 @@ body {
     padding-left: 25px;
     padding-right: 25px;
     padding-bottom: 25px;
-    margin-right: 10px;
+    background-image: url("img/icons/dirt.jpeg");
+    background-size: 50%;
 }
 
 .icon {
@@ -79,15 +70,8 @@ body {
     height: 50px;
 }
 
-#inventory {
-    background-image: url("img/icons/dirt.jpeg");
-    background-size: 50%;
-    position: sticky;
-    float: right;
-    display: block;
-}
-
 #inventoryGrid {
+    margin-left: 7.5%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 5px;
@@ -104,9 +88,9 @@ body {
     font-size: 100%;
     background-color: rgba(78, 78, 78, 0.7);
     position: absolute;
+    padding: 1%;
     width: fit-content;
     max-width: 150px;
-    overflow-wrap: break-word;
     text-align: center;
     overflow-wrap: anywhere;
 }
@@ -120,7 +104,7 @@ body {
 }
 
 .inventoryIcon {
-    padding-top: 10px;
+    padding-top: 14px;
     padding-left: 10px;
     padding-right: 10px;
     padding-bottom: 10px;
@@ -129,24 +113,31 @@ body {
 }
 
 #sleepDiv {
-    float: left;
-    width: 200px;
-    height: 200px;
+    margin-top: 10%;
+    width: 30%;
+    height: 30%;
+}
+
+#clickerPNG {
+    z-index: 1;
 }
 
 #breakPNG {
     pointer-events: none;
     z-index: 2;
-    position: absolute;
-}
-
-.absolute {
-    position: absolute;
 }
 
 .clickerIcon {
-    width: 100%;
+    position: absolute;
+    width: 30v;
+    height: 30vh;
+    left: calc(42.5%);
+}
+
+#main {
     height: 100%;
+    width: 100%;
+    display: flex;
 }
 
 .generalText {
