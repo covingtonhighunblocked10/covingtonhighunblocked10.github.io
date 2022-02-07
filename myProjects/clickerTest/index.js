@@ -50,7 +50,7 @@ function runClicker() {
         //use these variables when using clearInterval, they contain the ID for each interval.
         //typing this because I will absolutely forget it
         var updateInterval = setInterval(updateLoop, 1000 / fps)
-        //var idleInterval = setInterval(addIdle, 1000 / fps)
+        var idleInterval = setInterval(addIdle, 1000 / fps)
         //var updateOwnedInterval = setInterval(updateOwned, 1000)
     }
     if (node_or_html === "node") {
@@ -95,20 +95,21 @@ function runClicker() {
                 if (node_or_html === "html") {
                     updateText(("#" + current.name + "_cost"), current.cost)
                     updateText(("#" + current.name + "_owned"), (current.owned ? current.owned : "0"))
-                }
-            }
-        }
+                };
+            };
+        };
         for (var i = 0; i <= inventory_keys.length - 1; i++) {
             if (node_or_html === "html") {
                 let current = inventory[inventory_keys[i]]
                 updateText(("#inventory_" + current.name + "_owned"), (current.owned ? current.owned : "0"))
-            }
-        }
+            };
+        };
 
     }
 
     function updateLoop() {
         hide_show_inventory_objects();
+        hide_show_tools()
         updateText("#totalCurrency", totalCurrency.toFixed(2))
         updateText("#currencyPerSecond", currencyPerSecond.toFixed(2))
         updateOwned()
@@ -124,15 +125,9 @@ function runClicker() {
         advanceBreak(clickValue)
     }
 
-    function advanceBreak(clickValue) {
+    function advanceBreak(requestedDamage) {
         //blocks_broken_total = 0
-        fullDamageOriginal(clickValue)
-        console.log("Blocks Broken: " + blocks_broken_total)
-        console.log("Block Damage: " + damage)
-        console.log("Remaining Health: " + (block_health - damage))
-        console.log("Damage Hit For: " + clickValue)
-        console.log("Current Block Texture: " + current_block_texture)
-        console.log()
+        fullDamage(requestedDamage)
         if (node_or_html === "html") {
             $("#blockHealthRemaining").text((block_health - damage).toFixed(2))
             $("#clickerPNG").attr('src', ("img/icons/" + current_block_texture + ".png"))
@@ -140,61 +135,32 @@ function runClicker() {
         }
     }
 
-    function fullDamageOriginal(hitDamage) {
-        // the damage(non-integer, health taken from block) and the requested damage(hitDamage)
-        console.log(damage + hitDamage)
-        console.log(block_health)
-        if (Math.round(hitDamage) >= block_health - 1 && Math.round(hitDamage) > block_health - damage) {
-            console.log("block broken")
-            blocks_broken_total++
-            var newBlock = Math.round(getRandom(0, block_textures.length - 1))
-            console.log(block_textures[newBlock])
-            current_block_texture = block_textures[newBlock]
-            damage = 0
-            break_state = 0
-            if (damage < 0) {
-                damage = 0
+    function fullDamage(requestedDamage) {
+        console.log(requestedDamage)
+        if (Math.ceil(damage + requestedDamage) >= block_health) {
+            blocks_broken_total++;
+            damage = 0;
+            break_state = 0;
+            inventory[current_block_texture].owned++;
+            var newBlock = Math.round(getRandom(0, block_textures.length - 1));
+            console.log(newBlock);
+            current_block_texture = block_textures[newBlock];
+            fullDamage(requestedDamage - block_health)
+        } else {
+            if (requestedDamage >= 0) {
+                damage += requestedDamage;
+                break_state = Math.round(damage);
             }
-            var reducedDamage = hitDamage - block_health
-            if (reducedDamage < 0)
-            fullDamageOriginal(reducedDamage)
-        } else if (hitDamage >= 0 && hitDamage <= block_health - 1) {
-            console.log("no block br")
-            //if the damage is below the block break amount
-            console.log(hitDamage)
-            console.log()
-            console.log(parseFloat((hitDamage).toFixed(2)));
-            damage += parseFloat((hitDamage).toFixed(2));
-            break_state = Math.round(damage);
-            fullDamageOriginal(hitDamage - clickValue)
-            //check for fuckups in my own code
-            /*             if (damage > block_health) {
-                            //just assume i messed up and break the block as intended
-                            blocks_broken_total++
-                            if (!current_block_texture) {
-                                console.log("missing texture check")
-                                var newBlock = Math.round(getRandom(0, block_textures.length - 1))
-                                console.log(newBlock)
-                                current_block_texture = block_textures[newBlock]
-                                inventory[current_block_texture].owned++
-                            } else {
-                                //if missing texture, again for some reason i have to make a failsafe for this exact problem
-                                inventory[current_block_texture].owned++
-                                current_block_texture = 0
-                            }
-                            //break_state = Math.round(damage)
-                        } else if (break_state < 0) {
-                            console.log("health below normal limit")
-                            damage = 0
-                            break_state = 0;
-                            //break_state = Math.round(damage)
-                        } */
-            /* if (block_health - damage < 0) {
-                damage = 0
+            if (Math.ceil(damage + requestedDamage) > block_health) {
+                blocks_broken_total++
+                damage = 0;
                 break_state = 0;
-            } */
-        }
-    }
+                inventory[current_block_texture].owned++;
+                var newBlock = Math.round(getRandom(0, block_textures.length - 1));
+                current_block_texture = block_textures[newBlock];
+            };
+        };
+    };
 
     function getRandom(min, max) {
         min = Math.ceil(min);
@@ -282,6 +248,28 @@ function runClicker() {
                 /* console.log(object.name + " is currently not being shown") */
                 if (node_or_html === "html") {
                     $(object.id).css('display', 'none')
+                }
+            }
+        }
+    }
+
+    function hide_show_tools() {
+        var keys = get_object_keys(upgrades)
+        for (i = 0; i <= keys.length - 1; i++) {
+            //store current object in inventory
+            var object = upgrades[keys[i]]
+            //console.log(object)
+            if (object.owned >= object.maxCrafts) {
+                /* console.log(object.name + " is currently being shown") */
+                console.log("hide " + object.nameProper)
+                if (node_or_html === "html") {
+                    $(object.id).css('display', 'none')
+                }
+            } else {
+                console.log("show " + object.nameProper)
+                /* console.log(object.name + " is currently not being shown") */
+                if (node_or_html === "html") {
+                    $(object.id).css('display', 'block')
                 }
             }
         }
@@ -563,7 +551,7 @@ function runClicker() {
     ///////////////////////////////////
 
     /* new Idle_Upgrade("img/icons/string.png", "string", "String", 1, 1, "String. Not sure how you got this bro, this is literally for testing. if you see this, fuck you, because it means i messed up somewhere, nothing personal btw", ); */
-    new Idle_Upgrade("img/icons/furnace_active.png", "furnace", "Furnace", 0, 1, "A furnace", {
+    new Idle_Upgrade("img/icons/furnace_active.png", "furnace", "Furnace", 0, .5, "A furnace", {
         "cobblestone": 9,
     }, 1, false);
 
@@ -571,44 +559,44 @@ function runClicker() {
     ////////ADD CLICK UPGRADES//////////
     ////////////////////////////////////
 
-    new Click_Upgrade("img/tools/wood_hoe.png", "wooden_hoe", "Wooden Hoe", 2, 1, "A wooden hoe. Im not sure why, but here you go", {
+    new Click_Upgrade("img/tools/wood_hoe.png", "wooden_hoe", "Wooden Hoe", 1, .1, "A wooden hoe. Im not sure why, but here you go", {
         "oak_plank": 2,
         "stick": 2,
-    }, 1, false);
-    new Click_Upgrade("img/tools/wood_axe.png", "wooden_axe", "Wooden Axe", 0, 1, "A wooden axe.", {
+    }, 1, 5);
+    new Click_Upgrade("img/tools/wood_axe.png", "wooden_axe", "Wooden Axe", 0, .1, "A wooden axe.", {
         "oak_plank": 2,
         "stick": 2,
-    }, 1, false);
-    new Click_Upgrade("img/tools/wood_shovel.png", "wooden_shovel", "Wooden Shovel", 0, 1, "A wooden shovel", {
+    }, 1, 5);
+    new Click_Upgrade("img/tools/wood_shovel.png", "wooden_shovel", "Wooden Shovel", 0, .1, "A wooden shovel", {
         "oak_plank": 1,
         "stick": 2,
-    }, 1, false);
-    new Click_Upgrade("img/tools/wood_sword.png", "wooden_sword", "Wooden Sword", 0, 1, "A wooden sword", {
+    }, 1, 5);
+    new Click_Upgrade("img/tools/wood_sword.png", "wooden_sword", "Wooden Sword", 0, .1, "A wooden sword", {
         "stick": 1,
         "oak_plank": 2,
-    }, 1, false);
-    new Click_Upgrade("img/tools/wood_pickaxe.png", "wooden_pickaxe", "Wooden Pickaxe", 0, 1, "A wooden pickaxe", {
+    }, 1, 5);
+    new Click_Upgrade("img/tools/wood_pickaxe.png", "wooden_pickaxe", "Wooden Pickaxe", 0, .1, "A wooden pickaxe", {
         "oak_plank": 3,
         "stick": 2,
-    }, 1, false);
-    new Click_Upgrade("img/tools/stone_hoe.png", "stone_hoe", "Stone Hoe", 0, 5, "A stone hoe", {
+    }, 1, 5);
+    new Click_Upgrade("img/tools/stone_hoe.png", "stone_hoe", "Stone Hoe", 0, .5, "A stone hoe", {
         "stick": 2,
         "cobblestone": 2,
-    }, 1, false);
-    new Click_Upgrade("img/tools/stone_axe.png", "stone_axe", "Stone Axe", 0, 5, "A stone xe", {
+    }, 1, 5);
+    new Click_Upgrade("img/tools/stone_axe.png", "stone_axe", "Stone Axe", 0, .5, "A stone xe", {
         "stick": 2,
         "cobblestone": 3,
-    }, 1, false);
-    new Click_Upgrade("img/tools/stone_shovel.png", "stone_shovel", "Stone Shovel", 0, 5, "A stone shovel", {
+    }, 1, 5);
+    new Click_Upgrade("img/tools/stone_shovel.png", "stone_shovel", "Stone Shovel", 0, .5, "A stone shovel", {
         "stick": 2,
         "cobblestone": 1,
-    }, 1, false);
-    new Click_Upgrade("img/tools/stone_sword.png", "stone_sword", "Stone Sword", 0, 5, "A stone sword", {
+    }, 1, 5);
+    new Click_Upgrade("img/tools/stone_sword.png", "stone_sword", "Stone Sword", 0, .5, "A stone sword", {
         "stick": 1,
         "cobblestone": 2,
-    }, 1, false);
-    new Click_Upgrade("img/tools/stone_pickaxe.png", "stone_pickaxe", "Stone Pickaxe", 0, 5, "A Stone Pickaxe", {
+    }, 1, 5);
+    new Click_Upgrade("img/tools/stone_pickaxe.png", "stone_pickaxe", "Stone Pickaxe", 0, .5, "A Stone Pickaxe", {
         "stick": 2,
         "cobblestone": 3,
-    }, 1, false);
+    }, 1, 5);
 }
