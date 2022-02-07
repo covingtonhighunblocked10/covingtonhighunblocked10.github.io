@@ -2,13 +2,26 @@
 <html>
 
 <head>
+    <title>Minecraft Clicker</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
     <style>
         @import "index.css";
     </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8476122263162916"
+        crossorigin="anonymous"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VP08ZY5QEW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'G-VP08ZY5QEW');
+    </script>
     <script src="jquery-3.6.0.min.js"></script>
     <script src="index.js"></script>
-    <script src="constructor.js"></script>
 </head>
 
 <body>
@@ -26,12 +39,14 @@
         </div>
         <div class="" id="sleepDiv">
             <center>
-                <p>Click Value: <span id="clickValue"></span></p>
-                <p>Damage Per Second: <span id="damagePerSecond"></span></p>
+                <p>Click Damage: <span id="clickValue"></span></p>
+                <p>Idle Damage Per Second: <span id="damagePerSecond"></span></p>
+                <p>Block Health Remaining: <span id="blockHealthRemaining"></span></p>
                 <span>
                     <img id="breakPNG" src="img/break_stages/destroy_stage_0.png" class="clickerIcon">
                     <img id="clickerPNG" src="img/icons/cobblestone.png" class="clickerIcon">
                 </span>
+                <br>
             </center>
         </div>
         <div id="clickUpgradesList" class="list right">

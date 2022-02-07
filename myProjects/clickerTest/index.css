@@ -47,7 +47,8 @@ body {
 
 .list {
     margin-top: 8%;
-    height: 600px;
+    min-height: 300px;
+    max-height: 400px;
     width: 15%;
     background-size: cover;
     background-attachment: scroll;
@@ -116,6 +117,7 @@ body {
     margin-top: 10%;
     width: 30%;
     height: 30%;
+    padding-bottom: 30%
 }
 
 #clickerPNG {
@@ -129,15 +131,27 @@ body {
 
 .clickerIcon {
     position: absolute;
-    width: 30v;
-    height: 30vh;
-    left: calc(42.5%);
+    max-width: 100%;
+    max-height: 100%;
+    min-width: 14.7%;
+    min-height: 30%;
+    left: 42vw
+    /* left: 42.5%; */
+/*  width: calc((14.7% / 100vh) * 10 + "px");
+    height: calc((30% / 100vh) * 10 + "px"); */
+
 }
 
 #main {
     height: 100%;
     width: 100%;
     display: flex;
+}
+#last_break {
+    position: absolute;
+    margin-top: 100vh;
+    font-size: 50px;
+    z-index: 30;
 }
 
 .generalText {

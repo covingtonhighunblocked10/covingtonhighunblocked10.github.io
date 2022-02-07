@@ -10,13 +10,19 @@ if (node_or_html === "node") {
 }
 
 function runClicker() {
+    var keys = {
+        space: "released",
+    };
     var baseClickValue = 1;
     var clickValue = baseClickValue;
     var totalCurrency = 10000;
     var currencyPerSecond = 0;
+    var baseIdleValue = 10;
     var upgrades = {};
     var inventory = {};
     var crafts = {};
+
+    //this is the default texture
     var current_block_texture = "cobblestone";
     //later options for block_textures, if i feel it would make the game better
     //"acacia_log", "birch_log", "jungle_log", "spruce_log"
@@ -24,7 +30,10 @@ function runClicker() {
     //for the clicker icon, and the breaking stage overlays to go with it
     var block_textures = ["oak_log", "cobblestone"]
     var break_stage_source = ["destroy_stage_0.png", "destroy_stage_1.png", "destroy_stage_2.png", "destroy_stage_3.png", "destroy_stage_4.png", "destroy_stage_5.png", "destroy_stage_6.png", "destroy_stage_7.png", "destroy_stage_8.png", "destroy_stage_9.png"]
+    var block_health = break_stage_source.length
+    var blocks_broken_total = 0
     var break_state = 0
+    var damage = 0
     var tools = {
         prefix: "img/tools/",
         materials: ["wood", "stone", "iron", "gold", "diamond", "netherite"],
@@ -41,9 +50,14 @@ function runClicker() {
         //use these variables when using clearInterval, they contain the ID for each interval.
         //typing this because I will absolutely forget it
         var updateInterval = setInterval(updateLoop, 1000 / fps)
-        var idleInterval = setInterval(addIdle, 1000)
+        //var idleInterval = setInterval(addIdle, 1000 / fps)
         //var updateOwnedInterval = setInterval(updateOwned, 1000)
     }
+    if (node_or_html === "node") {
+        var updateInterval = setInterval(updateLoop, 1000 / fps)
+        var idleInterval = setInterval(addIdle, 1000 / fps)
+    }
+
 
     function get_object_keys(object) {
         var keys = Object.keys(object);
@@ -53,21 +67,23 @@ function runClicker() {
     function addIdle() {
         var damagePerSecond = 0;
         var clickValTemp = 0;
+        var damageValTemp = 0;
         //reduce the gain per iteration so that you gain steady damage instead of once a second
         var keys = get_object_keys(upgrades);
         for (var i = 0; i <= keys.length - 1; i++) {
             var current = upgrades[keys[i]]
             if (current.type === "idle") {
-                damagePerSecond += ((current.value * current.owned));
-                advanceBreak((current.value * current.owned));
+                damageValTemp += (current.value * current.owned);
+                advanceBreak((current.value * current.owned) / (1000 / fps));
             }
             if (current.type === "click") {
                 clickValTemp += (current.value * current.owned);
             }
         }
-        clickValue = baseClickValue + clickValTemp
-        updateText("#damagePerSecond", damagePerSecond)
-        updateText("#clickValue", clickValue)
+        damagePerSecond = baseIdleValue + damageValTemp;
+        clickValue = baseClickValue + clickValTemp;
+        updateText("#damagePerSecond", damagePerSecond);
+        updateText("#clickValue", clickValue);
     }
 
     function updateOwned() {
@@ -109,31 +125,74 @@ function runClicker() {
     }
 
     function advanceBreak(clickValue) {
-        damage = clickValue
-        fullDamage(damage)
-        console.log(damage)
-        $("#clickerPNG").attr('src', ("img/icons/" + current_block_texture + ".png"))
-        $("#breakPNG").attr('src', ("img/break_stages/" + (break_stage_source[break_state])))
+        //blocks_broken_total = 0
+        fullDamageOriginal(clickValue)
+        console.log("Blocks Broken: " + blocks_broken_total)
+        console.log("Block Damage: " + damage)
+        console.log("Remaining Health: " + (block_health - damage))
+        console.log("Damage Hit For: " + clickValue)
+        console.log("Current Block Texture: " + current_block_texture)
+        console.log()
+        if (node_or_html === "html") {
+            $("#blockHealthRemaining").text((block_health - damage).toFixed(2))
+            $("#clickerPNG").attr('src', ("img/icons/" + current_block_texture + ".png"))
+            $("#breakPNG").attr('src', ("img/break_stages/" + (break_stage_source[Math.round(damage)])))
+        }
     }
 
-    function fullDamage(hitDamage) {
-        if ((break_state + hitDamage) > break_stage_source.length && hitDamage >= break_stage_source.length) {
-            inventory[current_block_texture].owned++
-            current_block_texture = block_textures[getRandom(0, block_textures.length - 1)]
-            fullDamage(hitDamage -= break_stage_source.length - 1)
-        } else if (hitDamage > 0 && hitDamage <= break_stage_source.length - 1) {
+    function fullDamageOriginal(hitDamage) {
+        // the damage(non-integer, health taken from block) and the requested damage(hitDamage)
+        console.log(damage + hitDamage)
+        console.log(block_health)
+        if (Math.round(hitDamage) >= block_health - 1 && Math.round(hitDamage) > block_health - damage) {
+            console.log("block broken")
+            blocks_broken_total++
+            var newBlock = Math.round(getRandom(0, block_textures.length - 1))
+            console.log(block_textures[newBlock])
+            current_block_texture = block_textures[newBlock]
+            damage = 0
+            break_state = 0
+            if (damage < 0) {
+                damage = 0
+            }
+            var reducedDamage = hitDamage - block_health
+            if (reducedDamage < 0)
+            fullDamageOriginal(reducedDamage)
+        } else if (hitDamage >= 0 && hitDamage <= block_health - 1) {
+            console.log("no block br")
             //if the damage is below the block break amount
             console.log(hitDamage)
-            break_state += hitDamage;
+            console.log()
+            console.log(parseFloat((hitDamage).toFixed(2)));
+            damage += parseFloat((hitDamage).toFixed(2));
+            break_state = Math.round(damage);
+            fullDamageOriginal(hitDamage - clickValue)
             //check for fuckups in my own code
-            if (break_state >= break_stage_source.length) {
-                //just assume i messed up and break the block as intended
-                inventory[current_block_texture].owned++
-                current_block_texture = block_textures[getRandom(0, block_textures.length - 1)]
+            /*             if (damage > block_health) {
+                            //just assume i messed up and break the block as intended
+                            blocks_broken_total++
+                            if (!current_block_texture) {
+                                console.log("missing texture check")
+                                var newBlock = Math.round(getRandom(0, block_textures.length - 1))
+                                console.log(newBlock)
+                                current_block_texture = block_textures[newBlock]
+                                inventory[current_block_texture].owned++
+                            } else {
+                                //if missing texture, again for some reason i have to make a failsafe for this exact problem
+                                inventory[current_block_texture].owned++
+                                current_block_texture = 0
+                            }
+                            //break_state = Math.round(damage)
+                        } else if (break_state < 0) {
+                            console.log("health below normal limit")
+                            damage = 0
+                            break_state = 0;
+                            //break_state = Math.round(damage)
+                        } */
+            /* if (block_health - damage < 0) {
+                damage = 0
                 break_state = 0;
-            } else if (break_state < 0) {
-                break_state = 0;
-            }
+            } */
         }
     }
 
@@ -150,25 +209,30 @@ function runClicker() {
 
     if (node_or_html === "html") {
         $(document).on('keypress', handleKeyDown)
+        $(document).on('keyup', handleKeyUp)
     }
 
     //debug keybinds
     function handleKeyDown(event) {
-        if (event.key === "d") {
-            alert("d presses")
-        }
-        if (event.key === "e") {
-            if ($("#inventory").css('display') === "none") {
-                $("#inventory").css('display', "block")
-            } else if ($("#inventory").css('display') === "block") {
-                $("#inventory").css('display', "none")
+        if (event.which === 32) {
+            //alert("Space")
+            if (keys.space === "released") {
+                advanceBreak(clickValue)
+                keys.space = "held"
             }
         }
     }
 
-    /////////////////////////////////////////////////
-    ///////MISC FUNCTIONS FOR TESTING PURPOSES///////
-    /////////////////////////////////////////////////
+    function handleKeyUp(event) {
+        if (event.which === 32) {
+            if (keys.space === "held") {
+                keys.space = "released"
+            }
+        }
+    }
+    ////////////////////////////////////////////////////////
+    ///////MISC FUNCTIONS FOR DUMB OR USEFUL PURPOSES///////
+    ////////////////////////////////////////////////////////
 
     function getProperName(string) {
         var newString = (string[0]).toUpperCase() + string.substring(1, string.length)
@@ -339,7 +403,7 @@ function runClicker() {
                 name: name,
                 nameProper: nameProper,
                 description: description,
-                owned: recipe ? 0 : owned,
+                owned: owned,
                 value: value ? value : owned,
                 recipe: recipe ? recipe : false,
                 craftAmount: craftAmount ? craftAmount : 0,
@@ -371,15 +435,10 @@ function runClicker() {
             if (node_or_html === "html") {
                 $("#idleUpgradesList").append(div)
                 $(x.id).on('click', function () {
-                    console.log("attempt craft for " + nameProper)
                     attemptCraft(upgrades[name])
                 })
             } else if (node_or_html === "node") {
-                if (x.recipe) {
-                    //console.log(upgrades[name])
-                    console.log(recipe_to_div(upgrades[name]))
-                    //console.log("appended " + x.nameProper + " to " + x.id)
-                }
+                //placeholder line
             }
         }
     }
@@ -426,9 +485,7 @@ function runClicker() {
                     attemptCraft(upgrades[name])
                 })
             } else if (node_or_html === "node") {
-                if (x.recipe) {
-                    console.log(recipe_to_div(upgrades[x.name]))
-                }
+                //placeholder line
             }
         }
     }
@@ -464,20 +521,11 @@ function runClicker() {
             crafts[name] = x
             if (node_or_html === "html") {
                 $("#craftableUpgradesList").append(div)
-                if (x.recipe) {
-                    console.log(crafts[name])
-                    $(x.id).append(recipe_to_div(crafts[name]))
-                    console.log("appended" + x.nameProper)
-                }
                 $(x.id).on('click', function () {
                     attemptCraft(crafts[name])
                 })
             } else if (node_or_html === "node") {
-                if (x.recipe) {
-                    //console.log(upgrades[x.name])
-                    console.log(recipe_to_div(crafts[x.name]))
-                    //console.log("appended " + x.nameProper + " to " + x.id)
-                }
+                //placeholder name
             }
         }
     }
@@ -523,7 +571,7 @@ function runClicker() {
     ////////ADD CLICK UPGRADES//////////
     ////////////////////////////////////
 
-    new Click_Upgrade("img/tools/wood_hoe.png", "wooden_hoe", "Wooden Hoe", 0, 1, "A wooden hoe. Im not sure why, but here you go", {
+    new Click_Upgrade("img/tools/wood_hoe.png", "wooden_hoe", "Wooden Hoe", 2, 1, "A wooden hoe. Im not sure why, but here you go", {
         "oak_plank": 2,
         "stick": 2,
     }, 1, false);
@@ -563,7 +611,4 @@ function runClicker() {
         "stick": 2,
         "cobblestone": 3,
     }, 1, false);
-    console.log(inventory)
-    console.log(crafts)
-    console.log(upgrades)
 }
