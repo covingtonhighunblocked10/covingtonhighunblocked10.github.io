@@ -79,10 +79,6 @@ function toggle(variable) {
     alert(variable)
 }
 
-function setFind () {
-    
-}
-
 function monkeyStart(digits, minDelay, randomDelay, textFind, id) {
     //var textFind = $("#textFind").text()
     //alert(textFind)
@@ -121,6 +117,6 @@ function chance(x) {
 //^^(negative values will speed up the digits a random amount, up to 1000 max still)
 //last value is text to search for, and will stop the function when it is found
 
-monkeyStart(9999999, 0, 100, "mmmmmmmmmm")
+monkeyStart(9999999, 0, 0, "you")
 
 //Velkhana

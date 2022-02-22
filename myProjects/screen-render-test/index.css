@@ -1,0 +1,21 @@
+.body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.viewbody {
+    margin-top: 10%;
+    height: 70vh;
+    width: 120vh;
+    background-color: rgb(226, 125, 0);
+    outline-style: solid;
+    outline-color: black;
+    outline-width: 1px;
+}
+
+.texture {
+    width: 100%;
+    height: 100%;
+    zoom: normal;
+}
