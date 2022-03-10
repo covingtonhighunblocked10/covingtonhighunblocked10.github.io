@@ -9,7 +9,9 @@ body {
     width: 300px;
     height: 300px;
     position: relative;
-    color: gold;
+    color: black;
+    background-image: url(/ukraine-flag.svg);
+    background-size: cover;
     font-size: 50px;
     margin-top: 20%;
     flex: 1;
@@ -17,12 +19,12 @@ body {
 }
 
 #title:hover {
-    color: goldenrod;
+    color: black;
     font-size: 25px;
     padding: 25px;
     width: 150px;
     height: 150px;
-    background-color: navy;
+    /* background-color: navy; */
     border-radius: 50%;
     flex: 1;
     transition: .3s;
