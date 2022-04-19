@@ -1,0 +1,20 @@
+--2022-04-19 15:25:04--  https://download.opera.com/download/get/?partner=www
+Resolving download.opera.com (download.opera.com)... 107.167.110.218, 107.167.110.217
+Connecting to download.opera.com (download.opera.com)|107.167.110.218|:443... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: https://www.opera.com/computer/thanks/?partner=www&par=id=56984%26location=424&gaprod=opera [following]
+--2022-04-19 15:25:04--  https://www.opera.com/computer/thanks/?partner=www&par=id=56984%26location=424&gaprod=opera
+Resolving www.opera.com (www.opera.com)... 3.15.120.145, 18.188.237.41
+Connecting to www.opera.com (www.opera.com)|3.15.120.145|:443... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://www.opera.com/computer/thanks?partner=www&par=id=56984%26location=424&gaprod=opera [following]
+--2022-04-19 15:25:05--  https://www.opera.com/computer/thanks?partner=www&par=id=56984%26location=424&gaprod=opera
+Reusing existing connection to www.opera.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+Saving to: ‘index.html?partner=www’
+
+index.html?partner=www              [<=>                                                    ]       0  --.-KB/s               index.html?partner=www              [ <=>                                                   ] 106.38K  --.-KB/s    in 0.1s    
+
+2022-04-19 15:25:05 (833 KB/s) - ‘index.html?partner=www’ saved [108930]
+
