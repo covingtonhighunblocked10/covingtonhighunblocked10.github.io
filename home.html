@@ -6,9 +6,21 @@
         @import "/index.css";
     </style>
     <script>
-        function thingythang() {
-            alert(
-                'Congrats! Your next hint will be found on the google document above my name, just click the ! to visit!')
+        var slideIndex = 0;
+        carousel();
+
+        function carousel() {
+            var i;
+            var x = document.getElementsByClassName("mySlides");
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > x.length) {
+                slideIndex = 1
+            }
+            x[slideIndex - 1].style.display = "block";
+            setTimeout(carousel, 2000); // Change image every 2 seconds
         }
     </script>
 
@@ -56,26 +68,49 @@
                     small portions if it means my friends get to continue having fun here. Sucks to suck. Peace</p>
                     <br>-->
                 <b>
+                    <h1>In Memorial of Hunter Blackwell</h1>
+                </b>
+                <div class="gallery">
+                    <figure class="gallery__item gallery__item--1">
+                        <img src="/Hunter_1.jpg" class="gallery__img" alt="Image 1">
+                    </figure>
+                    <figure class="gallery__item gallery__item--2">
+                        <img src="/Hunter_2.jpg" class="gallery__img" alt="Image 2">
+                    </figure>
+                    <figure class="gallery__item gallery__item--3">
+                        <img src="/Hunter_3.jpg" class="gallery__img" alt="Image 3">
+                    </figure>
+                    <figure class="gallery__item gallery__item--4">
+                        <img src="/Hunter_4.jpg" class="gallery__img" alt="Image 4">
+                    </figure>
+                </div>
+                <br>
+                <h2>Out of respect for his service, I ask that on Monday, May 9th, you do not use the chatbox until
+                    after the funeral has concluded.</h2>
+                    <h2>The chat on this page has been disabled for the time being, please use the Chat area for those purposes.</h2>
+                <h1>Rest In Peace. You will be missed man</h1>
+                <!-- <b>
                     <h1>SCAVENGER HUNT</h1>
                 </b>
                 <h2>Introduction</h2>
-                <p>This event will last until school ends, and will have a cash prize of $10 and a permanent quote on
-                    the site for the first person to complete it. Hints can be found around the site, starting in the
-                    About Tab on Friday, April 29th, 2022.
-                    Learn more about the site history as you find clues. You may need to know how to look through code,
-                    use Base64 encoding and decoding, and a bit of trivia to continue!
-                    More hints will be available over the website, and it is up to you to find them and continue the
-                    search.
+                <p>The next scavenger hunt is being delayed until further notice.</p>
+                <p>Welcome to the CHS Scavenger Hunt, V2. This will have a significant increase in difficulty, and I
+                    will not give you the leisure of the hints as I did last time. I hope you are ready for some
+                    riddles. Your first hint will be contained in this page however. May the games begin.
                     <br>
                     <b>Please do not paste answers in the comment section, as you will ruin the fun for the
                         people still doing the hunt!</b>
                     <br>
                     If you think you have found the end, contact me through my
                     email
-                    covingtonhighunblocked@gmail.com
+                    covingtonhighunblocked@gmail.com or on snapchat @swaggersnipesV2
                     <br>
                     Happy Hunting, and enjoy the last weeks of school before
                     Summer!
+                    <br> 
+                <p>
+                    Previous Winners:
+                    1: "Be cool, stay in school, and smoke crack" -Pepsi_Man
                 </p>
                 <h1>Updates</h1>
                 <p>We are now partnered with a site made by another CHS student, Chat-Box, where you can talk in forums
@@ -92,13 +127,12 @@
                     in the Partners tab</p>
                 <br>
                 <p>As always, have a great day<a href="">!</a></p>
-                <p
-                    onclick="thingythang()">
-                    -Jace</p>
+                <p onclick="thingythang()">
+                    -Jace</p> -->
             </div>
         </nav>
     </center>
-    <center>
+    <!--     <center>
         <div id="HCB_comment_box" class="bodyCW text">
     </center><a href="http://www.htmlcommentbox.com">Widget</a>
     <center> is loading comments...</div>
@@ -116,8 +150,8 @@
             s.setAttribute("src", h + "/jread?page=" + encodeURIComponent(l).replace("+", "%2B") +
                 "&mod=%241%24wq1rdBcg%24dIWPCvzMUNVmdg%2F4xS9S31" + "&opts=16798&num=10&ts=1638373603335");
             if (typeof s != "undefined") document.getElementsByTagName("head")[0].appendChild(s);
-        })(); /*-->*/
-    </script>
+        })(); /*
+    </script>-->
     <!-- end www.htmlcommentbox.com -->
 </body>
 <!--keep the body tags dipshit-->
