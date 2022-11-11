@@ -1,0 +1,67 @@
+@font-face {
+    font-family: 'Entuista';
+    src: url("Entuista.otf") format("opentype");
+}
+
+@font-face {
+    font-family: 'Vermin';
+    src: url("Vermin.ttf")
+}
+
+body {
+    font-weight: light;
+    padding-left: 8%;
+    padding-right: 8%;
+    font-size: 200%;
+    font-family: 'Vermin';
+    background-color: rgb(255, 0, 255);
+    text-shadow: 2px 2px #bbb9b9;
+}
+
+li {
+    list-style: upper-roman;
+}
+
+.pink {
+    background-color: rgb(255, 0, 255);
+    color: rgb(65, 119, 104);
+}
+
+.blue {
+    background-color: rgb(0, 255, 255);
+    color: rgb(152, 99, 147);
+}
+
+.smooth {
+    flex: 1;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 50px;
+    border-top-right-radius: 7px;
+}
+
+.light-padding {
+    padding-left: 8%;
+    padding-right: 8%;
+    padding-top: 4%;
+    padding-bottom: 4%;
+}
+
+.button_shadow {
+    font-size: 20px;
+    background-color: rgb(0, 255, 255);
+    color: rgb(255, 0, 255);
+    transition: 100ms;
+    margin: 10px;
+    box-shadow: 0px 0px rgb(139, 204, 186);
+    border-width: 1px;
+}
+
+.button_shadow:hover {
+    box-shadow: 5px 5px rgb(139, 204, 186);
+}
+
+.carouselpicture {
+    width: 50rem;
+    height: 50rem;
+}

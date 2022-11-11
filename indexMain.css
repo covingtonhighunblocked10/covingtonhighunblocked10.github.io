@@ -27,7 +27,6 @@ body {
     /* background-color: navy; */
     border-radius: 50%;
     flex: 1;
-    transition: .3s;
 }
 
 #title p {

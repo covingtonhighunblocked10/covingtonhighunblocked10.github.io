@@ -1,4 +1,5 @@
 //use "node" for node debugging, "html" for display mode
+//courtesy of chsunblocked
 var node_or_html = "html"
 if (node_or_html === "html") {
     $(document).ready(runClicker)

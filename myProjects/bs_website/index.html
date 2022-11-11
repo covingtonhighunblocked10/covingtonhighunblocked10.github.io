@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        @import url("index.css");
+    </style>
+    <script>
+        var msg = new SpeechSynthesisUtterance();
+        msg.text = "Hello Word";
+        window.speechSynthesis.speak(msg);
+    </script>
+    <script src="jquery-3.6.0.min.js"></script>
+    <script src="carousel.js"></script>
+</head>
+
+<body>
+    <center>
+        <div class="blue smooth">
+            <header>Neo Pop Website Shit Thing</header>
+            <p>This website is dumb and has no reason to exist</p>
+            <p>but here we are :OO</p>
+        </div>
+        <button class="button_shadow">HI IM A BUTTON AND I DO FUCKING NOTHING</button>
+        <div class="blue smooth light-padding">
+            <h3>Things I do on a daily basis, by Jace</h3>
+            <li>Drink Water :P</li>
+            <li>Eat food :D</li>
+            <li>Intimidate toddlers</li>
+            <br>
+            <p>This concludes my paper on my daily activities</p>
+        </div>
+        <div id="carousel">
+            <img class="carouselpicture" src="assets/guy1.jpeg">
+            <img class="carouselpicture" src="assets/guy2.jpeg">
+            <img class="carouselpicture" src="assets/guy3.jpeg">
+            <img class="carouselpicture" src="assets/guy4.jpeg">
+            <img class="carouselpicture" src="assets/guy5.jpeg">
+        </div>
+    </center>
+</body>
+
+</html>
