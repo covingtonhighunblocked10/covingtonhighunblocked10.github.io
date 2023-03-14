@@ -1,10 +1,8 @@
 const express = require('express');
 const request = require('request');
 const cheerio = require('cheerio');
-const app = express();
-// Set up middleware to serve static files (e.g. CSS, images) 
-app.use(express.static('public'));
-// Set up middleware to parse JSON and URL encoded data 
+const app = express(); // Set up middleware to serve static files (e.g. CSS, images) 
+app.use(express.static('public')); // Set up middleware to parse JSON and URL encoded data 
 app.use(express.json());
 app.use(express.urlencoded({
     extended: true
@@ -22,7 +20,7 @@ app.post('/search', (req, res) => {
             res.status(400).send('Error retrieving website.');
         } else {
             const $ = cheerio.load(body);
-            // Get all external resources (e.g. CSS, JavaScript, images) and replace URLs to use server URL instead 
+            // Get all external resources (e.g. CSS, JavaScript, images) and replace URLs to use server URL instead
             $('link[href], script[src], img[src]').each(function () {
                 const originalUrl = $(this).attr('href') || $(this).attr('src');
                 const newUrl = `${serverUrl}/proxy?url=${encodeURIComponent(originalUrl)}`;
