@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Website Proxy</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="search-container">
+        <h1>Website Proxy</h1>
+        <form id="search-form"> <label for="url-input">Enter a website URL:</label>
+            <input type="text" id="url-input" name="url"> <button type="submit">Go</button> </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(() => {
+            $('#search-form').submit(event => {
+                event.preventDefault();
+                const url = $('#url-input')
+                    .val();
+                // Open new tab with URL modified to use server URL instead 
+                window.open(`${window.location.origin}/proxy?url=${encodeURIComponent(url)}`, '_blank');
+            });
+        });
+    </script>
+</body>
+
+</html>
